@@ -398,8 +398,10 @@ background-color: rgba(255, 0, 0, .8);
 }
 }
 
+
+/* CHANGE PAGE BG COLOR HERE */
 body {
-background-color: #333;
+background-color: rgba(30, 30, 30, 1);
 color: white;
 }
 
@@ -477,32 +479,67 @@ color: white;
     font-family: "Lucida Console", "Courier New", monospace;
 }
 
+.about-section {
+}
 
 .about-me {
-    display: flex;
+display: flex;
+align-items: center;
+margin-bottom: 1vw;
+background-color: rgba(50, 50, 50, 1);
+padding: 1vw;
+border-radius: 2vw;
+}
+
+.about-me-img {
+width: 40%;
+border-radius: 50%;
+margin-right: 3%;
+margin-left: 1%;
+margin-top: 1%;
+margin-bottom: 1%;
+padding: 0.15vw;
+background-color: white;
+}
+
+.about-me .description {
+flex: 1;
+margin-right: 1%;
+}
+
+.about-me h2 {
+font-size: 4vw;
+margin-bottom: 1vw;
+}
+
+.about-me p {
+font-size: 2vw;
+line-height: 1.5;
+}
+
+.icons-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-right: 1%;
+margin-bottom: 1%;
+}
+
+.icons-container > a > img {
+flex: 1;
+width: 10vw;
+}
+
+.projects-section {
+}
+
+.project-rolls {
     align-items: center;
     margin-bottom: 1vw;
-  }
-  
-  .about-me img {
-    width: 40vw;
-    border-radius: 50%;
-    margin-right: 5vw;
-  }
-  
-  .about-me .description {
-    flex: 1;
-  }
-  
-  .about-me h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  
-  .about-me p {
-    font-size: 18px;
-    line-height: 1.5;
-  }
+    background-color: rgba(50, 50, 50, 1);
+    padding: 1vw;
+    border-radius: 2vh;
+}
 
 
 .reel-text {
