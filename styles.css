@@ -563,6 +563,15 @@ width: 10vw;
     border-radius: 0.5rem;
 }
 
+
+.my-jobs {
+    align-items: center;
+    margin-bottom: 1vw;
+    background-color: rgba(50, 50, 50, 1);
+    padding: 1vw;
+    border-radius: 2vh;
+}
+
 .job-flex {
     height: 100%;
     display: flex;
