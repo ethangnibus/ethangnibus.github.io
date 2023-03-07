@@ -98,3 +98,14 @@ document.addEventListener("click", e => {
       setTimeout(timeoutFunc, delay)
     }
   }
+
+  function smoothScroll(event, target) {
+    event.preventDefault(); // Prevent default behavior of links
+  
+    const element = document.getElementById(target);
+  
+    window.scrollTo({
+      behavior: 'smooth',
+      top: element.offsetTop - 15,
+    });
+  }

@@ -1,119 +1,375 @@
 <!DOCTYPE html>
-
 <html>
 <head>
+    <title>Ethan Gnibus</title>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
 </head>
-    
-    
-    
+
+
+
+
 <body>
-    <p>Hi, I'm Ethan</p>
 
-    <br>
-    <br>
-    <p>I'm a student at UC Berkeley studying Computer Science and Data Science</p>
-    <br>
-
-    <br>
-    <br>
-    <p>I love teaching, programming, and all things graphics</p>
-
-
-    <br>
-    <br>
-    <p>Below are some of my favorite projects</p>
-
-
-    <div class="row">
-        <div class="header">
-        <h3 class="title">My Projects</h3>
-        <div class="progress-bar"></div>
-        </div>
-        <div class="container">
-        <button class="handle left-handle">
-            <div class="text">&#8249;</div>
-        </button>
-        <div class="slider">
-            <a href="./pdfs/graphics/rasterizer.pdf">
-                <img src="./images/graphics/rasterizer.png">
-                <p>• Rasterizer •</p>
-            </a>
-            
-
-            <a href="./pdfs/graphics/mesh_editor.pdf">
-                <img src="./images/graphics/mesh_editor.png">
-                <p>• Mesh Editor •</p>
-            </a>
-            
-
-            <a href="./pdfs/graphics/pathtracer.pdf">
-                <img src="./images/graphics/pathtracer.png">
-                <p>• Pathtracer •</p>
-            </a>
-            
-
-            <a href="./pdfs/graphics/pathtracer_extended.pdf">
-                <img src="./images/graphics/pathtracer_extended.png">
-                <p>• Glass Sim •</p>
-            </a>
-            
-            <a href="./pdfs/graphics/cloth_simulator.pdf">
-                <img src="./images/graphics/cloth_simulator.png">
-                <p>• Cloth Sim •</p>
-            </a>
-            
-
-            <a href="https://github.com/mcallisterdavid/oski-184-finalproj">
-                <img src="./images/graphics/stadium_ar.png">
-                <p>• Stadium AR •</p>
-            </a>
-
-
-
-
-
-            <a href="./pdfs/computer_vision/recolorizer.pdf">
-                <img src="./images/computer_vision/recolorizer.jpeg">
-                <p>• Recolorizer •</p>
-            </a>
-
-            <a href="./pdfs/computer_vision/filters.pdf">
-                <img src="./images/computer_vision/filters.jpeg">
-                <p>• FFT •</p>
-            </a>
-
-            <a href="./pdfs/computer_vision/face_morphing.pdf">
-                <img src="./images/computer_vision/face_morphing.jpeg">
-                <p>• Face Morphing •</p>
-            </a>
-
-            <a href="./pdfs/computer_vision/keypoint_detection.pdf">
-                <img src="./images/computer_vision/keypoint_detection.jpeg">
-                <p>• DL for CV •</p>
-            </a>
-
-            <a href="./pdfs/computer_vision/ar.pdf">
-                <img src="./images/computer_vision/ar.png">
-                <p>• AR •</p>
-            </a>
-
-            <a href="./pdfs/computer_vision/style.pdf">
-                <img src="./images/computer_vision/style.png">
-                <p>• Style Transfer •</p>
-            </a>
-            
-        </div>
-        <button class="handle right-handle">
-            <div class="text">&#8250;</div>
-        </button>
-        </div>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button navbar-name" onclick="smoothScroll(event, 'home')">• <b>Ethan</b> Gnibus •</a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="#about" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'about')">• About •</a>
+      <a href="#projects" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'projects')">• Projects •</a>
+      <a href="#experience" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'experience')">• Experience •</a>
     </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="./images/main/two_trees.png" alt="Architecture" width="1500" height="800">
+  <div class="w3-display-middle w3-margin-top w3-center">
+    <h1 class="main-font w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Ethan</b></span> <span class="w3-hide-small w3-text-light-grey">Gnibus</span></h1>
+  </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+
+<!-- About Section -->
+<div class=" w3-container w3-padding-32" id="about">
+    <h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">About Me</h3>
+    <p>
+        
+    </p>
+    <section class="about-me">
+        <img src="./images/main/mini.png" alt="Ethan Gnibus">
+        <div class="description">
+          <h2 class="main-font">Hey, I'm Ethan!</h2>
+          <p>
+            I'm a senior at UC Berkeley studying Computer Science and Data Science.
+            I strive to learn as much as I can about <b class="important-text">data arts</b>, <b class="important-text">imaging</b>, 
+            and all things <b class="important-text">SWE</b>.
+          </p>
+        </div>
+      </section>
+  </div>
+
+
+
+
+
+<!-- Project Section -->
+<div class="w3-container w3-padding-32" id="projects">
+<h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">My Project B-Rolls</h3>
+
+</div>
+
+<!-- Project Section -->
+<div class="row b-roll">
+    <p class="reel-text">Graphics Papers</p>
+    
+    <div class="b-roll-film">
+        <div class="container">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+                <a href="./pdfs/graphics/rasterizer.pdf" target="_blank">
+                    <img src="./images/graphics/rasterizer.png">
+                    <p>• Rasterizer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/mesh_editor.pdf" target="_blank">
+                    <img src="./images/graphics/mesh_editor.png">
+                    <p>• Mesh Editor •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer.png">
+                    <p>• Pathtracer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer_extended.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer_extended.png">
+                    <p>• Glass Sim •</p>
+                </a>
+                
+                <a href="./pdfs/graphics/cloth_simulator.pdf" target="_blank">
+                    <img src="./images/graphics/cloth_simulator.png">
+                    <p>• Cloth Sim •</p>
+                </a>
+                
+
+                <a href="https://github.com/mcallisterdavid/oski-184-finalproj" target="_blank">
+                    <img src="./images/graphics/stadium_ar.png">
+                    <p>• Stadium AR •</p>
+                </a>
+
+
+
+
+
+                <a href="./pdfs/computer_vision/recolorizer.pdf" target="_blank">
+                    <img src="./images/computer_vision/recolorizer.jpeg">
+                    <p>• Recolorizer •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/filters.pdf" target="_blank">
+                    <img src="./images/computer_vision/filters.jpeg">
+                    <p>• FFT •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/face_morphing.pdf" target="_blank">
+                    <img src="./images/computer_vision/face_morphing.jpeg">
+                    <p>• Face Morphing •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/keypoint_detection.pdf" target="_blank">
+                    <img src="./images/computer_vision/keypoint_detection.jpeg">
+                    <p>• DL for CV •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/style.pdf" target="_blank">
+                    <img src="./images/computer_vision/style.png">
+                    <p>• Style Transfer •</p>
+                </a>
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+        <div class="progress-bar"></div>
+    </div>
+</div>
+
+<br>
+<div class="row b-roll">
+    <p class="reel-text">Websites I've worked on</p>
+    <div class="b-roll-film">
+        <div class="container">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+                <a href="./pdfs/graphics/rasterizer.pdf" target="_blank">
+                    <img src="./images/graphics/rasterizer.png">
+                    <p>• Rasterizer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/mesh_editor.pdf" target="_blank">
+                    <img src="./images/graphics/mesh_editor.png">
+                    <p>• Mesh Editor •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer.png">
+                    <p>• Pathtracer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer_extended.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer_extended.png">
+                    <p>• Glass Sim •</p>
+                </a>
+                
+                <a href="./pdfs/graphics/cloth_simulator.pdf" target="_blank">
+                    <img src="./images/graphics/cloth_simulator.png">
+                    <p>• Cloth Sim •</p>
+                </a>
+                
+
+                <a href="https://github.com/mcallisterdavid/oski-184-finalproj" target="_blank">
+                    <img src="./images/graphics/stadium_ar.png">
+                    <p>• Stadium AR •</p>
+                </a>
+
+
+
+
+
+                <a href="./pdfs/computer_vision/recolorizer.pdf" target="_blank">
+                    <img src="./images/computer_vision/recolorizer.jpeg">
+                    <p>• Recolorizer •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/filters.pdf" target="_blank">
+                    <img src="./images/computer_vision/filters.jpeg">
+                    <p>• FFT •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/face_morphing.pdf" target="_blank">
+                    <img src="./images/computer_vision/face_morphing.jpeg">
+                    <p>• Face Morphing •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/keypoint_detection.pdf" target="_blank">
+                    <img src="./images/computer_vision/keypoint_detection.jpeg">
+                    <p>• DL for CV •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/style.pdf" target="_blank">
+                    <img src="./images/computer_vision/style.png">
+                    <p>• Style Transfer •</p>
+                </a>
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+        <div class="progress-bar"></div>
+    </div>
+</div>
+
+<br>
+<div class="row b-roll">
+    <p class="reel-text">Videos I've made</p>
+    <div class="b-roll-film">
+        <div class="container">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+                <a href="./pdfs/graphics/rasterizer.pdf" target="_blank">
+                    <img src="./images/graphics/rasterizer.png">
+                    <p>• Rasterizer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/mesh_editor.pdf" target="_blank">
+                    <img src="./images/graphics/mesh_editor.png">
+                    <p>• Mesh Editor •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer.png">
+                    <p>• Pathtracer •</p>
+                </a>
+                
+
+                <a href="./pdfs/graphics/pathtracer_extended.pdf" target="_blank">
+                    <img src="./images/graphics/pathtracer_extended.png">
+                    <p>• Glass Sim •</p>
+                </a>
+                
+                <a href="./pdfs/graphics/cloth_simulator.pdf" target="_blank">
+                    <img src="./images/graphics/cloth_simulator.png">
+                    <p>• Cloth Sim •</p>
+                </a>
+                
+
+                <a href="https://github.com/mcallisterdavid/oski-184-finalproj" target="_blank">
+                    <img src="./images/graphics/stadium_ar.png">
+                    <p>• Stadium AR •</p>
+                </a>
+
+
+
+
+
+                <a href="./pdfs/computer_vision/recolorizer.pdf" target="_blank">
+                    <img src="./images/computer_vision/recolorizer.jpeg">
+                    <p>• Recolorizer •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/filters.pdf" target="_blank">
+                    <img src="./images/computer_vision/filters.jpeg">
+                    <p>• FFT •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/face_morphing.pdf" target="_blank">
+                    <img src="./images/computer_vision/face_morphing.jpeg">
+                    <p>• Face Morphing •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/keypoint_detection.pdf" target="_blank">
+                    <img src="./images/computer_vision/keypoint_detection.jpeg">
+                    <p>• DL for CV •</p>
+                </a>
+
+                <a href="./pdfs/computer_vision/style.pdf" target="_blank">
+                    <img src="./images/computer_vision/style.png">
+                    <p>• Style Transfer •</p>
+                </a>
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+        <div class="progress-bar"></div>
+    </div>
+</div>
+<br>
+
+
+
+
+
+  <!-- Experience Section -->
+  <div class="w3-container w3-padding-32" id="experience">
+    <h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">Where I've Worked</h3>
+    
+    <div class="job-flex w3-row-padding" style="height: 100%">
+        <div class="w3-col l3 m6 w3-margin-bottom job-card">
+          <img class="job-card-img" src="./images/main/ucb.png" alt="UC Berkeley">
+          <h3 class="main-font">UC Berkeley</h3>
+          <p class="main-font w3-opacity">CS 169A Instructor</p>
+          <p>Teaching and organizing a class about SWE to 100s of Berkeley students :)</p>
+          <a href="https://www2.eecs.berkeley.edu/Courses/CS169A/">
+            <p><button class="job-card-button w3-button">Become my student</button></p>
+          </a>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom job-card">
+            <img class="job-card-img" src="./images/main/eecs.jpeg" alt="UC Berkeley">
+            <h3 class="main-font">Saasbook</h3>
+            <p class="main-font w3-opacity">Software Engineer</p>
+            <p>Maintaining an online textbook about SaaS and building it's assignments.</p>
+            <a href="https://e.saasbook.info/">
+                <p><button class="job-card-button w3-button">GET /the/textbook</button></p>
+              </a>
+          </div>
+        <div class="w3-col l3 m6 w3-margin-bottom job-card">
+          <img class="job-card-img" src="./images/main/mrsl.jpeg" alt="MRSL">
+          <h3 class="main-font">MRSL</h3>
+          <p class="main-font w3-opacity">Machine Learning Intern</p>
+          <p>Developed a mobile app that classifies software-defined radio signals.</p>
+          <a href="https://www.mrsl.com/">
+            <p><button class="job-card-button w3-button">Process some signals</button></p>
+          </a>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom job-card">
+          <img class="job-card-img" src="./images/main/mbari.jpeg" alt="MBARI">
+          <h3 class="main-font">MBARI</h3>
+          <p class="main-font w3-opacity">Front-End Engineer</p>
+          <p class="job-card-text">Made a website for marine researchers to analyze ecogeological data.</p>
+          <a href="https://www.mbari.org/">
+            <p><button class="job-card-button w3-button">Explore the ocean</button></p>
+          </a>
+        </div>
+      </div>
+  </div>
+  
+<!-- Image of location/map -->
+<div class="w3-container">
+  <img src="/w3images/map.jpg" class="w3-image" style="width:100%">
+</div>
+
+<!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
 
 </body>
 </html>
