@@ -96,7 +96,7 @@ border-bottom-right-radius: 0;
 }
 
 .handle:hover {
-background-color: rgba(255, 0, 0, .8);
+background-color: rgba(0, 162, 19, 0.8);
 }
 
 .text {
