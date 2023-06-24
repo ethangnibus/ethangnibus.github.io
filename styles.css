@@ -266,7 +266,7 @@ overflow: hidden;
 }
 
 .slider {
---items-per-screen: 3;
+--items-per-screen: 2;
 --slider-index: 0;
 display: flex;
 flex-grow: 1;
@@ -368,17 +368,35 @@ font-size: 2rem;
 margin: 0;
 }
 
+.b-roll-top {
+    width: 100%;
+    /* background-color: #673ab7; */
+    display: flex;
+}
+
+.b-roll-top-text {
+    flex: 0 0 30%;
+    /* background-color: #009688; */
+}
+
+.b-roll-top-content {
+    /* background-color: yellow; */
+    flex: 1;
+    align-self: center;
+}
+
 .progress-bar {
+/* background-color: white; */
 display: flex;
-gap: .25rem;
-justify-content: center;
-align-items: left;
+width: 90%;
+gap: 5%;
+justify-content: right;
 }
 
 .progress-item {
-flex: 0 0 1.5rem;
-min-width: 1.5rem;
-height: .5rem;
+flex: 0 0 5%;
+min-width: 10%;
+height: 2vw;
 background-color: rgba(255, 255, 255, .5);
 }
 
@@ -535,16 +553,19 @@ width: 10vw;
 
 .project-rolls {
     align-items: center;
-    margin-bottom: 1vw;
     background-color: rgba(50, 50, 50, 1);
-    padding: 1vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 1vw;
+    padding-bottom: 0.1vw;
     border-radius: 2vh;
 }
 
 
 .reel-text {
+    width: 100%;
     font-family: "Lucida Console", "Courier New", monospace;
-    font-size: 1.2vw;
+    font-size: 1.5vw;
 }
 
 .b-roll {
@@ -554,6 +575,7 @@ width: 10vw;
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
+    margin-bottom: 1vw;
 }
 
 .b-roll-film {
