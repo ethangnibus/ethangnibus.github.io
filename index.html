@@ -1,58 +1,55 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Ethan Gnibus</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
-    <script src="./script.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+  <body>
+    <nav class="navbar site-header sticky-top navbar-expand-sm navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#" onclick="scrollToTop()">Ethan Gnibus</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="scrollToElement('about')">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="scrollToElement('projects')">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="scrollToElement('experience')">Experience</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-
-
-
-<body>
-
-<!-- Navbar (sit on top) -->
-<div class="w3-top navbar_">
-  <div class="w3-bar w3-black w3-wide w3-padding w3-card">
-    <a href="#home" class="w3-bar-item w3-button navbar-name" onclick="smoothScroll(event, 'home')">• <b>Ethan</b> Gnibus •</a>
-    <!-- Float links to the right. Hide them on small screens -->
-    <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'about')">• About •</a>
-      <a href="#projects" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'projects')">• Projects •</a>
-      <a href="#experience" class="w3-bar-item w3-button navbar-button" onclick="smoothScroll(event, 'experience')">• Experience •</a>
+     <!-- HEADING PICTURE -->
+    <div class="title-item position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+      <div class="title-image" style="background-image:url(./images/main/two_trees.png)"></div>
+      <div class="image-aligner">
+        <h1 class="display-4 font-weight-normal">Hey, I'm Ethan</h1>
+      </div>
+      <div class="product-device box-shadow d-none d-md-block"></div>
+      <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
     </div>
-  </div>
-</div>
-
-<!-- Header -->
-<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
-  <img class="w3-image" src="./images/main/two_trees.png" alt="Forest" width="1500" height="800" loading="lazy">
-  <div class="w3-display-middle w3-margin-top w3-center">
-    <h1 class="main-font w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Ethan</b></span> <span class="w3-hide-small w3-text-light-grey">Gnibus</span></h1>
-  </div>
-</header>
-
-<!-- Page content -->
-<div class="w3-content w3-padding" style="max-width:1564px">
 
 
-<!-- About Section -->
-<div class="about-section w3-container w3-padding-32" id="about">
-    <h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">About Me</h3>
-    <p>
-        
-    </p>
-    <section class="about-me">
-        <img class="about-me-img" src="./images/main/will_square.jpg" alt="Ethan Gnibus" loading="lazy">
-        <div class="description">
-          <h2 class="main-font">Hey, I'm Ethan!</h2>
-          <p>
-            I'm a senior at UC Berkeley studying Computer Science and Data Science.
-            I strive to learn as much as I can about <b class="important-text">data arts</b>, <b class="important-text">imaging</b>, 
-            and all things <b class="important-text">SWE</b>. Send me a message :)
 
+
+
+
+    <!-- ABOUT ME-->
+    <div id="about" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+      <div class="image-aligner">
+        <h1 class="jumbotron-heading">Who am I?</h1>
+        <p class="lead text-muted">I co-instruct the Software Engineering class at UC Berkeley. I strive to learn as much as I can about <button class="btn btn-success btn-sm">graphics</button>, <button class="btn btn-success btn-sm">computer vision</button>, and all things <button class="btn btn-success btn-sm">SWE</button>. Send me a message :)        </p>
+        <p>
           <div class="icons-container">
             <a href="https://www.linkedin.com/in/ethangnibus" target="_blank">
                 <img src="./images/main/linkedin.svg" alt="LinkedIn" loading="lazy"/>
@@ -65,198 +62,317 @@
             </a>
 
           </div>
-        
+        </p>
+      </div>
+      <div class="product-device box-shadow d-none d-md-block"></div>
+      <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div class="bg-primary mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        <div class="container-fluid my-3 py-3">
+          <h2 class="display-5">I'm a Golden Bear!</h2>
+          <img class="rounded-circle" src="images/main/will_square.jpg" alt="Picture of my face" width="140" height="140">
         </div>
-      </section>
-  </div>
-
-
-
-
-
-<!-- Project Section -->
-<div class="projects-section w3-container w3-padding-32" id="projects">
-    <h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">My Project B-Rolls</h3>
-
-    <div class="project-rolls">
-        <!-- Project Section -->
-        <div class="row b-roll">
-            <div class="b-roll-top">
-              <div class="b-roll-top-text">
-                <p class="reel-text">Graphics Papers</p>
-              </div>
-              
-              <div class="b-roll-top-content">
-                <div class="progress-bar"></div>
-              </div>
-              
-            </div>
-            
-
-            <div class="b-roll-film">
-                <div class="container">
-                    <button class="handle left-handle">
-                        <div class="text">&#8249;</div>
-                    </button>
-                    <div class="slider">
-                        <a href="./pdfs/graphics/rasterizer.pdf" target="_blank">
-                            <img src="./images/graphics/rasterizer.png" loading="lazy">
-                            <p>• Rasterizer •</p>
-                        </a>
-                        
-
-                        <a href="./pdfs/graphics/mesh_editor.pdf" target="_blank">
-                            <img src="./images/graphics/mesh_editor.png" loading="lazy">
-                            <p>• Mesh Editor •</p>
-                        </a>
-                        
-
-                        <a href="./pdfs/graphics/pathtracer.pdf" target="_blank">
-                            <img src="./images/graphics/pathtracer.png" loading="lazy">
-                            <p>• Pathtracer •</p>
-                        </a>
-                        
-
-                        <a href="./pdfs/graphics/pathtracer_extended.pdf" target="_blank">
-                            <img src="./images/graphics/pathtracer_extended.png" loading="lazy">
-                            <p>• Glass Sim •</p>
-                        </a>
-                        
-                        <a href="./pdfs/graphics/cloth_simulator.pdf" target="_blank">
-                            <img src="./images/graphics/cloth_simulator.png" loading="lazy">
-                            <p>• Cloth Sim •</p>
-                        </a>
-                    </div>
-                    <button class="handle right-handle">
-                        <div class="text">&#8250;</div>
-                    </button>
-                </div>
-                
-            </div>
+      </div>
+      <div class=" container-fluid bg-warning mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 p-3">
+          <h2 class="display-5">University of California, Berkeley</h2>
+          <p class="lead">Bachelor of Arts, Computer Science</p>
+          <p class="lead text-muted">Aug 2019 - May 2023</p>
+          <p class="lead">Minor, Data Science</p>
+          <p class="lead text-muted">Aug 2019 - May 2023</p>
         </div>
-
-
-
-        <div class="row b-roll">
-          <div class="b-roll-top">
-            <div class="b-roll-top-text">
-              <p class="reel-text">Computer Vision Papers</p>
-            </div>
-
-            <div class="b-roll-top-content">
-              <div class="progress-bar"></div>
-            </div>
-          </div>
-          
-
-          <div class="b-roll-film">
-              <div class="container">
-                  <button class="handle left-handle">
-                      <div class="text">&#8249;</div>
-                  </button>
-                  <div class="slider">
-
-                      <a href="https://github.com/mcallisterdavid/oski-184-finalproj" target="_blank">
-                          <img src="./images/graphics/stadium_ar.png" loading="lazy">
-                          <p>• Stadium AR •</p>
-                      </a>
-
-
-
-
-
-                      <a href="./pdfs/computer_vision/recolorizer.pdf" target="_blank">
-                          <img src="./images/computer_vision/recolorizer.jpeg" loading="lazy">
-                          <p>• Recolorizer •</p>
-                      </a>
-
-                      <a href="./pdfs/computer_vision/filters.pdf" target="_blank">
-                          <img src="./images/computer_vision/filters.jpeg" loading="lazy">
-                          <p>• FFT •</p>
-                      </a>
-
-                      <a href="./pdfs/computer_vision/face_morphing.pdf" target="_blank">
-                          <img src="./images/computer_vision/face_morphing.jpeg" loading="lazy">
-                          <p>• Face Morphing •</p>
-                      </a>
-
-                      <a href="./pdfs/computer_vision/keypoint_detection.pdf" target="_blank">
-                          <img src="./images/computer_vision/keypoint_detection.jpeg" loading="lazy">
-                          <p>• DL for CV •</p>
-                      </a>
-
-                      <a href="./pdfs/computer_vision/style.pdf" target="_blank">
-                          <img src="./images/computer_vision/style.png" loading="lazy">
-                          <p>• Style Transfer •</p>
-                      </a>
-                  </div>
-                  <button class="handle right-handle">
-                      <div class="text">&#8250;</div>
-                  </button>
-              </div>
-              
-          </div>
       </div>
     </div>
-</div>
-
-
-
-
-
-  <!-- Experience Section -->
-  <div class="w3-container w3-padding-32" id="experience">
-    <h3 class="main-font w3-border-bottom w3-border-light-grey w3-padding-16">Where I've Worked</h3>
     
-    <div class="my-jobs job-flex w3-row-padding" style="height: 100%">
-        <div class="w3-col l3 m6 w3-margin-bottom job-card">
-          <img class="job-card-img" src="./images/main/ucb.png" alt="UC Berkeley" loading="lazy">
-          <h3 class="main-font">UC Berkeley</h3>
-          <p class="main-font w3-opacity">CS 169A Instructor</p>
-          <p>Teaching and organizing a class about SWE to 200+ of Berkeley students :)</p>
-          <a href="https://www2.eecs.berkeley.edu/Courses/CS169A/">
-            <p><button class="job-card-button w3-button">Become my student</button></p>
-          </a>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom job-card">
-            <img class="job-card-img" src="./images/main/eecs.jpeg" alt="UC Berkeley" loading="lazy">
-            <h3 class="main-font">Saasbook</h3>
-            <p class="main-font w3-opacity">Software Engineer</p>
-            <p>Maintaining an online SaaS textbook and it's assignments for various universities.</p>
-            <a href="https://e.saasbook.info/">
-                <p><button class="job-card-button w3-button">GET /the/textbook</button></p>
-              </a>
+
+    <div id="projects" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-left bg-light">
+        <h1 class="jumbotron-heading">I spend most of my time doing Computer Vision projects</h1>
+        <p class="lead text-muted"><i>See</i> below</p>
+    </div>
+
+    <div id="cvCarousel" class="carousel slide p-3" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#cvCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#cvCarousel" data-slide-to="1"></li>
+        <li data-target="#cvCarousel" data-slide-to="2"></li>
+        <li data-target="#cvCarousel" data-slide-to="3"></li>
+        <li data-target="#cvCarousel" data-slide-to="4"></li>
+        <li data-target="#cvCarousel" data-slide-to="5"></li>
+        <li data-target="#cvCarousel" data-slide-to="6"></li>
+        <li data-target="#cvCarousel" data-slide-to="7"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="8000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/recolorizer.jpeg)"></div>
+          <div class="image-aligner">
+            <h1>Recolorizing the Prokudin-Gorskii Collection</h1>
+            <p>Turning B&W photos into into RGB images</p>
+            <a href="./pdfs/computer_vision/recolorizer.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
           </div>
-        <div class="w3-col l3 m6 w3-margin-bottom job-card">
-          <img class="job-card-img" src="./images/main/mrsl.jpeg" alt="MRSL" loading="lazy">
-          <h3 class="main-font">MRSL</h3>
-          <p class="main-font w3-opacity">Machine Learning Intern</p>
-          <p>Developed a mobile app that classifies software-defined radio signals.</p>
-          <a href="https://www.mrsl.com/">
-            <p><button class="job-card-button w3-button">Process some signals</button></p>
-          </a>
         </div>
-        <div class="w3-col l3 m6 w3-margin-bottom job-card">
-          <img class="job-card-img" src="./images/main/mbari.jpeg" alt="MBARI" loading="lazy">
-          <h3 class="main-font">MBARI</h3>
-          <p class="main-font w3-opacity">Front-End Engineer</p>
-          <p class="job-card-text">Made a website for marine researchers to analyze ecogeological data.</p>
-          <a href="https://www.mbari.org/">
-            <p><button class="job-card-button w3-button">Explore the ocean</button></p>
-          </a>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/filters.jpeg)"></div>
+          <div class="image-aligner">
+            <h1>Playing with filters and frequency</h1>
+            <p>Exploring edge detection, blurring, sharpening, Gaussian/Laplacian stacks, and orapples!</p>
+            <a href="./pdfs/computer_vision/filters.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/face_morphing.jpeg)"></div>
+          <div class="image-aligner">
+            <h1>Morphing Faces</h1>
+            <p>Interpolating from one face to another in both shape and color</p>
+            <a href="./pdfs/computer_vision/face_morphing.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/mosaics.png)"></div>
+          <div class="image-aligner">
+            <h1>Making Mosaics</h1>
+            <p>Procedurally stitching images together into panoramas</p>
+            <a href="./pdfs/computer_vision/mosaics.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/keypoint_detection.jpeg)"></div>
+          <div class="image-aligner">
+            <h1>Keypoint Detection</h1>
+            <p>Using PyTorch to automate feature extraction</p>
+            <a href="./pdfs/computer_vision/keypoint_detection.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/style.png)"></div>
+          <div class="image-aligner">
+            <h1>Style Transfer</h1>
+            <p>Reimplementing A Neural Algorithm of Artistic Style by Gatys et al. in PyTorch</p>
+            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/stadium_ar.png)"></div>
+          <div class="image-aligner">
+            <h1>Teapot in a Stadium</h1>
+            <p>An iOS app that renders AR meshes in Berkeley's Memorial Stadium in real-time</p>
+            <a href="https://github.com/mcallisterdavid/oski-184-finalproj" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/computer_vision/ar.png)"></div>
+          <div class="image-aligner">
+            <h1>Simple Alternate Reality</h1>
+            <p>Using linear algebra to draw real-time AR from scratch</p>
+            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
         </div>
       </div>
-  </div>
+
+      <!-- left arrow -->
+      <a href="#cvCarousel" class="carousel-control-prev" role="button" data-slide="prev">
+        <span class="sr-only">Previous</span>
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </a>
+      <!-- right arrow -->
+      <a href="#cvCarousel" class="carousel-control-next" role="button" data-slide="next">
+        <span class="sr-only">Previous</span>
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-right bg-light">
+      <h1 class="jumbotron-heading">I spend the rest of my time doing the inverse</h1>
+      <p class="lead text-muted">Here are some of my favorite Computer Graphics projects</p>
+    </div>
+
+    <div id="graphicsCarousel" class="carousel slide p-3" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#graphicsCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#graphicsCarousel" data-slide-to="1"></li>
+        <li data-target="#graphicsCarousel" data-slide-to="2"></li>
+        <li data-target="#graphicsCarousel" data-slide-to="3"></li>
+        <li data-target="#graphicsCarousel" data-slide-to="4"></li>
+      </ol>
+      <div class="carousel-inner">
+
+        <div class="carousel-item active" data-interval="8000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/rasterizer.png)"></div>
+          <div class="image-aligner">
+            <h1>Rasterizer</h1>
+            <p>Sampling, drawing triangles, and anti-aliasing to convert SVGs to rasters</p>
+            <a href="./pdfs/graphics/rasterizer.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/mesh_editor.png)"></div>
+          <div class="image-aligner">
+            <h1>Mesh Editor</h1>
+            <p>Using points to make splines, splines to create meshes, and meshes to create more meshes</p>
+            <a href="./pdfs/graphics/mesh_editor.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/pathtracer.png)"></div>
+          <div class="image-aligner">
+            <h1>Pathtracer</h1>
+            <p>Simulating the world by recreating physically based models of light... fun stuff</p>
+            <a href="./pdfs/graphics/pathtracer.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/pathtracer_extended.png)"></div>
+          <div class="image-aligner">
+            <h1>Pathtracing EVERYTHING</h1>
+            <p>Glass? Mirrors? Focal Length? You name it.</p>
+            <a href="./pdfs/graphics/pathtracer_extended.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="5000">
+          <div class="overlay-image" style="background-image:url(./images/graphics/cloth_simulator.png)"></div>
+          <div class="image-aligner">
+            <h1>Cloth Simulation</h1>
+            <p>Gravity, cloth, collisions... You get the rest</p>
+            <a href="./pdfs/graphics/cloth_simulator.pdf" class="btn btn-lg btn-primary">
+              Show Me
+            </a>
+          </div>
+        </div>
+
+        <!-- left arrow -->
+        <a href="#graphicsCarousel" class="carousel-control-prev" role="button" data-slide="prev">
+          <span class="sr-only">Previous</span>
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <!-- right arrow -->
+        <a href="#graphicsCarousel" class="carousel-control-next" role="button" data-slide="next">
+          <span class="sr-only">Previous</span>
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+
+      </div>
+    </div>
+    
   
 
-<!-- End page content -->
-</div>
+
+    <!-- WORK EXPERIENCE -->
+    <div id="experience" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-center bg-light">
+      <h1 class="jumbotron-heading">I've worked at a few places</h1>
+      <p class="lead text-muted">Here are the cool ones</p>
+    </div>
+    <!-- TOP ROW -->
+    <div class="p-3 m-md-3 p-md-5">
+
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">UC Berkeley</h4>
+          </div>
+          <div class="card-body">
+            <img class="rounded-circle" src="images/main/ucb.png" alt="Picture of my face" width="140" height="140">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li class="text-left">CS 169A Instructor</li>
+              <li class="text-left text-muted">Teaching and organizing a class about SWE to 200+ of Berkeley students :)</li>
+            </ul>
+            <a href="https://classes.berkeley.edu/content/2023-summer-compsci-169a-001-lec-001" type="button" class="btn btn-lg btn-block btn-primary">Become my student</a>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Saasbook</h4>
+          </div>
+          <div class="card-body">
+            <img class="rounded-circle" src="images/main/eecs.jpeg" alt="Picture of my face" width="140" height="140">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li class="text-left">Software Engineer</li>
+              <li class="text-left text-muted">Maintaining an online SaaS textbook and it's assignments for various universities.</li>
+            </ul>
+            <a href="https://e.saasbook.info/" type="button" class="btn btn-lg btn-block btn-primary">GET /the/saasbook</a>
+          </div>
+        </div>
+      </div>
+      <!-- BOTTOM ROW -->
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">MRSL</h4>
+          </div>
+          <div class="card-body">
+            <img class="rounded-circle" src="images/main/mrsl.jpeg" alt="MRSL Logo" width="140" height="140">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li class="text-left">Machine Learning Intern</li>
+              <li class="text-left text-muted">Developed a mobile app that classifies software-defined radio signals.</li>
+            </ul>
+            <a href="https://www.mrsl.com/" type="button" class="btn btn-lg btn-block btn-primary">Process some signals</a>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">MBARI</h4>
+          </div>
+          <div class="card-body">
+            <img class="rounded-circle" src="images/main/mbari.jpeg" alt="MBARI Logo" width="140" height="140">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li class="text-left">Front-End Engineer</li>
+              <li class="text-left text-muted">Made a website for marine researchers to analyze ecogeological data.</li>
+            </ul>
+            <a href="https://www.mbari.org/" type="button" class="btn btn-lg btn-block btn-primary">Explore the ocean</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
 
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-16">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
 
-</body>
+    <!-- FOOTER -->
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      </ul>
+      <p class="text-center text-muted">© 2023, Ethan Gnibus</p>
+    </footer>
+  
+    
+
+  <script src="script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
 </html>
