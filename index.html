@@ -9,7 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
   <body>
-    <nav class="navbar site-header sticky-top navbar-expand-sm navbar-dark bg-dark fixed-top">
+    <nav class="navbar site-header sticky-top navbar-expand-sm navbar-dark navbar-color fixed-top">
       <a class="navbar-brand" href="#" onclick="scrollToTop()">Ethan Gnibus</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,7 +45,7 @@
 
 
     <!-- ABOUT ME-->
-    <div id="about" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+    <div id="about" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center jumbo-color">
       <div class="image-aligner">
         <h1 class="jumbotron-heading">Who am I?</h1>
         <p class="lead text-muted">I co-instruct the Software Engineering class at UC Berkeley. I strive to learn as much as I can about <button class="btn btn-success btn-sm">graphics</button>, <button class="btn btn-success btn-sm">computer vision</button>, and all things <button class="btn btn-success btn-sm">SWE</button>. Send me a message :)        </p>
@@ -69,13 +69,13 @@
     </div>
 
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-      <div class="bg-primary mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color: #003262">
         <div class="container-fluid my-3 py-3">
           <h2 class="display-5">I'm a Golden Bear!</h2>
           <img class="rounded-circle" src="images/main/will_square.jpg" alt="Picture of my face" width="140" height="140">
         </div>
       </div>
-      <div class=" container-fluid bg-warning mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class=" container-fluid mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="background-color: #FDB515">
         <div class="my-3 p-3">
           <h2 class="display-5">University of California, Berkeley</h2>
           <p class="lead">Bachelor of Arts, Computer Science</p>
@@ -87,12 +87,12 @@
     </div>
     
 
-    <div id="projects" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-left bg-light">
+    <div id="projects" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-left jumbo-color">
         <h1 class="jumbotron-heading">I spend most of my time doing Computer Vision projects</h1>
-        <p class="lead text-muted"><i>See</i> below</p>
+        <p class="lead text-muted">Take a look!</p>
     </div>
 
-    <div id="cvCarousel" class="carousel slide p-3" data-ride="carousel">
+    <div id="cvCarousel" class="carousel slide m-md-3" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#cvCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#cvCarousel" data-slide-to="1"></li>
@@ -109,7 +109,7 @@
           <div class="image-aligner">
             <h1>Recolorizing the Prokudin-Gorskii Collection</h1>
             <p>Turning B&W photos into into RGB images</p>
-            <a href="./pdfs/computer_vision/recolorizer.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/recolorizer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -120,7 +120,7 @@
           <div class="image-aligner">
             <h1>Playing with filters and frequency</h1>
             <p>Exploring edge detection, blurring, sharpening, Gaussian/Laplacian stacks, and orapples!</p>
-            <a href="./pdfs/computer_vision/filters.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/filters.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -131,7 +131,7 @@
           <div class="image-aligner">
             <h1>Morphing Faces</h1>
             <p>Interpolating from one face to another in both shape and color</p>
-            <a href="./pdfs/computer_vision/face_morphing.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/face_morphing.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -142,7 +142,7 @@
           <div class="image-aligner">
             <h1>Making Mosaics</h1>
             <p>Procedurally stitching images together into panoramas</p>
-            <a href="./pdfs/computer_vision/mosaics.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/mosaics.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -153,7 +153,7 @@
           <div class="image-aligner">
             <h1>Keypoint Detection</h1>
             <p>Using PyTorch to automate feature extraction</p>
-            <a href="./pdfs/computer_vision/keypoint_detection.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/keypoint_detection.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -164,7 +164,7 @@
           <div class="image-aligner">
             <h1>Style Transfer</h1>
             <p>Reimplementing A Neural Algorithm of Artistic Style by Gatys et al. in PyTorch</p>
-            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -175,7 +175,7 @@
           <div class="image-aligner">
             <h1>Teapot in a Stadium</h1>
             <p>An iOS app that renders AR meshes in Berkeley's Memorial Stadium in real-time</p>
-            <a href="https://github.com/mcallisterdavid/oski-184-finalproj" class="btn btn-lg btn-primary">
+            <a href="https://github.com/mcallisterdavid/oski-184-finalproj" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -186,7 +186,7 @@
           <div class="image-aligner">
             <h1>Simple Alternate Reality</h1>
             <p>Using linear algebra to draw real-time AR from scratch</p>
-            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -205,12 +205,12 @@
       </a>
     </div>
 
-    <div class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-right bg-light">
+    <div class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-right jumbo-color">
       <h1 class="jumbotron-heading">I spend the rest of my time doing the inverse</h1>
       <p class="lead text-muted">Here are some of my favorite Computer Graphics projects</p>
     </div>
 
-    <div id="graphicsCarousel" class="carousel slide p-3" data-ride="carousel">
+    <div id="graphicsCarousel" class="carousel slide m-md-3" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#graphicsCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#graphicsCarousel" data-slide-to="1"></li>
@@ -225,7 +225,7 @@
           <div class="image-aligner">
             <h1>Rasterizer</h1>
             <p>Sampling, drawing triangles, and anti-aliasing to convert SVGs to rasters</p>
-            <a href="./pdfs/graphics/rasterizer.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/graphics/rasterizer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -236,7 +236,7 @@
           <div class="image-aligner">
             <h1>Mesh Editor</h1>
             <p>Using points to make splines, splines to create meshes, and meshes to create more meshes</p>
-            <a href="./pdfs/graphics/mesh_editor.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/graphics/mesh_editor.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -247,7 +247,7 @@
           <div class="image-aligner">
             <h1>Pathtracer</h1>
             <p>Simulating the world by recreating physically based models of light... fun stuff</p>
-            <a href="./pdfs/graphics/pathtracer.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/graphics/pathtracer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -258,7 +258,7 @@
           <div class="image-aligner">
             <h1>Pathtracing EVERYTHING</h1>
             <p>Glass? Mirrors? Focal Length? You name it.</p>
-            <a href="./pdfs/graphics/pathtracer_extended.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/graphics/pathtracer_extended.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -269,7 +269,7 @@
           <div class="image-aligner">
             <h1>Cloth Simulation</h1>
             <p>Gravity, cloth, collisions... You get the rest</p>
-            <a href="./pdfs/graphics/cloth_simulator.pdf" class="btn btn-lg btn-primary">
+            <a href="./pdfs/graphics/cloth_simulator.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
           </div>
@@ -293,7 +293,7 @@
 
 
     <!-- WORK EXPERIENCE -->
-    <div id="experience" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-center bg-light">
+    <div id="experience" class="position-relative overflow-hidden p-3 m-md-3 p-md-5 text-center jumbo-color">
       <h1 class="jumbotron-heading">I've worked at a few places</h1>
       <p class="lead text-muted">Here are the cool ones</p>
     </div>
@@ -302,7 +302,7 @@
 
       <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
-          <div class="card-header">
+          <div class="card-header jumbo-color">
             <h4 class="my-0 font-weight-normal">UC Berkeley</h4>
           </div>
           <div class="card-body">
@@ -311,11 +311,11 @@
               <li class="text-left">CS 169A Instructor</li>
               <li class="text-left text-muted">Teaching and organizing a class about SWE to 200+ of Berkeley students :)</li>
             </ul>
-            <a href="https://classes.berkeley.edu/content/2023-summer-compsci-169a-001-lec-001" type="button" class="btn btn-lg btn-block btn-primary">Become my student</a>
+            <a href="https://classes.berkeley.edu/content/2023-summer-compsci-169a-001-lec-001" type="button" class="btn btn-lg btn-block btn-success">Become my student</a>
           </div>
         </div>
         <div class="card mb-4 box-shadow">
-          <div class="card-header">
+          <div class="card-header jumbo-color">
             <h4 class="my-0 font-weight-normal">Saasbook</h4>
           </div>
           <div class="card-body">
@@ -324,14 +324,14 @@
               <li class="text-left">Software Engineer</li>
               <li class="text-left text-muted">Maintaining an online SaaS textbook and it's assignments for various universities.</li>
             </ul>
-            <a href="https://e.saasbook.info/" type="button" class="btn btn-lg btn-block btn-primary">GET /the/saasbook</a>
+            <a href="https://e.saasbook.info/" type="button" class="btn btn-lg btn-block btn-success">GET /the/saasbook</a>
           </div>
         </div>
       </div>
       <!-- BOTTOM ROW -->
       <div class="card-deck mb-3 text-center">
         <div class="card mb-4 box-shadow">
-          <div class="card-header">
+          <div class="card-header jumbo-color">
             <h4 class="my-0 font-weight-normal">MRSL</h4>
           </div>
           <div class="card-body">
@@ -340,11 +340,11 @@
               <li class="text-left">Machine Learning Intern</li>
               <li class="text-left text-muted">Developed a mobile app that classifies software-defined radio signals.</li>
             </ul>
-            <a href="https://www.mrsl.com/" type="button" class="btn btn-lg btn-block btn-primary">Process some signals</a>
+            <a href="https://www.mrsl.com/" type="button" class="btn btn-lg btn-block btn-success">Process some signals</a>
           </div>
         </div>
         <div class="card mb-4 box-shadow">
-          <div class="card-header">
+          <div class="card-header jumbo-color">
             <h4 class="my-0 font-weight-normal">MBARI</h4>
           </div>
           <div class="card-body">
@@ -353,7 +353,7 @@
               <li class="text-left">Front-End Engineer</li>
               <li class="text-left text-muted">Made a website for marine researchers to analyze ecogeological data.</li>
             </ul>
-            <a href="https://www.mbari.org/" type="button" class="btn btn-lg btn-block btn-primary">Explore the ocean</a>
+            <a href="https://www.mbari.org/" type="button" class="btn btn-lg btn-block btn-success">Explore the ocean</a>
           </div>
         </div>
       </div>

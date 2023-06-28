@@ -1,7 +1,7 @@
 function scrollToElement(elementId) {
     event.preventDefault();
     const targetElement = document.getElementById(elementId);
-    const targetOffset = targetElement.offsetTop - 20;
+    const targetOffset = targetElement.offsetTop;
     window.scrollTo({
       top: targetOffset,
       behavior: "smooth"
