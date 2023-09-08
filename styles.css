@@ -115,3 +115,13 @@ opacity: 100%;
     /* You can also use color names like "red" or "blue" */
     /* or use rgba(255, 87, 51, 0.8) for a color with opacity */
   }
+
+.blur-load {
+    background-size: cover;
+}
+
+.blurred-img {
+    background-image: url(./images/main/two_trees/two_trees-small.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
