@@ -97,6 +97,12 @@ opacity: 100%;
     margin: -2px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8); */
 }
+@media (max-width: 767px) {
+    .lightup-border:hover {
+      /* Set a different height for mobile screens */
+      transform: scale(1.0); /* Adjust the height as needed */
+    }
+}
 
 .lightup-title:hover {
     text-shadow: 0px 0px 4px rgba(255, 255, 255, 1);
@@ -109,6 +115,12 @@ opacity: 100%;
     margin: -2px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8); */
 }
+@media (max-width: 767px) {
+    .lightup-button:hover {
+      /* Set a different height for mobile screens */
+      transform: scale(1.0); /* Adjust the height as needed */
+    }
+}
 
 .colored-div {
     background-color: #FF5733; /* Use a color value of your choice */
@@ -120,8 +132,26 @@ opacity: 100%;
     background-size: cover;
 }
 
-.blurred-img {
+.blurred-tree {
     background-image: url(./images/main/two_trees/two_trees-small.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blurred-tree {
+    background-image: url(./images/main/two_trees/two_trees-small.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blurred-recolorizer {
+    background-image: url(./images/computer_vision/recolorizer/recolorizer-small.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blurred-rasterizer {
+    background-image: url(./images/graphics/rasterizer/rasterizer-small.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
