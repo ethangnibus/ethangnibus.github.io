@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Include jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Include Bootstrap's JavaScript after jQuery -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
   <body>
@@ -30,14 +33,19 @@
     </nav>
 
      <!-- HEADING PICTURE -->
-    <div class="title-item position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-      <div class="title-image" style="background-image:url(./images/main/two_trees.png)"></div>
-      <div class="image-aligner">
-        <h1 class="display-4 font-weight-normal">Hey, I'm Ethan</h1>
+    <div id="" class="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" >
+          <div class="overlay-image" style="background-image:url(./images/main/two_trees.png)"></div>
+          <div class="image-aligner">
+            <h1 class="text-with-shadow">Hi, I'm Ethan</h1>
+          </div>
+        </div>
       </div>
-      <div class="product-device box-shadow d-none d-md-block"></div>
-      <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
     </div>
+
+    <!-- fixing heading picture -->
+    
 
 
 
@@ -71,7 +79,7 @@
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
       <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color: #003262">
         <div class="container-fluid my-3 py-3">
-          <h2 class="display-5">I'm a Golden Bear!</h2>
+          <h2 class="display-5 text-with-shadow">I'm a Golden Bear!</h2>
           <img class="rounded-circle" src="images/main/will_square.jpg" alt="Picture of my face" width="140" height="140">
         </div>
       </div>
@@ -92,7 +100,7 @@
         <p class="lead text-muted">Take a look!</p>
     </div>
 
-    <div id="cvCarousel" class="carousel slide m-md-3" data-ride="carousel">
+    <div id="cvCarousel" class="carousel-height carousel slide m-md-3" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#cvCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#cvCarousel" data-slide-to="1"></li>
@@ -107,8 +115,8 @@
         <div class="carousel-item active" data-interval="8000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/recolorizer.jpeg)"></div>
           <div class="image-aligner">
-            <h1>Recolorizing the Prokudin-Gorskii Collection</h1>
-            <p>Turning B&W photos into into RGB images</p>
+            <h1 class="text-with-shadow">Recolorizing the Prokudin-Gorskii Collection</h1>
+            <p class="text-with-shadow">Turning B&W photos into into RGB images</p>
             <a href="./pdfs/computer_vision/recolorizer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -118,8 +126,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/filters.jpeg)"></div>
           <div class="image-aligner">
-            <h1>Playing with filters and frequency</h1>
-            <p>Exploring edge detection, blurring, sharpening, Gaussian/Laplacian stacks, and orapples!</p>
+            <h1 class="text-with-shadow">Playing with filters and frequency</h1>
+            <p class="text-with-shadow">Exploring edge detection, blurring, sharpening, Gaussian/Laplacian stacks, and orapples!</p>
             <a href="./pdfs/computer_vision/filters.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -129,8 +137,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/face_morphing.jpeg)"></div>
           <div class="image-aligner">
-            <h1>Morphing Faces</h1>
-            <p>Interpolating from one face to another in both shape and color</p>
+            <h1 class="text-with-shadow">Morphing Faces</h1>
+            <p class="text-with-shadow">Interpolating from one face to another in both shape and color</p>
             <a href="./pdfs/computer_vision/face_morphing.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -140,8 +148,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/mosaics.png)"></div>
           <div class="image-aligner">
-            <h1>Making Mosaics</h1>
-            <p>Procedurally stitching images together into panoramas</p>
+            <h1 class="text-with-shadow">Making Mosaics</h1>
+            <p class="text-with-shadow">Procedurally stitching images together into panoramas</p>
             <a href="./pdfs/computer_vision/mosaics.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -151,8 +159,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/keypoint_detection.jpeg)"></div>
           <div class="image-aligner">
-            <h1>Keypoint Detection</h1>
-            <p>Using PyTorch to automate feature extraction</p>
+            <h1 class="text-with-shadow">Keypoint Detection</h1>
+            <p class="text-with-shadow">Using PyTorch to automate feature extraction</p>
             <a href="./pdfs/computer_vision/keypoint_detection.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -162,8 +170,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/style.png)"></div>
           <div class="image-aligner">
-            <h1>Style Transfer</h1>
-            <p>Reimplementing A Neural Algorithm of Artistic Style by Gatys et al. in PyTorch</p>
+            <h1 class="text-with-shadow">Style Transfer</h1>
+            <p class="text-with-shadow">Reimplementing A Neural Algorithm of Artistic Style by Gatys et al. in PyTorch</p>
             <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -173,8 +181,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/graphics/stadium_ar.png)"></div>
           <div class="image-aligner">
-            <h1>Teapot in a Stadium</h1>
-            <p>An iOS app that renders AR meshes in Berkeley's Memorial Stadium in real-time</p>
+            <h1 class="text-with-shadow">Teapot in a Stadium</h1>
+            <p class="text-with-shadow">An iOS app that renders AR meshes in Berkeley's Memorial Stadium in real-time</p>
             <a href="https://github.com/mcallisterdavid/oski-184-finalproj" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -184,8 +192,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/computer_vision/ar.png)"></div>
           <div class="image-aligner">
-            <h1>Simple Alternate Reality</h1>
-            <p>Using linear algebra to draw real-time AR from scratch</p>
+            <h1 class="text-with-shadow">Simple Alternate Reality</h1>
+            <p class="text-with-shadow">Using linear algebra to draw real-time AR from scratch</p>
             <a href="./pdfs/computer_vision/style.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -210,7 +218,7 @@
       <p class="lead text-muted">Here are some of my favorite Computer Graphics projects</p>
     </div>
 
-    <div id="graphicsCarousel" class="carousel slide m-md-3" data-ride="carousel">
+    <div id="graphicsCarousel" class="carousel carousel-height slide m-md-3" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#graphicsCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#graphicsCarousel" data-slide-to="1"></li>
@@ -223,8 +231,8 @@
         <div class="carousel-item active" data-interval="8000">
           <div class="overlay-image" style="background-image:url(./images/graphics/rasterizer.png)"></div>
           <div class="image-aligner">
-            <h1>Rasterizer</h1>
-            <p>Sampling, drawing triangles, and anti-aliasing to convert SVGs to rasters</p>
+            <h1 class="text-with-shadow">Rasterizer</h1>
+            <p class="text-with-shadow">Sampling, drawing triangles, and anti-aliasing to convert SVGs to rasters</p>
             <a href="./pdfs/graphics/rasterizer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -234,8 +242,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/graphics/mesh_editor.png)"></div>
           <div class="image-aligner">
-            <h1>Mesh Editor</h1>
-            <p>Using points to make splines, splines to create meshes, and meshes to create more meshes</p>
+            <h1 class="text-with-shadow">Mesh Editor</h1>
+            <p class="text-with-shadow">Using points to make splines, splines to create meshes, and meshes to create more meshes</p>
             <a href="./pdfs/graphics/mesh_editor.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -245,8 +253,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/graphics/pathtracer.png)"></div>
           <div class="image-aligner">
-            <h1>Pathtracer</h1>
-            <p>Simulating the world by recreating physically based models of light... fun stuff</p>
+            <h1 class="text-with-shadow">Pathtracer</h1>
+            <p class="text-with-shadow">Simulating the world by recreating physically based models of light... fun stuff</p>
             <a href="./pdfs/graphics/pathtracer.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -256,8 +264,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/graphics/pathtracer_extended.png)"></div>
           <div class="image-aligner">
-            <h1>Pathtracing EVERYTHING</h1>
-            <p>Glass? Mirrors? Focal Length? You name it.</p>
+            <h1 class="text-with-shadow">Pathtracing EVERYTHING</h1>
+            <p class="text-with-shadow">Glass? Mirrors? Focal Length? You name it.</p>
             <a href="./pdfs/graphics/pathtracer_extended.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>
@@ -267,8 +275,8 @@
         <div class="carousel-item" data-interval="5000">
           <div class="overlay-image" style="background-image:url(./images/graphics/cloth_simulator.png)"></div>
           <div class="image-aligner">
-            <h1>Cloth Simulation</h1>
-            <p>Gravity, cloth, collisions... You get the rest</p>
+            <h1 class="text-with-shadow">Cloth Simulation</h1>
+            <p class="text-with-shadow">Gravity, cloth, collisions... You get the rest</p>
             <a href="./pdfs/graphics/cloth_simulator.pdf" class="btn btn-lg btn-success">
               Show Me
             </a>

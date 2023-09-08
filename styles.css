@@ -13,12 +13,24 @@ padding-left: 1rem;
 padding-right: 1rem;
 }
 .carousel-item {
-height: 32rem;
+height: 88vh;
 background: black;
 color: white;
 position: relative;
 background-position: center;
 size: cover;
+}
+@media (max-width: 450px) {
+    .carousel-item {
+      /* Set a different height for mobile screens */
+      height: 40vh; /* Adjust the height as needed */
+    }
+}
+@media (max-width: 767px) {
+    .carousel-item {
+      /* Set a different height for mobile screens */
+      height: 60vh; /* Adjust the height as needed */
+    }
 }
 .image-aligner {
 position: relative;
@@ -29,6 +41,9 @@ align-items: center;
 height: 100%;
 text-align: center;
 }
+.text-with-shadow {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 1.0);
+}
 .overlay-image {
 position: absolute;
 bottom: 0;
@@ -37,18 +52,19 @@ right: 0;
 top: 0;
 background-position: center;
 background-size:cover;
-opacity: 50%;
+opacity: 100%;
 }
 
 /* Title stuff */
-.title-item {
+/* .title-item {
 height: 50rem;
 background-color: white;
 color: white;
 position: relative;
 background-position: center;
 size: cover;
-}
+} */
+
 .title-image {
 position: absolute;
 bottom: 0;
