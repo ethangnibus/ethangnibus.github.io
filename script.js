@@ -3,7 +3,7 @@ function scrollToElement(elementId) {
     const targetElement = document.getElementById(elementId);
     const targetOffset = targetElement.offsetTop;
     window.scrollTo({
-      top: targetOffset,
+      top: targetOffset - 40,
       behavior: "smooth"
     });
   }

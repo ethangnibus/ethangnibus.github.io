@@ -87,3 +87,23 @@ opacity: 100%;
 .jumbo-color {
     background-color: #eeeeee;
 }
+
+
+.lightup-border:hover {
+    transform-origin: center; 
+    transition: transform 0.3s ease-out;
+    transform: scale(1.3); /* Adjust the scale factor as needed */
+    /* border: solid 2px red;
+    margin: -2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8); */
+}
+
+.lightup-title:hover {
+    text-shadow: 0px 0px 4px rgba(255, 255, 255, 1);
+}
+
+.colored-div {
+    background-color: #FF5733; /* Use a color value of your choice */
+    /* You can also use color names like "red" or "blue" */
+    /* or use rgba(255, 87, 51, 0.8) for a color with opacity */
+  }
