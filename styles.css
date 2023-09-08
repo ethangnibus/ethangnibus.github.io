@@ -118,7 +118,7 @@ opacity: 100%;
 @media (max-width: 767px) {
     .lightup-button:hover {
       /* Set a different height for mobile screens */
-      transform: scale(1.0); /* Adjust the height as needed */
+      transform: none(1.0); /* Adjust the height as needed */
     }
 }
 
