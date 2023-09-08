@@ -15,3 +15,12 @@ function scrollToElement(elementId) {
       behavior: "smooth"
     });
   }
+
+  function toggleAriaExpanded() {
+    const button = document.getElementById("navbarNav");
+    const currentValue = button.getAttribute("aria-expanded");
+    const newValue = currentValue === "true" ? "false" : "true";
+
+    const ddown = document.getElementById("navbarNav");
+    ddown.setAttribute("aria-expanded", newValue);
+  }
