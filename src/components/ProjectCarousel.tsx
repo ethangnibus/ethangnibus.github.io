@@ -100,9 +100,9 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
           />
 
           <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-8 md:px-20">
-            {/* Slide counter — purple */}
+            {/* Slide counter — tape orange (analog LED feel) */}
             <motion.p
-              className="font-mono text-portal-poofLight text-xs tracking-[0.4em] uppercase font-bold mb-3"
+              className="font-mono text-portal-goLight text-sm tracking-[0.4em] uppercase font-bold mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}
@@ -112,7 +112,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
             </motion.p>
 
             <motion.h1
-              className="font-mono text-2xl min-[450px]:text-3xl min-[768px]:text-5xl font-bold mb-3"
+              className="font-mono text-3xl min-[450px]:text-4xl min-[768px]:text-6xl font-bold mb-4"
               style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.9)" }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -122,7 +122,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
             </motion.h1>
 
             <motion.p
-              className="text-base min-[450px]:text-lg min-[768px]:text-xl max-w-2xl mb-7 text-white/90"
+              className="text-lg min-[450px]:text-xl min-[768px]:text-2xl max-w-2xl mb-8 text-white/90"
               style={{ textShadow: "1px 1px 6px rgba(0,0,0,0.9)" }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -137,7 +137,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
               href={slides[index].ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 text-sm tracking-widest"
+              className="px-9 py-3.5 text-base tracking-widest"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.35 }}
@@ -151,7 +151,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
       {/* Arrows — Wii-style bubbly circles */}
       <button
         onClick={() => paginate(-1)}
-        className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-portal-cosmoLight transition-all duration-300 hover:scale-110 p-2 md:p-3 flex items-center justify-center"
+        className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-portal-blueLight transition-all duration-300 hover:scale-110 p-2 md:p-3 flex items-center justify-center"
         style={{
           background:
             "linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.06) 100%)",
@@ -166,7 +166,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
       </button>
       <button
         onClick={() => paginate(1)}
-        className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-portal-cosmoLight transition-all duration-300 hover:scale-110 p-2 md:p-3 flex items-center justify-center"
+        className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-portal-blueLight transition-all duration-300 hover:scale-110 p-2 md:p-3 flex items-center justify-center"
         style={{
           background:
             "linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.06) 100%)",
@@ -188,8 +188,8 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
             onClick={() => goTo(i)}
             className={`rounded-sm transition-all duration-300 ${
               i === index
-                ? "w-5 h-2 bg-portal-poofLight shadow-[0_0_6px_rgba(213,128,255,0.7)]"
-                : "w-2 h-2 bg-white/30 hover:bg-portal-cosmoLight/60"
+                ? "w-6 h-2.5 bg-portal-goLight shadow-[0_0_10px_rgba(46,224,101,0.9)]"
+                : "w-2.5 h-2.5 bg-white/35 hover:bg-portal-blueLight/70"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />

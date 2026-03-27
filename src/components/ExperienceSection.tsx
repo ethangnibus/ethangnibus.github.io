@@ -26,11 +26,11 @@ function ExperienceCard({
     <motion.div
       className="overflow-hidden flex flex-col relative"
       style={{
-        backgroundColor: "#f7f7f7",
+        backgroundColor: "#FAF8F4",
         border: "1px solid rgba(0,0,0,0.1)",
         borderRadius: "24px",
         boxShadow:
-          "0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+          "0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)",
       }}
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -43,29 +43,23 @@ function ExperienceCard({
         style={{
           height: "42%",
           background:
-            "linear-gradient(to bottom, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 100%)",
+            "linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)",
           borderRadius: "24px 24px 0 0",
         }}
       />
 
       {/* Card header */}
-      <div className="px-5 pt-6 pb-3 text-center relative z-20">
-        <p className="font-mono text-portal-poof text-sm tracking-[0.15em] uppercase font-bold mb-0.5 opacity-70">
+      <div className="px-6 pt-7 pb-4 text-center relative z-20">
+        <p className="font-mono text-portal-blue text-sm tracking-[0.18em] uppercase font-bold mb-1 opacity-80">
           Personnel File
         </p>
-        <h4 className="font-mono text-[#1a1a1a] text-xl font-bold tracking-tight">
+        <h4 className="font-mono text-[#1a1a1a] text-2xl font-bold tracking-tight">
           {company}
         </h4>
         {isCurrent && (
           <span
-            className="inline-block text-white text-[10px] font-mono font-bold px-3 py-1 tracking-widest uppercase mt-1.5"
-            style={{
-              background:
-                "linear-gradient(to bottom, #2EE065 0%, #1FAD4E 100%)",
-              borderRadius: "999px",
-              boxShadow:
-                "0 2px 6px rgba(31,173,78,0.35), inset 0 1px 0 rgba(255,255,255,0.4)",
-            }}
+            className="portal-projected-badge inline-block text-portal-cosmo text-xs font-mono font-bold px-4 py-1.5 tracking-widest uppercase mt-2"
+            style={{ "--badge-bg": "radial-gradient(ellipse 110% 160% at 50% 40%, rgba(217,51,144,0.30) 0%, rgba(217,51,144,0.11) 58%, rgba(217,51,144,0.03) 100%)" } as React.CSSProperties}
           >
             Active
           </span>
@@ -73,18 +67,18 @@ function ExperienceCard({
       </div>
 
       {/* Divider */}
-      <div className="mx-5 h-px bg-black/10 relative z-20" />
+      <div className="mx-6 h-px bg-black/10 relative z-20" />
 
       {/* Card body */}
-      <div className="flex-1 px-5 py-6 flex flex-col items-center text-center relative z-20">
-        <div className="mb-5">{image}</div>
-        <ul className="flex-1 w-full text-left space-y-2 mb-6">
-          <li className="font-mono font-bold text-[#333] text-base tracking-wide uppercase">
+      <div className="flex-1 px-6 py-7 flex flex-col items-center text-center relative z-20">
+        <div className="mb-6">{image}</div>
+        <ul className="flex-1 w-full text-left space-y-3 mb-7">
+          <li className="font-mono font-bold text-[#333] text-lg tracking-wide uppercase">
             {role}
           </li>
-          <li className="text-[#444] text-base leading-relaxed">{description}</li>
+          <li className="text-[#444] text-lg leading-relaxed">{description}</li>
         </ul>
-        <PillButton href={ctaHref} target="_blank" rel="noopener noreferrer" className="w-full py-3 text-sm tracking-widest">
+        <PillButton href={ctaHref} target="_blank" rel="noopener noreferrer" className="w-full py-3.5 text-base tracking-widest">
           {ctaText}
         </PillButton>
       </div>
@@ -106,14 +100,14 @@ const StealthIcon = () => (
     <path d="M30 55 Q70 35 110 55 L105 60 Q70 45 35 60 Z" fill="#1e1e3a" />
     <ellipse cx="70" cy="58" rx="42" ry="8" fill="#2a2a4a" />
     <ellipse cx="70" cy="85" rx="28" ry="22" fill="#1a1a2e" />
-    <circle cx="52" cy="82" r="16" fill="#050510" stroke="#1FAD4E" strokeWidth="1.5" />
-    <circle cx="88" cy="82" r="16" fill="#050510" stroke="#1FAD4E" strokeWidth="1.5" />
-    <path d="M68 82 Q70 78 72 82" stroke="#1FAD4E" strokeWidth="1.5" fill="none" />
-    <path d="M36 82 L28 78" stroke="#1FAD4E" strokeWidth="1.5" />
-    <path d="M104 82 L112 78" stroke="#1FAD4E" strokeWidth="1.5" />
+    <circle cx="52" cy="82" r="16" fill="#050510" stroke="#6B8FEF" strokeWidth="1.5" />
+    <circle cx="88" cy="82" r="16" fill="#050510" stroke="#6B8FEF" strokeWidth="1.5" />
+    <path d="M68 82 Q70 78 72 82" stroke="#6B8FEF" strokeWidth="1.5" fill="none" />
+    <path d="M36 82 L28 78" stroke="#6B8FEF" strokeWidth="1.5" />
+    <path d="M104 82 L112 78" stroke="#6B8FEF" strokeWidth="1.5" />
     <path d="M60 102 Q70 108 80 102" stroke="#2a2a4a" strokeWidth="2" fill="none" />
-    <circle cx="46" cy="76" r="3" fill="#7C35B0" opacity="0.6" />
-    <circle cx="82" cy="76" r="3" fill="#7C35B0" opacity="0.6" />
+    <circle cx="46" cy="76" r="3" fill="#8B4FCC" opacity="0.6" />
+    <circle cx="82" cy="76" r="3" fill="#8B4FCC" opacity="0.6" />
   </svg>
 );
 
@@ -133,36 +127,40 @@ function RoundImage({ src, alt }: { src: string; alt: string }) {
 export function ExperienceSection() {
   return (
     <div id="experience">
-      {/* Section header — white */}
+      {/* Section header — warm stripes */}
       <motion.div
-        className="portal-stripes relative overflow-hidden h-[250px] flex flex-col justify-center px-10 md:px-16 text-center"
+        className="portal-stripes relative overflow-hidden h-[290px] flex flex-col justify-center px-10 md:px-16 text-center"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.5 }}
       >
-        {/* Top rule — green */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-portal-cosmo/40 to-transparent" />
-        <p className="font-mono text-portal-poof text-base tracking-[0.15em] uppercase font-bold mb-5">
+        {/* Top rule — hot pink */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-portal-cosmo/50 to-transparent" />
+        {/* Projected badge — purple */}
+        <span
+          className="portal-projected-badge inline-block mx-auto font-mono text-portal-poof text-base tracking-[0.15em] uppercase font-bold mb-5 px-5 py-2"
+          style={{ "--badge-bg": "radial-gradient(ellipse 110% 160% at 48% 25%, rgba(139,79,204,0.26) 0%, rgba(139,79,204,0.09) 58%, rgba(139,79,204,0.02) 100%)" } as React.CSSProperties}
+        >
           Employment History
-        </p>
-        <h1 className="font-mono text-4xl md:text-5xl font-bold text-[#0d1f14]">
+        </span>
+        <h1 className="font-mono text-5xl md:text-6xl font-bold text-[#0a0a1a]">
           I've worked at a few places
         </h1>
-        <p className="font-mono text-[#2a6640] mt-3 text-lg tracking-wide">
+        <p className="font-mono text-portal-poof mt-4 text-xl tracking-wide">
           Here are the cool ones
         </p>
         {/* Bottom rule — purple */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-portal-poof/30 to-transparent" />
       </motion.div>
 
-      {/* Cards — light grey container with purple grid */}
+      {/* Cards — warm grey container with purple grid */}
       <div
-        className="px-4 py-8 md:px-8 space-y-6 portal-grid-pi portal-depth-inset"
+        className="px-4 py-10 md:px-8 space-y-6 portal-grid-pi portal-depth-inset"
         style={{
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#F0EBE3",
           backgroundImage:
-            "linear-gradient(rgba(168,85,247,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(168,85,247,0.09) 1px, transparent 1px)",
+            "linear-gradient(rgba(139,79,204,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(139,79,204,0.09) 1px, transparent 1px)",
         }}
       >
         {/* Current role — full width */}

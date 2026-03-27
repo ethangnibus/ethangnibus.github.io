@@ -10,7 +10,7 @@ function CornerBracket({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
     br: "bottom-6 right-6 border-b-4 border-r-4",
   };
   return (
-    <div className={`${base} ${styles[position]} border-portal-poofLight/70`} />
+    <div className={`${base} ${styles[position]} border-portal-blueLight/70`} />
   );
 }
 
@@ -41,16 +41,17 @@ export function HeroSection() {
       <CornerBracket position="bl" />
       <CornerBracket position="br" />
 
-      {/* Bottom rule — purple */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-portal-poofLight/50 to-transparent" />
+      {/* Bottom rule — cornflower blue */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-portal-blueLight/60 to-transparent" />
 
       <div className="relative h-full flex flex-col items-center justify-center gap-4">
-        {/* "eberlabs" label — purple */}
+        {/* "eberlabs" label — tape orange (Roland LED warmth) */}
         <motion.p
-          className="font-mono text-portal-poofLight text-xs tracking-[0.4em] uppercase font-bold"
+          className="font-mono text-portal-goLight text-sm tracking-[0.5em] uppercase font-bold"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          style={{ textShadow: "0 0 14px rgba(46,224,101,0.7)" }}
         >
           EBERLABS
         </motion.p>
@@ -59,7 +60,7 @@ export function HeroSection() {
           className="font-mono text-white text-4xl min-[450px]:text-5xl min-[768px]:text-7xl font-bold text-center px-4 tracking-tight"
           style={{
             textShadow:
-              "0 0 40px rgba(213,128,255,0.3), 2px 2px 8px rgba(0,0,0,0.9)",
+              "0 0 40px rgba(192,144,255,0.4), 2px 2px 8px rgba(0,0,0,0.9)",
           }}
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
@@ -68,9 +69,9 @@ export function HeroSection() {
           Hi, I'm Ethan
         </motion.h1>
 
-        {/* Divider — green */}
+        {/* Divider — tape orange warm analog glow */}
         <motion.div
-          className="w-24 h-px bg-gradient-to-r from-transparent via-portal-cosmoLight to-transparent"
+          className="w-28 h-px bg-gradient-to-r from-transparent via-portal-goLight to-transparent"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.7 }}

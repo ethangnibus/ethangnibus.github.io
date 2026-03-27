@@ -39,15 +39,23 @@ module.exports = {
         },
         // Eberlabs palette
         portal: {
-          cosmo: "#1FAD4E",      // Cosmo green — readable on white/silver
-          cosmoLight: "#2EE065", // Cosmo green — for dark backgrounds
-          poof: "#A855F7",       // Poof purple — readable on white/silver
-          poofLight: "#D580FF",  // Poof purple — for dark backgrounds
+          cosmo: "#D93390",      // Hot Pink — primary CTA/interactive, on light bg
+          cosmoLight: "#FF5CB0", // Hot Pink light — for dark backgrounds
+          poof: "#8B4FCC",       // Medium Purple — labels, badges, on light bg
+          poofLight: "#C090FF",  // Purple light — for dark backgrounds
+          tape: "#F45210",       // Vermillion Orange — warm accent, on light bg
+          tapeLight: "#F9A800",  // Amber — warm LED glow (kept for reference, replaced by go)
+          go: "#1FAD4E",         // Portal green — on light backgrounds (old cosmo)
+          goLight: "#2EE065",    // Portal green — for dark backgrounds (old cosmoLight)
+          blue: "#6B8FEF",       // Cornflower Blue — alternate accent
+          blueLight: "#9BB5FF",  // Cornflower Blue light — for dark backgrounds
           dark: "#1a1a1a",
           darker: "#0a0a0a",
           silver: "#f0f0f0",     // MacBook silver panel
           silverMid: "#e0e0e0",  // card headers, borders
           silverDark: "#c8c8c8", // deeper accent
+          cream: "#FAF8F4",      // Warm white — analog warmth
+          creamMid: "#F0EBE3",   // Warm silver panel
           white: "#ffffff",
         },
       },

@@ -129,6 +129,15 @@ const GRAPHICS_SLIDES: CarouselSlide[] = [
 export default function App() {
   return (
     <div className="relative h-screen overflow-hidden">
+      {/* Global analog film grain — fixed overlay, sits above everything */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[9998]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
+          backgroundSize: "220px 220px",
+          opacity: 0.042,
+        }}
+      />
       {/* Navbar floats above scroll content with high z-index */}
       <div className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
         <div className="pointer-events-auto">

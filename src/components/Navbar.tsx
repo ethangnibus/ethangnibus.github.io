@@ -27,11 +27,11 @@ export function Navbar() {
     <motion.nav
       className="shrink-0 overflow-hidden mx-3 mt-3 mb-3"
       style={{
-        background: "linear-gradient(to bottom, #f4f4f4 0%, #d6d6d6 100%)",
+        background: "linear-gradient(to bottom, #F8F4EE 0%, #DDD5C8 100%)",
         borderRadius: "9999px",
-        border: "1px solid rgba(200,200,200,0.9)",
+        border: "1px solid rgba(195,185,172,0.9)",
         boxShadow:
-          "0 16px 48px rgba(0,0,0,0.28), 0 4px 12px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.85)",
+          "0 16px 48px rgba(0,0,0,0.28), 0 4px 12px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.9)",
       }}
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
@@ -62,8 +62,8 @@ export function Navbar() {
           className="sm:hidden text-[#1a1a1a] hover:text-portal-cosmo transition-colors duration-300 p-2 rounded-full"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(220,220,220,0.7) 100%)",
-            border: "1px solid rgba(180,180,180,0.8)",
+              "linear-gradient(to bottom, rgba(255,252,246,0.95) 0%, rgba(225,215,200,0.8) 100%)",
+            border: "1px solid rgba(180,165,148,0.8)",
             boxShadow:
               "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.95)",
           }}
@@ -80,8 +80,8 @@ export function Navbar() {
           <motion.div
             className="sm:hidden overflow-hidden"
             style={{
-              background: "linear-gradient(to bottom, #e8e8e8 0%, #d0d0d0 100%)",
-              borderTop: "1px solid rgba(180,180,180,0.5)",
+              background: "linear-gradient(to bottom, #EDE7DF 0%, #D5C9BC 100%)",
+              borderTop: "1px solid rgba(180,168,154,0.5)",
             }}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
