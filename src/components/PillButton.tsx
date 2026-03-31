@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface PillButtonProps {
-  variant?: "default" | "carousel";
+  variant?: "default" | "carousel" | "bark";
   href?: string;
   target?: string;
   rel?: string;
@@ -32,11 +32,13 @@ export function PillButton({
   exit,
   transition,
 }: PillButtonProps) {
-  const cls = cn(
-    "pill-btn",
-    variant === "carousel" ? "pill-btn-carousel" : "pill-btn-default",
-    className
-  );
+  const variantClass =
+    variant === "carousel"
+      ? "pill-btn-carousel"
+      : variant === "bark"
+        ? "pill-btn-bark"
+        : "pill-btn-default";
+  const cls = cn("pill-btn", variantClass, className);
   const wrapped = <span className="pill-btn-inner">{children}</span>;
 
   if (href) {

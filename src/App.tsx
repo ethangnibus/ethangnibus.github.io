@@ -1,15 +1,19 @@
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
-import { HeroSection } from "@/components/HeroSection";
+import {
+  HeroProjectsCarousel,
+  type CarouselSlide,
+} from "@/components/HeroProjectsCarousel";
 import { AboutSection } from "@/components/AboutSection";
-import { ProjectCarousel, type CarouselSlide } from "@/components/ProjectCarousel";
-import { SectionHeader } from "@/components/SectionHeader";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { Footer } from "@/components/Footer";
+import { Sidebar } from "@/components/Sidebar";
+import { woodPatternStyle } from "@/components/WoodPatternBackground";
 
 const CV_SLIDES: CarouselSlide[] = [
   {
-    title: "Recolorizing the Prokudin-Gorskii Collection",
-    description: "Turning B&W photos into RGB images",
+    title: "Recolorizing",
+    description: "Recolorizing the Prokudin-Gorskii Collection — turning B&W photos into RGB images",
     image: "/images/computer_vision/recolorizer/recolorizer.jpg",
     smallImage: "/images/computer_vision/recolorizer/recolorizer-small.jpg",
     ctaText: "Show Me",
@@ -17,7 +21,7 @@ const CV_SLIDES: CarouselSlide[] = [
     interval: 8000,
   },
   {
-    title: "Playing with Filters and Frequency",
+    title: "Filters and Frequency",
     description:
       "Exploring edge detection, blurring, sharpening, Gaussian/Laplacian stacks, and orapples!",
     image: "/images/computer_vision/filters/filters.jpg",
@@ -69,7 +73,7 @@ const CV_SLIDES: CarouselSlide[] = [
     ctaHref: "https://github.com/mcallisterdavid/oski-184-finalproj",
   },
   {
-    title: "Simple Alternate Reality",
+    title: "Alternate Reality",
     description: "Using linear algebra to draw real-time AR from scratch",
     image: "/images/computer_vision/ar/ar.jpg",
     smallImage: "/images/computer_vision/ar/ar-small.jpg",
@@ -108,7 +112,7 @@ const GRAPHICS_SLIDES: CarouselSlide[] = [
     ctaHref: "/pdfs/graphics/pathtracer.pdf",
   },
   {
-    title: "Pathtracing EVERYTHING",
+    title: "Reflections and Refractions",
     description: "Glass? Mirrors? Focal Length? You name it.",
     image: "/images/graphics/pathtracer_extended/pathtracer_extended.jpg",
     smallImage:
@@ -127,9 +131,22 @@ const GRAPHICS_SLIDES: CarouselSlide[] = [
 ];
 
 export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [isSmall, setIsSmall] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsSmall(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsSmall(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const hideMain = isSmall && sidebarOpen;
+
   return (
-    <div className="relative h-screen overflow-hidden">
-      {/* Global analog film grain — fixed overlay, sits above everything */}
+    <div className="flex flex-row h-[100dvh] w-full overflow-hidden">
+      {/* Global analog film grain */}
       <div
         className="fixed inset-0 pointer-events-none z-[9998]"
         style={{
@@ -138,44 +155,53 @@ export default function App() {
           opacity: 0.042,
         }}
       />
-      {/* Navbar floats above scroll content with high z-index */}
-      <div className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
-        <div className="pointer-events-auto">
-          <Navbar />
+
+      {/* A — Sidebar */}
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        isSmall={isSmall}
+      />
+
+      {/* B — Main content area (hidden when sidebar is fullscreened on mobile) */}
+      {!hideMain && (
+        <div className="relative flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+          {/* Navbar floats above scroll content */}
+          <div className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
+            <div className="pointer-events-auto">
+              <Navbar
+                sidebarOpen={sidebarOpen}
+                onMenuOpen={() => setSidebarOpen(true)}
+              />
+            </div>
+          </div>
+
+          {/* Scroll container — far-grid wood background for the entire content area */}
+          {/* Mobile pt: equal gap above & below navbar → mt-3 (12px) + nav h-14+border (58px) + 12px = 82px */}
+          <div id="scroll-container" className="flex-1 overflow-y-auto pt-[82px] md:pt-[110px] md:px-6 md:pb-6" style={woodPatternStyle("far-grid")}>
+            <div className="flex flex-col md:gap-6">
+              <div id="projects" className="pt-1 md:pt-2">
+                <HeroProjectsCarousel
+                  cvSlides={CV_SLIDES}
+                  graphicsSlides={GRAPHICS_SLIDES}
+                />
+              </div>
+
+              <div className="max-w-4xl mx-auto w-full">
+                <AboutSection />
+              </div>
+
+              <div className="max-w-4xl mx-auto w-full">
+                <ExperienceSection />
+              </div>
+
+              <div className="shadow-lg shadow-black/10">
+                <Footer />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      {/* Scroll container fills full space — content scrolls under the navbar */}
-      <div id="scroll-container" className="absolute inset-0 overflow-y-auto">
-      {/* Grid background div - scrolls with content, sits above the hero picture */}
-      {/* py-3 matches the navbar's mt-3/mb-3 margins; h-[58px] matches the navbar pill height (h-14 56px + 2px top/bottom border) */}
-      <div className="portal-grid-white py-3">
-        <div className="h-[58px]" />
-      </div>
-      <HeroSection />
-      <AboutSection />
-
-      {/* Projects */}
-      <div id="projects">
-        <SectionHeader
-          title="Computer Vision"
-          subtitle="A selection of my favorite projects"
-          align="left"
-          bg="stripes"
-        />
-        <ProjectCarousel slides={CV_SLIDES} />
-
-        <SectionHeader
-          title="Computer Graphics"
-          subtitle="From rasterizers to path tracers"
-          align="right"
-          bg="grid-white"
-        />
-        <ProjectCarousel slides={GRAPHICS_SLIDES} />
-      </div>
-
-      <ExperienceSection />
-      <Footer />
-      </div>
+      )}
     </div>
   );
 }

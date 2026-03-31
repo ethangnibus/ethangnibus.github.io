@@ -9,7 +9,12 @@ interface BlurImageProps {
 }
 
 export function BlurImage({ src, smallSrc, alt = "", className }: BlurImageProps) {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const img = new Image();
+    img.src = src;
+    return img.complete && img.naturalWidth > 0;
+  });
 
   return (
     <div className={cn("absolute inset-0 overflow-hidden", className)}>
