@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { ProjectedText } from "@/components/ProjectedText";
+import { StaggerItem, StaggerOnView } from "@/components/StaggerOnView";
 import { woodPatternStyle } from "@/components/WoodPatternBackground";
 import {
   CATEGORY_META,
@@ -15,25 +16,35 @@ export function BlogIndex() {
   return (
     <div className="min-h-[100dvh]" style={woodPatternStyle("far-grid")}>
       <div className="max-w-3xl mx-auto pt-24 md:pt-28 pb-8 md:pb-16">
-        <div className="px-3">
-          <Link
-            to={PORTFOLIO_HOME_PATH}
-            className="inline-flex items-center gap-1 app-body text-app-body hover:text-app-strong transition-colors mb-8 md:mb-10"
-          >
-            <ProjectedText color={APP_COLORS.textBody} intensity={0.3}>
-              &larr; Back Home
-            </ProjectedText>
-          </Link>
+        <StaggerOnView className="px-3">
+          <StaggerItem>
+            <Link
+              to={PORTFOLIO_HOME_PATH}
+              className="inline-flex items-center gap-1 app-body text-app-body hover:text-app-strong transition-colors mb-8 md:mb-10"
+            >
+              <ProjectedText
+                text={"\u2190 Back Home"}
+                color={APP_COLORS.textBody}
+                intensity={0.3}
+              />
+            </Link>
+          </StaggerItem>
 
-          <h1 className="app-title-1 app-text-strong mb-2 md:mb-3">
-            <ProjectedText color={APP_COLORS.textStrong} intensity={0.4}>
-              Projects
-            </ProjectedText>
-          </h1>
-          <p className="app-body-lg text-app-body/80 mb-8 md:mb-12 max-w-2xl">
-            Each project now has a table of contents, a short introduction, and then its chapters.
-          </p>
-        </div>
+          <StaggerItem>
+            <h1 className="app-title-1 app-text-strong mb-2 md:mb-3">
+              <ProjectedText
+                text="Projects"
+                color={APP_COLORS.textStrong}
+                intensity={0.4}
+              />
+            </h1>
+          </StaggerItem>
+          <StaggerItem>
+            <p className="app-body-lg text-app-body/80 mb-8 md:mb-12 max-w-2xl">
+              Each project now has a table of contents, a short introduction, and then its chapters.
+            </p>
+          </StaggerItem>
+        </StaggerOnView>
 
         <div className="flex flex-col gap-8 md:gap-10">
           {PROJECTS.map((project) => {
@@ -45,9 +56,11 @@ export function BlogIndex() {
                 style={{ borderColor: `${category.color}30` }}
               >
                 <span className="block app-eyebrow mb-3" style={{ color: category.color }}>
-                  <ProjectedText color={category.color} intensity={0.3}>
-                    {category.label}
-                  </ProjectedText>
+                  <ProjectedText
+                    text={category.label}
+                    color={category.color}
+                    intensity={0.3}
+                  />
                 </span>
 
                 <div className="flex flex-col md:flex-row md:items-start gap-5 md:gap-6">
@@ -67,9 +80,11 @@ export function BlogIndex() {
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                       <div>
                         <h2 className="app-title-2 app-text-strong">
-                          <ProjectedText color={APP_COLORS.textStrong} intensity={0.25}>
-                            {project.shortTitle}
-                          </ProjectedText>
+                          <ProjectedText
+                            text={project.shortTitle}
+                            color={APP_COLORS.textStrong}
+                            intensity={0.25}
+                          />
                         </h2>
                         <p className="app-body text-app-body/80 mt-2 max-w-xl">
                           {project.description}
@@ -98,9 +113,11 @@ export function BlogIndex() {
 
                           <div className="flex-1 min-w-0">
                             <h3 className="app-title-3 app-text-strong group-hover:text-app-headingHover transition-colors truncate">
-                              <ProjectedText color={APP_COLORS.textStrong} intensity={0.2}>
-                                {chapter.title}
-                              </ProjectedText>
+                              <ProjectedText
+                                text={chapter.title}
+                                color={APP_COLORS.textStrong}
+                                intensity={0.2}
+                              />
                             </h3>
                             <p className="app-body text-app-body/70 mt-0.5 line-clamp-1">
                               {chapter.description}

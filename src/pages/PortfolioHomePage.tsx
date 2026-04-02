@@ -1,18 +1,15 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { HeroProjectsCarousel } from "@/components/HeroProjectsCarousel";
 import { AboutSection } from "@/components/AboutSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { Footer } from "@/components/Footer";
-import type { SiteShellOutletContext } from "@/layouts/siteShellContext";
-import { PORTFOLIO_HOME_PATH, PROJECTS, SITE_SCROLL_CONTAINER_ID } from "@/data/projects";
+import { PORTFOLIO_HOME_PATH, SITE_SCROLL_CONTAINER_ID } from "@/data/projects";
 
+/** Body below the shared hero (see `BlogPortfolioHeroLayout`). */
 export function PortfolioHomePage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { mainContentWidth, blogSidebarOpen, toggleBlogSidebar } =
-    useOutletContext<SiteShellOutletContext>();
 
   useEffect(() => {
     const st = location.state as { scrollTo?: string } | null;
@@ -30,23 +27,8 @@ export function PortfolioHomePage() {
     navigate(".", { replace: true, state: {} });
   }, [location.pathname, location.state, navigate]);
 
-  const handleSelectSection = (section: "about" | string) => {
-    navigate(section === "about" ? PORTFOLIO_HOME_PATH : `/blog/${section}`);
-  };
-
   return (
-    <div className="flex flex-col md:gap-6">
-      <div id="projects">
-        <HeroProjectsCarousel
-          contentWidth={mainContentWidth}
-          projects={PROJECTS}
-          onSelect={handleSelectSection}
-          onStartReading={(path) => navigate(path)}
-          blogSidebarOpen={blogSidebarOpen}
-          onToggleBlogSidebar={toggleBlogSidebar}
-        />
-      </div>
-
+    <>
       <div className="max-w-4xl mx-auto w-full">
         <AboutSection />
       </div>
@@ -58,6 +40,6 @@ export function PortfolioHomePage() {
       <div className="shadow-lg shadow-black/10">
         <Footer />
       </div>
-    </div>
+    </>
   );
 }

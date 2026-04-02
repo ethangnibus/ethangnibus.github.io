@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { APP_PALETTE } from "@/theme";
-import { ProjectedText } from "./ProjectedText";
 import { woodPatternStyle, type PatternVariant } from "./WoodPatternBackground";
+import { SectionHeadlineStack } from "./SectionHeadlineStack";
 
 export type SectionAccent = "default" | "crimson" | "violet";
 
@@ -41,6 +40,7 @@ interface SectionHeaderProps {
   align?: "left" | "right" | "center";
   bg?: PatternVariant;
   accent?: SectionAccent;
+  badgeLabel?: string;
 }
 
 export function SectionHeader({
@@ -49,6 +49,7 @@ export function SectionHeader({
   align = "center",
   bg = "close-grid",
   accent = "default",
+  badgeLabel = "Projects",
 }: SectionHeaderProps) {
   const theme = ACCENTS[accent];
 
@@ -59,26 +60,14 @@ export function SectionHeader({
         ? "text-right"
         : "text-center";
 
-  const badgeAlignClass =
-    align === "left"
-      ? "mr-auto"
-      : align === "right"
-        ? "ml-auto"
-        : "mx-auto";
-
   return (
-    <motion.div
+    <div
       className={cn(
         "relative overflow-hidden h-[290px] flex flex-col justify-center px-10 md:px-16",
         alignClass,
       )}
       style={woodPatternStyle(bg)}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* Accent color tint overlay */}
       {theme.tint && (
         <div
           className="absolute inset-0 pointer-events-none"
@@ -86,35 +75,18 @@ export function SectionHeader({
         />
       )}
 
-      {/* Projected badge */}
-      <span
-        className={cn(
-          "portal-projected-badge inline-block font-mono text-base tracking-[0.15em] uppercase font-bold mb-5 px-5 py-2",
-          badgeAlignClass,
-        )}
-        style={
-          {
-            "--badge-bg": theme.badgeBg,
-          } as React.CSSProperties
-        }
-      >
-        <ProjectedText color={theme.badgeText} intensity={0.4}>
-          Projects
-        </ProjectedText>
-      </span>
-
-      <h1 className="font-mono text-5xl md:text-6xl font-bold text-app-ink">
-        <ProjectedText color={APP_PALETTE.textInk}>{title}</ProjectedText>
-      </h1>
-      <p
-        className="font-mono mt-4 text-xl tracking-wide"
-        style={{ color: theme.subtitleColor }}
-      >
-        <ProjectedText color={theme.subtitleColor} intensity={0.6}>
-          {subtitle}
-        </ProjectedText>
-      </p>
-
-    </motion.div>
+      <SectionHeadlineStack
+        staggerLines
+        badgeLabel={badgeLabel}
+        badgeTextColor={theme.badgeText}
+        badgeBg={theme.badgeBg}
+        badgeIntensity={0.4}
+        title={title}
+        subtitle={subtitle}
+        subtitleColor={theme.subtitleColor}
+        subtitleIntensity={0.6}
+        align={align}
+      />
+    </div>
   );
 }

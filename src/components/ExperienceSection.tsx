@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { APP_PALETTE } from "@/theme";
 import { PillButton } from "./PillButton";
+import { PortalProjectedBadge } from "./PortalProjectedBadge";
 import { ProjectedText } from "./ProjectedText";
+import { SectionHeadlineStack } from "./SectionHeadlineStack";
+import { StaggerItem, StaggerOnView } from "./StaggerOnView";
 import { WoodCloseUpBackSlash } from "./WoodPatternBackground";
 
 /* ── Card data ── */
@@ -187,9 +190,11 @@ function PlayingCardFace({ card }: { card: CardData }) {
       <div className="flex-1 flex flex-col items-center justify-center px-10 text-center">
         <div className="mb-3">{card.image}</div>
         <h4 className="font-mono font-bold text-sm text-app-default tracking-tight leading-tight">
-          <ProjectedText color={APP_PALETTE.textDefault} intensity={0.7}>
-            {card.company}
-          </ProjectedText>
+          <ProjectedText
+            text={card.company}
+            color={APP_PALETTE.textDefault}
+            intensity={0.7}
+          />
         </h4>
         {card.isCurrent && (
           <span
@@ -201,9 +206,11 @@ function PlayingCardFace({ card }: { card: CardData }) {
         )}
         <div className="w-8 h-px bg-black/10 my-2.5" />
         <p className="font-mono font-bold text-xs text-app-mutedDark uppercase tracking-wider">
-          <ProjectedText color={APP_PALETTE.textMutedDark} intensity={0.5}>
-            {card.role}
-          </ProjectedText>
+          <ProjectedText
+            text={card.role}
+            color={APP_PALETTE.textMutedDark}
+            intensity={0.5}
+          />
         </p>
       </div>
     </div>
@@ -257,39 +264,20 @@ export function ExperienceSection() {
   return (
     <div id="experience" className="flex flex-col md:gap-6 overflow-hidden scroll-mt-24">
       {/* ── Section header ── */}
-      <motion.div
-        className="relative overflow-hidden h-[290px] flex flex-col justify-center px-10 md:px-16 text-center"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.5 }}
-      >
-        <span
-          className="portal-projected-badge inline-block mx-auto font-mono text-base tracking-[0.15em] uppercase font-bold mb-5 px-5 py-2"
-          style={
-            {
-              "--badge-bg": `radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`,
-            } as React.CSSProperties
-          }
-        >
-          <ProjectedText color={APP_PALETTE.portalRose} intensity={0.4}>
-            Employment History
-          </ProjectedText>
-        </span>
-        <h1 className="font-mono text-5xl md:text-6xl font-bold text-app-ink">
-          <ProjectedText color={APP_PALETTE.textInk}>
-            I've worked at a few places
-          </ProjectedText>
-        </h1>
-        <p
-          className="font-mono mt-4 text-xl tracking-wide"
-          style={{ color: APP_PALETTE.portalRose }}
-        >
-          <ProjectedText color={APP_PALETTE.portalRose} intensity={0.6}>
-            Here are the cool ones
-          </ProjectedText>
-        </p>
-      </motion.div>
+      <div className="relative overflow-hidden h-[290px] flex flex-col justify-center px-10 md:px-16 text-center">
+        <SectionHeadlineStack
+          staggerLines
+          badgeLabel="Employment History"
+          badgeTextColor={APP_PALETTE.portalRose}
+          badgeBg={`radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`}
+          badgeIntensity={0.4}
+          title="I've worked at a few places"
+          subtitle="Here are the cool ones"
+          subtitleColor={APP_PALETTE.portalRose}
+          subtitleIntensity={0.6}
+          align="center"
+        />
+      </div>
 
       {/* ── Rainbow fan of playing cards ── */}
       <div
@@ -367,9 +355,11 @@ export function ExperienceSection() {
             </button>
 
             <h4 className="font-mono text-xl md:text-2xl font-bold text-app-default min-w-0">
-              <ProjectedText color={APP_PALETTE.textDefault} intensity={0.8}>
-                {activeCard.company}
-              </ProjectedText>
+              <ProjectedText
+                text={activeCard.company}
+                color={APP_PALETTE.textDefault}
+                intensity={0.8}
+              />
             </h4>
 
             <button
@@ -384,23 +374,21 @@ export function ExperienceSection() {
           </div>
 
           {activeCard.isCurrent && (
-            <span
-              className="portal-projected-badge inline-block text-xs font-mono font-bold px-4 py-1 tracking-widest uppercase mt-1"
-              style={
-                {
-                  "--badge-bg": `radial-gradient(ellipse 110% 160% at 50% 40%, rgba(${APP_PALETTE.portalCosmoRgb},0.30) 0%, rgba(${APP_PALETTE.portalCosmoRgb},0.11) 58%, rgba(${APP_PALETTE.portalCosmoRgb},0.03) 100%)`,
-                } as React.CSSProperties
-              }
-            >
-              <ProjectedText color={APP_PALETTE.portalCosmo} intensity={0.35}>
-                Active
-              </ProjectedText>
-            </span>
+            <PortalProjectedBadge
+              label="Active"
+              textColor={APP_PALETTE.portalCosmo}
+              intensity={0.35}
+              badgeBg={`radial-gradient(ellipse 110% 160% at 50% 40%, rgba(${APP_PALETTE.portalCosmoRgb},0.30) 0%, rgba(${APP_PALETTE.portalCosmoRgb},0.11) 58%, rgba(${APP_PALETTE.portalCosmoRgb},0.03) 100%)`}
+              className="text-xs px-4 py-1 tracking-widest mt-1"
+              alignClass="inline-block"
+            />
           )}
           <p className="text-app-muted text-sm md:text-base mt-2 leading-relaxed">
-            <ProjectedText color={APP_PALETTE.textMuted} intensity={0.4}>
-              {activeCard.description}
-            </ProjectedText>
+            <ProjectedText
+              text={activeCard.description}
+              color={APP_PALETTE.textMuted}
+              intensity={0.4}
+            />
           </p>
           <div className="mt-4">
             <PillButton
@@ -409,9 +397,11 @@ export function ExperienceSection() {
               rel="noopener noreferrer"
               className="px-8 py-3 text-sm tracking-widest"
             >
-              <ProjectedText color={APP_PALETTE.textDefault} intensity={0.4}>
-                {activeCard.ctaText}
-              </ProjectedText>
+              <ProjectedText
+                text={activeCard.ctaText}
+                color={APP_PALETTE.textDefault}
+                intensity={0.4}
+              />
             </PillButton>
           </div>
         </motion.div>
@@ -422,59 +412,65 @@ export function ExperienceSection() {
         id="education"
         className="relative overflow-hidden shadow-lg shadow-black/10 scroll-mt-24"
       >
-        <motion.div
-          className="max-w-2xl mx-auto py-16 px-6 md:px-12 text-center"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="mb-5">
-            <span
-              className="portal-projected-badge inline-block font-mono text-base tracking-[0.15em] uppercase font-bold px-5 py-2"
-              style={
-                {
-                  "--badge-bg": `radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`,
-                } as React.CSSProperties
-              }
-            >
-              <ProjectedText color={APP_PALETTE.portalRose} intensity={0.4}>
-                Academic Record
+        <StaggerOnView className="max-w-2xl mx-auto py-16 px-6 md:px-12 text-center">
+          <StaggerItem>
+            <div className="mb-5">
+              <PortalProjectedBadge
+                label="Academic Record"
+                textColor={APP_PALETTE.portalRose}
+                intensity={0.4}
+                badgeBg={`radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`}
+                alignClass="inline-block"
+              />
+            </div>
+          </StaggerItem>
+
+          <StaggerItem>
+            <h1 className="font-mono text-5xl md:text-6xl font-bold mb-6">
+              <ProjectedText
+                text="I'm a Golden Bear!"
+                color={APP_PALETTE.textInk}
+              />
+            </h1>
+          </StaggerItem>
+
+          <StaggerItem>
+            <img
+              src="/images/main/will_square/will_square.jpg"
+              alt="Ethan Gnibus"
+              className="w-40 h-40 rounded-full mx-auto border-2 border-portal-cosmo/40 shadow-lg object-cover mb-8"
+              loading="lazy"
+            />
+          </StaggerItem>
+
+          <StaggerItem>
+            <p className="text-app-warm text-xl leading-relaxed mb-2">
+              <ProjectedText
+                text="University of California, Berkeley"
+                color={APP_PALETTE.textBodyWarm}
+                intensity={0.35}
+              />
+            </p>
+          </StaggerItem>
+          <StaggerItem>
+            <p className="text-app-warm text-lg leading-relaxed">
+              <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
+                <span className="font-mono font-semibold text-portal-cosmo">B.A. Computer Science</span>
+                {" · "}
+                <span className="font-mono font-semibold text-portal-cosmo">Minor, Data Science</span>
               </ProjectedText>
-            </span>
-          </div>
-
-          <h1 className="font-mono text-5xl md:text-6xl font-bold mb-6">
-            <ProjectedText color={APP_PALETTE.textInk}>
-              I'm a Golden Bear!
-            </ProjectedText>
-          </h1>
-
-          <img
-            src="/images/main/will_square/will_square.jpg"
-            alt="Ethan Gnibus"
-            className="w-40 h-40 rounded-full mx-auto border-2 border-portal-cosmo/40 shadow-lg object-cover mb-8"
-            loading="lazy"
-          />
-
-          <p className="text-app-warm text-xl leading-relaxed mb-2">
-            <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
-              University of California, Berkeley
-            </ProjectedText>
-          </p>
-          <p className="text-app-warm text-lg leading-relaxed">
-            <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
-              <span className="font-mono font-semibold text-portal-cosmo">B.A. Computer Science</span>
-              {" · "}
-              <span className="font-mono font-semibold text-portal-cosmo">Minor, Data Science</span>
-            </ProjectedText>
-          </p>
-          <p className="font-mono text-sm text-app-body mt-2">
-            <ProjectedText color={APP_PALETTE.textBody} intensity={0.35}>
-              Aug 2019 – May 2023
-            </ProjectedText>
-          </p>
-        </motion.div>
+            </p>
+          </StaggerItem>
+          <StaggerItem>
+            <p className="font-mono text-sm text-app-body mt-2">
+              <ProjectedText
+                text="Aug 2019 – May 2023"
+                color={APP_PALETTE.textBody}
+                intensity={0.35}
+              />
+            </p>
+          </StaggerItem>
+        </StaggerOnView>
       </WoodCloseUpBackSlash>
     </div>
   );

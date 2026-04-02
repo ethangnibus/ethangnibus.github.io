@@ -98,9 +98,11 @@ function SidebarContent({
       {/* Header */}
       <motion.div className="flex items-center justify-between px-5 pt-5 pb-2" {...item(0)}>
         <span className="app-eyebrow app-text-strong">
-          <ProjectedText color={APP_COLORS.textStrong} intensity={0.35}>
-            Blog Posts
-          </ProjectedText>
+          <ProjectedText
+            text="Blog Posts"
+            color={APP_COLORS.textStrong}
+            intensity={0.35}
+          />
         </span>
 
         <button

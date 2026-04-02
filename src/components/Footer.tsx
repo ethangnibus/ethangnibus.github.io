@@ -14,7 +14,11 @@ export function Footer() {
       transition={{ duration: 0.5 }}
     >
       <p className="font-mono text-app-body text-base tracking-[0.35em] uppercase">
-        <ProjectedText color={APP_PALETTE.textBody} intensity={0.4}>© 2026 Ethan Gnibus</ProjectedText>
+        <ProjectedText
+          text="© 2026 Ethan Gnibus"
+          color={APP_PALETTE.textBody}
+          intensity={0.4}
+        />
       </p>
     </motion.footer>
   );

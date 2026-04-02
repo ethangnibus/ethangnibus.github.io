@@ -66,9 +66,11 @@ export function Navbar({ edgeToEdge, sidebarOpen, onMenuToggle }: NavbarProps) {
               </motion.span>
             </motion.span>
             <span className="app-nav-brand tracking-[0.05em]">
-              <ProjectedText color={APP_COLORS.textNav} intensity={0.7}>
-                Ethan Gnibus
-              </ProjectedText>
+              <ProjectedText
+                text="Ethan Gnibus"
+                color={APP_COLORS.textNav}
+                intensity={0.7}
+              />
             </span>
           </span>
         </button>
@@ -83,9 +85,11 @@ export function Navbar({ edgeToEdge, sidebarOpen, onMenuToggle }: NavbarProps) {
             )
           }
         >
-          <ProjectedText color={APP_COLORS.textNav} intensity={0.5}>
-            Connect
-          </ProjectedText>
+          <ProjectedText
+            text="Connect"
+            color={APP_COLORS.textNav}
+            intensity={0.5}
+          />
         </PillButton>
       </div>
     </motion.nav>

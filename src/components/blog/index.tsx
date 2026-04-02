@@ -1,4 +1,6 @@
 import { Diamond } from "lucide-react";
+import { motion } from "framer-motion";
+
 import { ProjectedText } from "@/components/ProjectedText";
 import { APP_PALETTE } from "@/theme";
 import { formatSectionNumber, sectionAnchorId } from "@/data/projects";
@@ -29,7 +31,14 @@ export function BlogSection({
   const domId = sectionAnchorId(project.slug, chapter.slug, sectionId);
 
   return (
-    <section id={domId} className="mb-12 scroll-mt-24">
+    <motion.section
+      id={domId}
+      className="mb-12 scroll-mt-24"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+    >
       <h2 className="font-mono text-lg md:text-xl font-bold text-app-strong mb-5 flex items-start gap-3 flex-wrap">
         <span
           className="inline-block w-1 h-6 rounded-full flex-shrink-0 mt-1"
@@ -42,13 +51,15 @@ export function BlogSection({
           >
             {ref}:
           </span>
-          <ProjectedText color={accent} intensity={0.25}>
-            {section.title}
-          </ProjectedText>
+          <ProjectedText
+            text={section.title}
+            color={accent}
+            intensity={0.25}
+          />
         </span>
       </h2>
       <div className="space-y-4">{children}</div>
-    </section>
+    </motion.section>
   );
 }
 

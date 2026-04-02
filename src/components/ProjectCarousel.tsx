@@ -134,10 +134,12 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
                 >
-                  <ProjectedText color={APP_PALETTE.portalCosmoLight} dark intensity={0.5}>
-                    {String(index + 1).padStart(2, "0")} /{" "}
-                    {String(slides.length).padStart(2, "0")}
-                  </ProjectedText>
+                  <ProjectedText
+                    text={`${String(index + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`}
+                    color={APP_PALETTE.portalCosmoLight}
+                    dark
+                    intensity={0.5}
+                  />
                 </motion.p>
 
                 <motion.h1
@@ -146,9 +148,11 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.15 }}
                 >
-                  <ProjectedText color={APP_PALETTE.white} dark>
-                    {slides[index].title}
-                  </ProjectedText>
+                  <ProjectedText
+                    text={slides[index].title}
+                    color={APP_PALETTE.white}
+                    dark
+                  />
                 </motion.h1>
 
                 <motion.p
@@ -158,9 +162,12 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.25 }}
                 >
-                  <ProjectedText color={APP_PALETTE.white} dark intensity={0.5}>
-                    {slides[index].description}
-                  </ProjectedText>
+                  <ProjectedText
+                    text={slides[index].description}
+                    color={APP_PALETTE.white}
+                    dark
+                    intensity={0.5}
+                  />
                 </motion.p>
               </div>
             </a>

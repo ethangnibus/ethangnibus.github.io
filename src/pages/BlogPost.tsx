@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 
 import { BlurImage } from "@/components/BlurImage";
 import { ProjectedText } from "@/components/ProjectedText";
+import { BlogArticleLead } from "@/components/blog/BlogArticleLead";
 import { BlogChapterProvider } from "@/components/blog";
 import { BlogPageNavigation } from "@/components/blog/BlogPageNavigation";
 import { woodPatternStyle } from "@/components/WoodPatternBackground";
@@ -27,7 +28,7 @@ function NotFound() {
     >
       <div className="text-center px-6">
         <h1 className="app-title-1 app-text-strong mb-4">
-          <ProjectedText color={APP_COLORS.textStrong}>404</ProjectedText>
+          <ProjectedText text="404" color={APP_COLORS.textStrong} />
         </h1>
         <p className="app-body app-text-body mb-8">Chapter not found</p>
         <Link to="/blog" className="pill-btn pill-btn-default px-6 py-3">
@@ -99,39 +100,15 @@ export function BlogPost() {
   return (
     <div className="min-h-[100dvh]" style={woodPatternStyle("far-grid")}>
       <div className="max-w-3xl mx-auto pt-24 md:pt-28 pb-28 md:pb-32">
-        <div className="px-3">
-          <Link
-            to={getProjectOverviewPath(project.slug)}
-            className="inline-flex items-center gap-1 app-body text-app-body hover:text-app-strong transition-colors mb-8 md:mb-10"
-          >
-            <ProjectedText color={APP_COLORS.textBody} intensity={0.3}>
-              &larr; Back to {category.label}
-            </ProjectedText>
-          </Link>
-
-          <span
-            className="block app-eyebrow mb-2"
-            style={{ color: category.color }}
-          >
-            <ProjectedText color={category.color} intensity={0.3}>
-              {category.label}
-            </ProjectedText>
-          </span>
-
-          <p className="font-mono text-sm md:text-base text-app-body/75 tabular-nums mb-2 md:mb-3">
-            {formatChapterOrdinal(chapterIndex)}
-          </p>
-
-          <h1 className="app-title-1 app-text-strong mb-4 md:mb-5">
-            <ProjectedText color={APP_COLORS.textStrong} intensity={0.4}>
-              {chapter.title}
-            </ProjectedText>
-          </h1>
-
-          <p className="app-body-lg app-text-body mb-8 md:mb-10 max-w-xl">
-            {chapter.description}
-          </p>
-        </div>
+        <BlogArticleLead
+          backTo={getProjectOverviewPath(project.slug)}
+          backLabel={`\u2190 Back to ${category.label}`}
+          categoryLabel={category.label}
+          categoryColor={category.color}
+          chapterOrdinal={formatChapterOrdinal(chapterIndex)}
+          title={chapter.title}
+          description={chapter.description}
+        />
 
         <div className="relative aspect-[3/2] overflow-hidden bg-app-media border-y md:border border-app-black shadow-lg shadow-black/10 mb-8 md:mb-12">
           <BlurImage

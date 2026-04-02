@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { woodPatternStyle } from "@/components/PatternBackground";
 import { ProjectedText } from "@/components/ProjectedText";
+import { StaggerItem, StaggerOnView } from "@/components/StaggerOnView";
 import {
   CATEGORY_META,
   formatChapterOrdinal,
@@ -24,25 +25,35 @@ export function ProjectOverviewContent({
       id="project-overview"
       className="max-w-3xl mx-auto pt-6 md:pt-8 pb-8 md:pb-12"
     >
-      <div className="mb-10 md:mb-12 px-3">
-        <h2 className="app-title-2 app-text-strong mb-4">
-          <ProjectedText color={APP_COLORS.textStrong} intensity={0.25}>
-            Introduction
-          </ProjectedText>
-        </h2>
-        <p className="app-body app-text-body">
-          {project.introduction}
-        </p>
-      </div>
+      <StaggerOnView className="mb-10 md:mb-12 px-3">
+        <StaggerItem>
+          <h2 className="app-title-2 app-text-strong mb-4">
+            <ProjectedText
+              text="Introduction"
+              color={APP_COLORS.textStrong}
+              intensity={0.25}
+            />
+          </h2>
+        </StaggerItem>
+        <StaggerItem>
+          <p className="app-body app-text-body">
+            {project.introduction}
+          </p>
+        </StaggerItem>
+      </StaggerOnView>
 
       <section>
-        <div className="mb-6 md:mb-8 px-3">
-          <h2 className="app-title-2 app-text-strong">
-            <ProjectedText color={APP_COLORS.textStrong} intensity={0.25}>
-              Table of Contents
-            </ProjectedText>
-          </h2>
-        </div>
+        <StaggerOnView className="mb-6 md:mb-8 px-3">
+          <StaggerItem>
+            <h2 className="app-title-2 app-text-strong">
+              <ProjectedText
+                text="Table of Contents"
+                color={APP_COLORS.textStrong}
+                intensity={0.25}
+              />
+            </h2>
+          </StaggerItem>
+        </StaggerOnView>
 
         <div className="space-y-5 px-3">
           {project.chapters.map((chapter, index) => (

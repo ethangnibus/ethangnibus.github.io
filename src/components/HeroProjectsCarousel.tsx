@@ -4,14 +4,13 @@ import {
   useMemo,
   useRef,
   useEffect,
-  useLayoutEffect,
   type TouchEvent,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
 import { BlurImage } from "./BlurImage";
-import { ProjectedText } from "./ProjectedText";
+import { HeroIntroTextColumn } from "./HeroIntroTextColumn";
 import {
   CATEGORY_META,
   getProjectBySlug,
@@ -19,7 +18,7 @@ import {
   SITE_NAV_LABELS,
   type Project,
 } from "@/data/projects";
-import { APP_COLORS, APP_PALETTE } from "@/theme";
+import { APP_PALETTE } from "@/theme";
 
 interface Slide {
   title: string;
@@ -120,32 +119,7 @@ export function HeroProjectsCarousel({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [userInteracted, setUserInteracted] = useState(false);
-  /*
-   * TODO(hero-letterbox): Main hero image letterbox bars should ease in like the thumbnail strip
-   * (especially when opening About Me from the sidebar). Attempted fixes still misbehave (instant snap
-   * or no visible tween): Framer Motion height 0→8%, CSS height transition with double rAF, and
-   * scaleY(0)→(1) with rAF. Revisit with clip-path, measured px heights, Motion values with layout,
-   * or another approach that interpolates reliably across browsers.
-   */
-  const [heroBarsExpanded, setHeroBarsExpanded] = useState(false);
   const currentSlide = slides[currentIndex];
-
-  useLayoutEffect(() => {
-    setHeroBarsExpanded(false);
-    let cancelled = false;
-    let innerRaf: number | undefined;
-    const outerRaf = requestAnimationFrame(() => {
-      if (cancelled) return;
-      innerRaf = requestAnimationFrame(() => {
-        if (!cancelled) setHeroBarsExpanded(true);
-      });
-    });
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(outerRaf);
-      if (innerRaf !== undefined) cancelAnimationFrame(innerRaf);
-    };
-  }, [location.pathname, currentIndex]);
 
   useEffect(() => {
     const targetIndex = slides.findIndex((slide) => slide.section === activeSection);
@@ -247,21 +221,9 @@ export function HeroProjectsCarousel({
         </motion.div>
       </AnimatePresence>
       <div className="absolute inset-0 portal-depth-inset pointer-events-none" />
-      {/* TODO(hero-letterbox): see block comment above — animation still unreliable */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[8%] origin-top bg-black z-[5] pointer-events-none will-change-transform"
-        style={{
-          transform: heroBarsExpanded ? "scaleY(1)" : "scaleY(0)",
-          transition: "transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)",
-        }}
-      />
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[8%] origin-bottom bg-black z-[5] pointer-events-none will-change-transform"
-        style={{
-          transform: heroBarsExpanded ? "scaleY(1)" : "scaleY(0)",
-          transition: "transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)",
-        }}
-      />
+      {/* Letterbox bars: full-opacity black; slide in/out on hover (500ms, same as CTA). */}
+      <div className="absolute top-0 left-0 right-0 h-[8%] bg-black z-[5] pointer-events-none -translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
+      <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-black z-[5] pointer-events-none translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
       <div className="absolute bottom-[10%] right-3 md:right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-y-1 group-hover:translate-y-0">
         <span
           className={`app-cta ${edgeMode ? "px-3 py-1.5" : "px-4 py-2"} text-white`}
@@ -367,17 +329,6 @@ export function HeroProjectsCarousel({
         </div>
 
         <div className="px-3 sm:px-4 pt-6 pb-6 md:pb-8">
-          <span
-            className="app-eyebrow block mb-1"
-            style={{ color: activeMeta.color }}
-          >
-            <ProjectedText color={activeMeta.color} intensity={0.3}>
-              {currentSlide.type === "about"
-                ? activeMeta.label
-                : activeMeta.label}
-            </ProjectedText>
-          </span>
-
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentIndex}
@@ -385,15 +336,16 @@ export function HeroProjectsCarousel({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.22 }}
+              className="flex flex-col"
             >
-              <h2 className="app-title-1 app-text-strong pt-3">
-                <ProjectedText color={APP_COLORS.textStrong} intensity={0.3}>
-                  {currentSlide.title}
-                </ProjectedText>
-              </h2>
-              <p className="app-body-lg pt-4 max-w-xl text-app-body/80">
-                {currentSlide.description}
-              </p>
+              <HeroIntroTextColumn
+                eyebrow={activeMeta.label}
+                eyebrowColor={activeMeta.color}
+                eyebrowIntensity={0.3}
+                title={currentSlide.title}
+                titleIntensity={0.3}
+                description={currentSlide.description}
+              />
             </motion.div>
           </AnimatePresence>
         </div>
