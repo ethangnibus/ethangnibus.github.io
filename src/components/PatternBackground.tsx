@@ -1,5 +1,7 @@
 import { forwardRef } from "react";
 
+import { APP_PALETTE } from "@/theme";
+
 /* ── Pattern variant names ────────────────────────────────────── */
 
 export type PatternVariant =
@@ -26,14 +28,14 @@ export interface MaterialPreset {
 }
 
 export const WOOD_MATERIAL: MaterialPreset = {
-  bgColor: "#E6D6C0",
-  lineRgb: "120, 55, 30",
+  bgColor: APP_PALETTE.surfaceBase,
+  lineRgb: APP_PALETTE.woodLinePatternRgb,
   lineOpacity: 0.15,
 };
 
 export const BARK_MATERIAL: MaterialPreset = {
-  bgColor: "#B8AFA6",
-  lineRgb: "80, 70, 60",
+  bgColor: APP_PALETTE.barkBase,
+  lineRgb: APP_PALETTE.barkLinePatternRgb,
   lineOpacity: 0.12,
 };
 

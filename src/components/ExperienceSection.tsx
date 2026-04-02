@@ -1,8 +1,10 @@
 import { useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { APP_PALETTE } from "@/theme";
 import { PillButton } from "./PillButton";
 import { ProjectedText } from "./ProjectedText";
+import { WoodCloseUpBackSlash } from "./WoodPatternBackground";
 
 /* ── Card data ── */
 
@@ -29,20 +31,20 @@ const StealthIcon = () => (
     viewBox="0 0 140 140"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    style={{ backgroundColor: "#1a1a1a" }}
+    style={{ backgroundColor: APP_PALETTE.expSeqBg }}
   >
-    <ellipse cx="70" cy="52" rx="35" ry="18" fill="#1a1a2e" />
-    <path d="M30 55 Q70 35 110 55 L105 60 Q70 45 35 60 Z" fill="#1e1e3a" />
-    <ellipse cx="70" cy="58" rx="42" ry="8" fill="#2a2a4a" />
-    <ellipse cx="70" cy="85" rx="28" ry="22" fill="#1a1a2e" />
-    <circle cx="52" cy="82" r="16" fill="#050510" stroke="#5A6458" strokeWidth="1.5" />
-    <circle cx="88" cy="82" r="16" fill="#050510" stroke="#5A6458" strokeWidth="1.5" />
-    <path d="M68 82 Q70 78 72 82" stroke="#5A6458" strokeWidth="1.5" fill="none" />
-    <path d="M36 82 L28 78" stroke="#5A6458" strokeWidth="1.5" />
-    <path d="M104 82 L112 78" stroke="#5A6458" strokeWidth="1.5" />
-    <path d="M60 102 Q70 108 80 102" stroke="#2a2a4a" strokeWidth="2" fill="none" />
-    <circle cx="46" cy="76" r="3" fill="#6B2E1A" opacity="0.6" />
-    <circle cx="82" cy="76" r="3" fill="#6B2E1A" opacity="0.6" />
+    <ellipse cx="70" cy="52" rx="35" ry="18" fill={APP_PALETTE.expSeqSpace1} />
+    <path d="M30 55 Q70 35 110 55 L105 60 Q70 45 35 60 Z" fill={APP_PALETTE.expSeqSpace2} />
+    <ellipse cx="70" cy="58" rx="42" ry="8" fill={APP_PALETTE.expSeqSpace3} />
+    <ellipse cx="70" cy="85" rx="28" ry="22" fill={APP_PALETTE.expSeqSpace1} />
+    <circle cx="52" cy="82" r="16" fill={APP_PALETTE.expSeqEyeFill} stroke={APP_PALETTE.expSeqStroke} strokeWidth="1.5" />
+    <circle cx="88" cy="82" r="16" fill={APP_PALETTE.expSeqEyeFill} stroke={APP_PALETTE.expSeqStroke} strokeWidth="1.5" />
+    <path d="M68 82 Q70 78 72 82" stroke={APP_PALETTE.expSeqStroke} strokeWidth="1.5" fill="none" />
+    <path d="M36 82 L28 78" stroke={APP_PALETTE.expSeqStroke} strokeWidth="1.5" />
+    <path d="M104 82 L112 78" stroke={APP_PALETTE.expSeqStroke} strokeWidth="1.5" />
+    <path d="M60 102 Q70 108 80 102" stroke={APP_PALETTE.expSeqMouth} strokeWidth="2" fill="none" />
+    <circle cx="46" cy="76" r="3" fill={APP_PALETTE.expSeqCheek} opacity="0.6" />
+    <circle cx="82" cy="76" r="3" fill={APP_PALETTE.expSeqCheek} opacity="0.6" />
   </svg>
 );
 
@@ -66,7 +68,7 @@ const CARDS: CardData[] = [
     company: "Stealth Startup",
     rank: "A",
     suit: "♠",
-    suitColor: "#2a1a0a",
+    suitColor: APP_PALETTE.playingCardSuitDark,
     role: "Full-Stack Engineer",
     description:
       "Building AI notetaking software that cuts hours of healthcare paperwork per day. Transcription, UX, and full-stack ownership from prototype to production. React / Django / TypeScript / Python / AWS.",
@@ -79,7 +81,7 @@ const CARDS: CardData[] = [
     company: "UC Berkeley",
     rank: "K",
     suit: "♦",
-    suitColor: "#8B1A2B",
+    suitColor: APP_PALETTE.categoryCv,
     role: "CS 169A Instructor",
     description:
       "Teaching and organizing a class about SWE to 200+ Berkeley students :)",
@@ -91,7 +93,7 @@ const CARDS: CardData[] = [
     company: "Saasbook",
     rank: "Q",
     suit: "♣",
-    suitColor: "#2a1a0a",
+    suitColor: APP_PALETTE.playingCardSuitDark,
     role: "Software Engineer",
     description:
       "Maintaining an online SaaS textbook and its assignments for various universities.",
@@ -103,7 +105,7 @@ const CARDS: CardData[] = [
     company: "MRSL",
     rank: "J",
     suit: "♥",
-    suitColor: "#8B1A2B",
+    suitColor: APP_PALETTE.categoryCv,
     role: "Machine Learning Intern",
     description:
       "Developed a mobile app that classifies software-defined radio signals.",
@@ -115,7 +117,7 @@ const CARDS: CardData[] = [
     company: "MBARI",
     rank: "10",
     suit: "♠",
-    suitColor: "#2a1a0a",
+    suitColor: APP_PALETTE.playingCardSuitDark,
     role: "Front-End Engineer",
     description:
       "Made a website for marine researchers to analyze ecogeological data.",
@@ -142,8 +144,8 @@ function PlayingCardFace({ card }: { card: CardData }) {
     <div
       className="w-full h-full rounded-lg relative overflow-hidden flex flex-col select-none"
       style={{
-        backgroundColor: "#faf8f4",
-        border: "1.5px solid rgba(120,55,30,0.18)",
+        backgroundColor: APP_PALETTE.experienceCardBg,
+        border: `1.5px solid rgba(${APP_PALETTE.woodLineRgb},0.18)`,
       }}
     >
       {/* Inner frame */}
@@ -184,22 +186,22 @@ function PlayingCardFace({ card }: { card: CardData }) {
       {/* Center content */}
       <div className="flex-1 flex flex-col items-center justify-center px-10 text-center">
         <div className="mb-3">{card.image}</div>
-        <h4 className="font-mono font-bold text-sm text-[#1a1a1a] tracking-tight leading-tight">
-          <ProjectedText color="#1a1a1a" intensity={0.7}>
+        <h4 className="font-mono font-bold text-sm text-app-default tracking-tight leading-tight">
+          <ProjectedText color={APP_PALETTE.textDefault} intensity={0.7}>
             {card.company}
           </ProjectedText>
         </h4>
         {card.isCurrent && (
           <span
             className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase mt-1"
-            style={{ color: "#A0522D" }}
+            style={{ color: APP_PALETTE.portalCosmo }}
           >
             Active
           </span>
         )}
         <div className="w-8 h-px bg-black/10 my-2.5" />
-        <p className="font-mono font-bold text-xs text-[#555] uppercase tracking-wider">
-          <ProjectedText color="#555555" intensity={0.5}>
+        <p className="font-mono font-bold text-xs text-app-mutedDark uppercase tracking-wider">
+          <ProjectedText color={APP_PALETTE.textMutedDark} intensity={0.5}>
             {card.role}
           </ProjectedText>
         </p>
@@ -253,7 +255,7 @@ export function ExperienceSection() {
   const activeCard = CARDS[activeIdx];
 
   return (
-    <div id="experience" className="flex flex-col md:gap-6 overflow-hidden">
+    <div id="experience" className="flex flex-col md:gap-6 overflow-hidden scroll-mt-24">
       {/* ── Section header ── */}
       <motion.div
         className="relative overflow-hidden h-[290px] flex flex-col justify-center px-10 md:px-16 text-center"
@@ -266,25 +268,24 @@ export function ExperienceSection() {
           className="portal-projected-badge inline-block mx-auto font-mono text-base tracking-[0.15em] uppercase font-bold mb-5 px-5 py-2"
           style={
             {
-              "--badge-bg":
-                "radial-gradient(ellipse 110% 160% at 48% 25%, rgba(122,26,58,0.24) 0%, rgba(122,26,58,0.08) 58%, rgba(122,26,58,0.02) 100%)",
+              "--badge-bg": `radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`,
             } as React.CSSProperties
           }
         >
-          <ProjectedText color="#7A1A3A" intensity={0.4}>
+          <ProjectedText color={APP_PALETTE.portalRose} intensity={0.4}>
             Employment History
           </ProjectedText>
         </span>
-        <h1 className="font-mono text-5xl md:text-6xl font-bold text-[#0a0a1a]">
-          <ProjectedText color="#0a0a1a">
+        <h1 className="font-mono text-5xl md:text-6xl font-bold text-app-ink">
+          <ProjectedText color={APP_PALETTE.textInk}>
             I've worked at a few places
           </ProjectedText>
         </h1>
         <p
           className="font-mono mt-4 text-xl tracking-wide"
-          style={{ color: "#7A1A3A" }}
+          style={{ color: APP_PALETTE.portalRose }}
         >
-          <ProjectedText color="#7A1A3A" intensity={0.6}>
+          <ProjectedText color={APP_PALETTE.portalRose} intensity={0.6}>
             Here are the cool ones
           </ProjectedText>
         </p>
@@ -348,33 +349,56 @@ export function ExperienceSection() {
       <div className="flex flex-col items-center px-6 pb-8">
         <motion.div
           key={activeIdx}
-          className="text-center max-w-md mb-4"
+          className="text-center max-w-md"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <h4 className="font-mono text-xl md:text-2xl font-bold text-[#1a1a1a]">
-            <ProjectedText color="#1a1a1a" intensity={0.8}>
-              {activeCard.company}
-            </ProjectedText>
-          </h4>
+          {/* Company name with arrows inline */}
+          <div className="flex items-center justify-center gap-1">
+            <button
+              onClick={() => paginate(-1)}
+              className="shrink-0 p-2 text-app-body hover:bg-app-body/10 rounded-full transition-all duration-200 active:scale-90"
+              aria-label="Previous card"
+            >
+              <ProjectedText color={APP_PALETTE.textBody} intensity={0.5}>
+                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+              </ProjectedText>
+            </button>
+
+            <h4 className="font-mono text-xl md:text-2xl font-bold text-app-default min-w-0">
+              <ProjectedText color={APP_PALETTE.textDefault} intensity={0.8}>
+                {activeCard.company}
+              </ProjectedText>
+            </h4>
+
+            <button
+              onClick={() => paginate(1)}
+              className="shrink-0 p-2 text-app-body hover:bg-app-body/10 rounded-full transition-all duration-200 active:scale-90"
+              aria-label="Next card"
+            >
+              <ProjectedText color={APP_PALETTE.textBody} intensity={0.5}>
+                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+              </ProjectedText>
+            </button>
+          </div>
+
           {activeCard.isCurrent && (
             <span
               className="portal-projected-badge inline-block text-xs font-mono font-bold px-4 py-1 tracking-widest uppercase mt-1"
               style={
                 {
-                  "--badge-bg":
-                    "radial-gradient(ellipse 110% 160% at 50% 40%, rgba(160,82,45,0.30) 0%, rgba(160,82,45,0.11) 58%, rgba(160,82,45,0.03) 100%)",
+                  "--badge-bg": `radial-gradient(ellipse 110% 160% at 50% 40%, rgba(${APP_PALETTE.portalCosmoRgb},0.30) 0%, rgba(${APP_PALETTE.portalCosmoRgb},0.11) 58%, rgba(${APP_PALETTE.portalCosmoRgb},0.03) 100%)`,
                 } as React.CSSProperties
               }
             >
-              <ProjectedText color="#A0522D" intensity={0.35}>
+              <ProjectedText color={APP_PALETTE.portalCosmo} intensity={0.35}>
                 Active
               </ProjectedText>
             </span>
           )}
-          <p className="text-[#666] text-sm md:text-base mt-2 leading-relaxed">
-            <ProjectedText color="#666666" intensity={0.4}>
+          <p className="text-app-muted text-sm md:text-base mt-2 leading-relaxed">
+            <ProjectedText color={APP_PALETTE.textMuted} intensity={0.4}>
               {activeCard.description}
             </ProjectedText>
           </p>
@@ -385,157 +409,73 @@ export function ExperienceSection() {
               rel="noopener noreferrer"
               className="px-8 py-3 text-sm tracking-widest"
             >
-              <ProjectedText color="#1a1a1a" intensity={0.4}>
+              <ProjectedText color={APP_PALETTE.textDefault} intensity={0.4}>
                 {activeCard.ctaText}
               </ProjectedText>
             </PillButton>
           </div>
         </motion.div>
-
-        {/* Navigation arrows + counter */}
-        <div className="flex items-center justify-center">
-          <button
-            onClick={() => paginate(-1)}
-            className="shrink-0 p-2.5 md:p-3 text-[#5A4A30] hover:bg-[#5A4A30]/10 rounded-full transition-all duration-200 active:scale-90"
-            aria-label="Previous card"
-          >
-            <ProjectedText color="#5A4A30" intensity={0.5}>
-              <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
-            </ProjectedText>
-          </button>
-
-          <span className="font-mono text-sm md:text-base font-bold tracking-wider tabular-nums min-w-[3rem] text-center leading-none flex items-center justify-center">
-            <ProjectedText color="#5A4A30" intensity={0.5}>
-              {activeIdx + 1}/{CARDS.length}
-            </ProjectedText>
-          </span>
-
-          <button
-            onClick={() => paginate(1)}
-            className="shrink-0 p-2.5 md:p-3 text-[#5A4A30] hover:bg-[#5A4A30]/10 rounded-full transition-all duration-200 active:scale-90"
-            aria-label="Next card"
-          >
-            <ProjectedText color="#5A4A30" intensity={0.5}>
-              <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
-            </ProjectedText>
-          </button>
-        </div>
       </div>
 
-      {/* ── Dossier ── */}
-      <motion.div
-        className="relative mx-4 md:mx-8 mb-10 max-w-2xl md:mx-auto"
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+      {/* ── Academic Record ── */}
+      <WoodCloseUpBackSlash
+        id="education"
+        className="relative overflow-hidden shadow-lg shadow-black/10 scroll-mt-24"
       >
-        {/* Manila folder */}
-        <div
-          className="relative rounded-[3px]"
-          style={{
-            backgroundColor: "#C9AA6B",
-            backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.012) 3px, rgba(0,0,0,0.012) 6px)",
-            border: "1px solid #B89850",
-            boxShadow:
-              "0 6px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08)",
-          }}
+        <motion.div
+          className="max-w-2xl mx-auto py-16 px-6 md:px-12 text-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* Folder tab */}
-          <div
-            className="absolute -top-[22px] left-8 md:left-12 px-5 py-1 rounded-t-[3px]"
-            style={{
-              backgroundColor: "#C9AA6B",
-              border: "1px solid #B89850",
-              borderBottom: "none",
-            }}
-          >
-            <span className="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold text-[#5A3E1B]/60">
-              Academic Record
+          <div className="mb-5">
+            <span
+              className="portal-projected-badge inline-block font-mono text-base tracking-[0.15em] uppercase font-bold px-5 py-2"
+              style={
+                {
+                  "--badge-bg": `radial-gradient(ellipse 110% 160% at 48% 25%, rgba(${APP_PALETTE.portalRoseRgb},0.24) 0%, rgba(${APP_PALETTE.portalRoseRgb},0.08) 58%, rgba(${APP_PALETTE.portalRoseRgb},0.02) 100%)`,
+                } as React.CSSProperties
+              }
+            >
+              <ProjectedText color={APP_PALETTE.portalRose} intensity={0.4}>
+                Academic Record
+              </ProjectedText>
             </span>
           </div>
 
-          {/* Document page */}
-          <div className="m-4 md:m-5">
-            <div
-              className="relative rounded-[2px] p-6 md:p-8"
-              style={{
-                backgroundColor: "#faf7f1",
-                border: "1px solid rgba(0,0,0,0.05)",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-              }}
-            >
-              {/* Content */}
-              <div className="flex gap-6 md:gap-8">
-                {/* Photo */}
-                <div className="flex-shrink-0">
-                  <div
-                    className="w-[100px] h-[128px] md:w-[120px] md:h-[152px] rounded-[2px] overflow-hidden"
-                    style={{
-                      border: "1px solid rgba(0,0,0,0.1)",
-                      boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-                    }}
-                  >
-                    <img
-                      src="/images/main/will_square/will_square.jpg"
-                      alt="Ethan Gnibus"
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
+          <h1 className="font-mono text-5xl md:text-6xl font-bold mb-6">
+            <ProjectedText color={APP_PALETTE.textInk}>
+              I'm a Golden Bear!
+            </ProjectedText>
+          </h1>
 
-                {/* Fields */}
-                <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
-                  <div>
-                    <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">
-                      Name
-                    </p>
-                    <p className="font-mono text-lg md:text-xl font-bold text-[#1a1a1a] tracking-tight leading-tight mt-0.5">
-                      Ethan Gnibus
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">
-                      Institution
-                    </p>
-                    <p className="font-mono text-sm md:text-base font-bold text-[#333] leading-tight mt-0.5">
-                      University of California, Berkeley
-                    </p>
-                  </div>
-                  <div className="flex gap-4 md:gap-6">
-                    <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">
-                        Degree
-                      </p>
-                      <p className="font-mono text-xs md:text-sm font-bold text-[#444] leading-tight mt-0.5">
-                        B.A. Computer Science
-                      </p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">
-                        Minor
-                      </p>
-                      <p className="font-mono text-xs md:text-sm font-bold text-[#444] leading-tight mt-0.5">
-                        Data Science
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">
-                      Period
-                    </p>
-                    <p className="font-mono text-xs md:text-sm font-bold text-[#444] leading-tight mt-0.5">
-                      Aug 2019 – May 2023
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+          <img
+            src="/images/main/will_square/will_square.jpg"
+            alt="Ethan Gnibus"
+            className="w-40 h-40 rounded-full mx-auto border-2 border-portal-cosmo/40 shadow-lg object-cover mb-8"
+            loading="lazy"
+          />
+
+          <p className="text-app-warm text-xl leading-relaxed mb-2">
+            <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
+              University of California, Berkeley
+            </ProjectedText>
+          </p>
+          <p className="text-app-warm text-lg leading-relaxed">
+            <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
+              <span className="font-mono font-semibold text-portal-cosmo">B.A. Computer Science</span>
+              {" · "}
+              <span className="font-mono font-semibold text-portal-cosmo">Minor, Data Science</span>
+            </ProjectedText>
+          </p>
+          <p className="font-mono text-sm text-app-body mt-2">
+            <ProjectedText color={APP_PALETTE.textBody} intensity={0.35}>
+              Aug 2019 – May 2023
+            </ProjectedText>
+          </p>
+        </motion.div>
+      </WoodCloseUpBackSlash>
     </div>
   );
 }

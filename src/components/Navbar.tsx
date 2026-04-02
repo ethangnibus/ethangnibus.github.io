@@ -2,22 +2,27 @@ import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 import { PillButton } from "./PillButton";
 import { ProjectedText } from "./ProjectedText";
+import { APP_COLORS, APP_PALETTE } from "@/theme";
 
 interface NavbarProps {
+  edgeToEdge: boolean;
   sidebarOpen: boolean;
-  onMenuOpen: () => void;
+  onMenuToggle: () => void;
 }
 
-export function Navbar({ sidebarOpen, onMenuOpen }: NavbarProps) {
+export function Navbar({ edgeToEdge, sidebarOpen, onMenuToggle }: NavbarProps) {
   return (
     <motion.nav
-      className="shrink-0 overflow-hidden mx-3 mt-3 mb-3"
+      className={`shrink-0 overflow-hidden ${
+        edgeToEdge
+          ? "w-full border-b rounded-none"
+          : "border rounded-full mx-3 mt-3 mb-3"
+      }`}
       style={{
-        background: "linear-gradient(to bottom, #EBDCC8 0%, #D9C4AB 100%)",
-        border: "1px solid rgba(140,65,35,0.8)",
+        background: `linear-gradient(to bottom, ${APP_PALETTE.navbarGradTop} 0%, ${APP_PALETTE.navbarGradBottom} 100%)`,
+        borderColor: APP_PALETTE.navbarBorder,
         boxShadow:
           "0 16px 48px rgba(0,0,0,0.28), 0 4px 12px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.65)",
-        borderRadius: "9999px",
       }}
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
@@ -26,14 +31,18 @@ export function Navbar({ sidebarOpen, onMenuOpen }: NavbarProps) {
         y: { duration: 0.4, ease: "easeOut" },
       }}
     >
-      <div className="flex items-center justify-between px-5 h-14">
+      <div className={`flex items-center justify-between ${edgeToEdge ? "px-4" : "px-5"} h-14`}>
         {/* Left: hamburger + brand */}
         <button
+          type="button"
           className="group outline-none focus:outline-none"
-          onClick={onMenuOpen}
-          aria-label="Open navigation menu"
+          onClick={onMenuToggle}
+          aria-expanded={sidebarOpen}
+          aria-label={
+            sidebarOpen ? "Close navigation menu" : "Open navigation menu"
+          }
         >
-          <span className="flex items-center text-[#1a1a1a] transition-transform duration-200 group-hover:scale-105">
+          <span className="flex items-center text-app-default transition-transform duration-200 group-hover:scale-105">
             <motion.span
               className="inline-flex items-center overflow-hidden"
               initial={false}
@@ -56,8 +65,8 @@ export function Navbar({ sidebarOpen, onMenuOpen }: NavbarProps) {
                 <Menu className="w-6 h-6 shrink-0" />
               </motion.span>
             </motion.span>
-            <span className="font-mono font-bold text-xl tracking-wider uppercase">
-              <ProjectedText color="#1a1a1a" intensity={0.7}>
+            <span className="app-nav-brand tracking-[0.05em]">
+              <ProjectedText color={APP_COLORS.textNav} intensity={0.7}>
                 Ethan Gnibus
               </ProjectedText>
             </span>
@@ -66,7 +75,7 @@ export function Navbar({ sidebarOpen, onMenuOpen }: NavbarProps) {
 
         {/* Right: Contact Me */}
         <PillButton
-          className="text-sm tracking-widest px-5 py-2"
+          className="app-cta px-5 py-2"
           onClick={() =>
             window.open(
               "https://www.linkedin.com/in/ethangnibus",
@@ -74,8 +83,8 @@ export function Navbar({ sidebarOpen, onMenuOpen }: NavbarProps) {
             )
           }
         >
-          <ProjectedText color="#1a1a1a" intensity={0.5}>
-            Contact Me
+          <ProjectedText color={APP_COLORS.textNav} intensity={0.5}>
+            Connect
           </ProjectedText>
         </PillButton>
       </div>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { APP_PALETTE } from "@/theme";
 import { ProjectedText } from "./ProjectedText";
 import { woodPatternStyle, type PatternVariant } from "./WoodPatternBackground";
 
@@ -16,24 +17,21 @@ const ACCENTS: Record<
 > = {
   default: {
     tint: undefined,
-    badgeBg:
-      "radial-gradient(ellipse 110% 160% at 52% 35%, rgba(107,46,26,0.26) 0%, rgba(107,46,26,0.09) 58%, rgba(107,46,26,0.02) 100%)",
-    badgeText: "#6B2E1A",
-    subtitleColor: "#6B2E1A",
+    badgeBg: `radial-gradient(ellipse 110% 160% at 52% 35%, rgba(${APP_PALETTE.portalPoofRgb},0.26) 0%, rgba(${APP_PALETTE.portalPoofRgb},0.09) 58%, rgba(${APP_PALETTE.portalPoofRgb},0.02) 100%)`,
+    badgeText: APP_PALETTE.portalPoof,
+    subtitleColor: APP_PALETTE.portalPoof,
   },
   crimson: {
-    tint: "rgba(120, 20, 40, 0.10)",
-    badgeBg:
-      "radial-gradient(ellipse 110% 160% at 52% 35%, rgba(139,26,43,0.28) 0%, rgba(139,26,43,0.10) 58%, rgba(139,26,43,0.02) 100%)",
-    badgeText: "#8B1A2B",
-    subtitleColor: "#8B1A2B",
+    tint: `rgba(${APP_PALETTE.categoryCvRgb}, 0.10)`,
+    badgeBg: `radial-gradient(ellipse 110% 160% at 52% 35%, rgba(${APP_PALETTE.categoryCvRgb},0.28) 0%, rgba(${APP_PALETTE.categoryCvRgb},0.10) 58%, rgba(${APP_PALETTE.categoryCvRgb},0.02) 100%)`,
+    badgeText: APP_PALETTE.categoryCv,
+    subtitleColor: APP_PALETTE.categoryCv,
   },
   violet: {
-    tint: "rgba(75, 29, 107, 0.10)",
-    badgeBg:
-      "radial-gradient(ellipse 110% 160% at 52% 35%, rgba(75,29,107,0.28) 0%, rgba(75,29,107,0.10) 58%, rgba(75,29,107,0.02) 100%)",
-    badgeText: "#4B1D6B",
-    subtitleColor: "#4B1D6B",
+    tint: `rgba(${APP_PALETTE.categoryGraphicsRgb}, 0.10)`,
+    badgeBg: `radial-gradient(ellipse 110% 160% at 52% 35%, rgba(${APP_PALETTE.categoryGraphicsRgb},0.28) 0%, rgba(${APP_PALETTE.categoryGraphicsRgb},0.10) 58%, rgba(${APP_PALETTE.categoryGraphicsRgb},0.02) 100%)`,
+    badgeText: APP_PALETTE.categoryGraphics,
+    subtitleColor: APP_PALETTE.categoryGraphics,
   },
 };
 
@@ -105,8 +103,8 @@ export function SectionHeader({
         </ProjectedText>
       </span>
 
-      <h1 className="font-mono text-5xl md:text-6xl font-bold text-[#0a0a1a]">
-        <ProjectedText color="#0a0a1a">{title}</ProjectedText>
+      <h1 className="font-mono text-5xl md:text-6xl font-bold text-app-ink">
+        <ProjectedText color={APP_PALETTE.textInk}>{title}</ProjectedText>
       </h1>
       <p
         className="font-mono mt-4 text-xl tracking-wide"

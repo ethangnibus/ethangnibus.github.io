@@ -1,42 +1,17 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { PillButton } from "./PillButton";
 import { ProjectedText } from "./ProjectedText";
-import { barkPatternStyle } from "./BarkPatternBackground";
+import { BARK_MATERIAL } from "./BarkPatternBackground";
+import { BlogOutlineExplorer } from "@/components/blog/BlogOutlineExplorer";
+import { APP_COLORS } from "@/theme";
 
-const NAV_LINKS = [
-  { label: "About", id: "about" },
-  { label: "Projects", id: "projects" },
-  { label: "Experience", id: "experience" },
-];
+/** Wide enough for `app-body` chapter titles without excessive truncation. */
+const SIDEBAR_WIDTH = 320;
 
-const SIDEBAR_WIDTH = 240;
-
-const NAVBAR_HEIGHT = 80;
-
-function scrollToId(id: string) {
-  const container = document.getElementById("scroll-container");
-  const el = document.getElementById(id);
-  if (!el || !container) return;
-  container.scrollTo({ top: el.offsetTop - NAVBAR_HEIGHT, behavior: "smooth" });
-}
-
-function scrollToTop() {
-  document
-    .getElementById("scroll-container")
-    ?.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function scrollToBottom() {
-  const container = document.getElementById("scroll-container");
-  if (!container) return;
-  container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
-}
-
-const BG_STYLE = barkPatternStyle("vertical-lines", {
-  lineOpacity: 0.15,
-});
+const BG_STYLE: CSSProperties = {
+  backgroundColor: BARK_MATERIAL.bgColor,
+};
 
 interface SidebarProps {
   open: boolean;
@@ -68,7 +43,7 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
         className="flex flex-col w-full h-full"
         style={{ ...BG_STYLE }}
       >
-        <SidebarContent onClose={onClose} animateItems={animateItems} isSmall />
+        <SidebarContent onClose={onClose} animateItems={animateItems} />
       </aside>
     );
   }
@@ -94,7 +69,7 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
                 "6px 0 24px rgba(0,0,0,0.18), 2px 0 8px rgba(0,0,0,0.1)",
             }}
           >
-            <SidebarContent onClose={onClose} animateItems={animateItems} isSmall={false} />
+            <SidebarContent onClose={onClose} animateItems={animateItems} />
           </aside>
         </motion.div>
       )}
@@ -105,11 +80,9 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
 function SidebarContent({
   onClose,
   animateItems,
-  isSmall,
 }: {
   onClose: () => void;
   animateItems: boolean;
-  isSmall: boolean;
 }) {
   const item = (i: number) =>
     animateItems
@@ -123,10 +96,10 @@ function SidebarContent({
   return (
     <>
       {/* Header */}
-      <motion.div className="flex items-center justify-between px-5 pt-5 pb-3" {...item(0)}>
-        <span className="font-mono text-[#2A2218] font-bold text-lg tracking-[0.15em] uppercase">
-          <ProjectedText color="#2A2218" intensity={0.5}>
-            Jump to
+      <motion.div className="flex items-center justify-between px-5 pt-5 pb-2" {...item(0)}>
+        <span className="app-eyebrow app-text-strong">
+          <ProjectedText color={APP_COLORS.textStrong} intensity={0.35}>
+            Blog Posts
           </ProjectedText>
         </span>
 
@@ -139,72 +112,8 @@ function SidebarContent({
         </button>
       </motion.div>
 
-      {/* Nav links */}
-      <nav className="flex flex-col gap-3 px-5 mt-4">
-        <motion.div {...item(1)}>
-          <PillButton
-            variant="bark"
-            onClick={() => {
-              scrollToTop();
-              if (isSmall) onClose();
-            }}
-            className="text-sm tracking-widest w-full px-4 py-2.5 justify-start"
-          >
-            <ProjectedText color="#2A2218" intensity={0.5}>
-              Top
-            </ProjectedText>
-          </PillButton>
-        </motion.div>
-        {NAV_LINKS.map((link, i) => (
-          <motion.div key={link.id} {...item(i + 2)}>
-            <PillButton
-              variant="bark"
-              onClick={() => {
-                scrollToId(link.id);
-                if (isSmall) onClose();
-              }}
-              className="text-sm tracking-widest w-full px-4 py-2.5 justify-start"
-            >
-              <ProjectedText color="#2A2218" intensity={0.5}>
-                {link.label}
-              </ProjectedText>
-            </PillButton>
-          </motion.div>
-        ))}
-        <motion.div {...item(NAV_LINKS.length + 2)}>
-          <PillButton
-            variant="bark"
-            onClick={() => {
-              scrollToBottom();
-              if (isSmall) onClose();
-            }}
-            className="text-sm tracking-widest w-full px-4 py-2.5 justify-start"
-          >
-            <ProjectedText color="#2A2218" intensity={0.5}>
-              Bottom
-            </ProjectedText>
-          </PillButton>
-        </motion.div>
-      </nav>
-
-      <div className="flex-1" />
-
-      {/* Contact Me */}
-      <motion.div className="px-5 pb-5" {...item(NAV_LINKS.length + 3)}>
-        <PillButton
-          variant="bark"
-          className="text-sm tracking-widest w-full px-5 py-2.5"
-          onClick={() =>
-            window.open(
-              "https://www.linkedin.com/in/ethangnibus",
-              "_blank",
-            )
-          }
-        >
-          <ProjectedText color="#2A2218" intensity={0.5}>
-            Contact Me
-          </ProjectedText>
-        </PillButton>
+      <motion.div className="flex-1 flex flex-col min-h-0 mt-1 px-4 pb-6" {...item(1)}>
+        <BlogOutlineExplorer />
       </motion.div>
     </>
   );

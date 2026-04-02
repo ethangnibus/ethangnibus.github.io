@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { APP_PALETTE } from "@/theme";
 import { ProjectedText } from "./ProjectedText";
 import { woodPatternStyle } from "./WoodPatternBackground";
 
@@ -12,8 +13,8 @@ export function Footer() {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      <p className="font-mono text-[#5A4A30] text-base tracking-[0.35em] uppercase">
-        <ProjectedText color="#5A4A30" intensity={0.4}>© 2026 Ethan Gnibus</ProjectedText>
+      <p className="font-mono text-app-body text-base tracking-[0.35em] uppercase">
+        <ProjectedText color={APP_PALETTE.textBody} intensity={0.4}>© 2026 Ethan Gnibus</ProjectedText>
       </p>
     </motion.footer>
   );

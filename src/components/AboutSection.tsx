@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
+import { APP_PALETTE } from "@/theme";
 import { ProjectedText } from "./ProjectedText";
-import { WoodCloseUpGrid } from "./WoodPatternBackground";
+import { WoodCloseUpForwardSlash } from "./WoodPatternBackground";
 
 function ProjectedIcon({ src, alt, size = 96 }: { src: string; alt: string; size?: number }) {
   // Mirror ProjectedText exactly — no "real" icon on top.
@@ -29,19 +30,19 @@ function ProjectedIcon({ src, alt, size = 96 }: { src: string; alt: string; size
   return (
     <span role="img" aria-label={alt} style={{ position: "relative", display: "inline-block", width: size, height: size }}>
       {/* Corona — matches ProjectedText's blur/opacity */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#1a0838", filter: "blur(8px)", opacity: 0.12 }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutMaskPurple, filter: "blur(8px)", opacity: 0.12 }} />
       {/* C tight */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#00FFFF", filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: cOp, transform: "translateX(-0.8px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutCyan, filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: cOp, transform: "translateX(-0.8px)" }} />
       {/* C wide */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#00FFFF", filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: cOp * 0.5, transform: "translateX(-1.6px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutCyan, filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: cOp * 0.5, transform: "translateX(-1.6px)" }} />
       {/* M tight */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#FF00FF", filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: mOp, transform: "translateX(0.8px) translateY(-0.5px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutMagenta, filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: mOp, transform: "translateX(0.8px) translateY(-0.5px)" }} />
       {/* M wide */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#FF00FF", filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: mOp * 0.5, transform: "translateX(1.6px) translateY(-1px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutMagenta, filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: mOp * 0.5, transform: "translateX(1.6px) translateY(-1px)" }} />
       {/* Y tight */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#FFFF00", filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: yOp, transform: "translateY(0.8px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutYellow, filter: "blur(0.3px)", mixBlendMode: "multiply", opacity: yOp, transform: "translateY(0.8px)" }} />
       {/* Y wide */}
-      <span aria-hidden="true" style={{ ...mask, backgroundColor: "#FFFF00", filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: yOp * 0.5, transform: "translateY(1.6px)" }} />
+      <span aria-hidden="true" style={{ ...mask, backgroundColor: APP_PALETTE.aboutYellow, filter: "blur(0.8px)", mixBlendMode: "multiply", opacity: yOp * 0.5, transform: "translateY(1.6px)" }} />
     </span>
   );
 }
@@ -70,7 +71,7 @@ export function AboutSection() {
   return (
     <>
       {/* ── Who am I ─────────────────────────────────────────── */}
-      <WoodCloseUpGrid id="about" className="relative overflow-hidden shadow-lg shadow-black/10">
+      <WoodCloseUpForwardSlash id="about" className="relative overflow-hidden shadow-lg shadow-black/10">
 
         <motion.div
           className="max-w-2xl mx-auto py-16 px-6 md:px-12 text-center"
@@ -83,9 +84,13 @@ export function AboutSection() {
           <div className="mb-5">
             <span
               className="portal-projected-badge inline-block font-mono text-portal-cosmo text-base tracking-[0.15em] uppercase font-bold px-5 py-2"
-              style={{ "--badge-bg": "radial-gradient(ellipse 110% 160% at 45% 30%, rgba(160,82,45,0.28) 0%, rgba(160,82,45,0.10) 58%, rgba(160,82,45,0.03) 100%)" } as React.CSSProperties}
+              style={
+                {
+                  "--badge-bg": `radial-gradient(ellipse 110% 160% at 45% 30%, rgba(${APP_PALETTE.portalCosmoRgb},0.28) 0%, rgba(${APP_PALETTE.portalCosmoRgb},0.10) 58%, rgba(${APP_PALETTE.portalCosmoRgb},0.03) 100%)`,
+                } as React.CSSProperties
+              }
             >
-              <ProjectedText color="#A0522D" intensity={0.4}>
+              <ProjectedText color={APP_PALETTE.portalCosmo} intensity={0.4}>
                 Subject Profile
               </ProjectedText>
             </span>
@@ -93,13 +98,13 @@ export function AboutSection() {
 
           {/* Projected heading */}
           <h1 className="font-mono text-5xl md:text-6xl font-bold mb-6">
-            <ProjectedText color="#0a0a1a">
+            <ProjectedText color={APP_PALETTE.textInk}>
               Who am I?
             </ProjectedText>
           </h1>
 
-          <p className="text-[#2A2014] text-xl leading-relaxed mb-8">
-            <ProjectedText color="#2A2014" intensity={0.35}>
+          <p className="text-app-warm text-xl leading-relaxed mb-8">
+            <ProjectedText color={APP_PALETTE.textBodyWarm} intensity={0.35}>
               Full-stack engineer building next-gen healthcare notetaking software.
               I also love{" "}
               {SKILLS.map((skill, i) => (
@@ -128,7 +133,7 @@ export function AboutSection() {
           </div>
         </motion.div>
 
-      </WoodCloseUpGrid>
+      </WoodCloseUpForwardSlash>
     </>
   );
 }

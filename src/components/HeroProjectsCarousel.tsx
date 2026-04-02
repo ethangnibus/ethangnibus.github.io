@@ -1,437 +1,444 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  type TouchEvent,
+} from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
+
 import { BlurImage } from "./BlurImage";
 import { ProjectedText } from "./ProjectedText";
+import {
+  CATEGORY_META,
+  getProjectBySlug,
+  PORTFOLIO_HOME_PATH,
+  SITE_NAV_LABELS,
+  type Project,
+} from "@/data/projects";
+import { APP_COLORS, APP_PALETTE } from "@/theme";
 
-/* ── Public slide interface ── */
-
-export interface CarouselSlide {
+interface Slide {
   title: string;
   description: string;
   image: string;
   smallImage: string;
-  ctaText: string;
-  ctaHref: string;
-  interval?: number;
+  section: "about" | string;
+  type: "about" | "project";
+  category?: Project["category"];
 }
 
-/* ── Section config ── */
-
-type SlideGroup = "hero" | "cv" | "graphics";
-
-const SECTIONS: Record<SlideGroup, { title: string } | null> = {
-  hero: null,
-  cv: { title: "Computer Vision" },
-  graphics: { title: "Computer Graphics" },
+const HERO_SLIDE: Slide = {
+  title: "Hi Friends!",
+  description:
+    "You can browse my project portfolio above, or keep scrolling to learn more about me.",
+  image: "/images/main/two_trees/two_trees.jpg",
+  smallImage: "/images/main/two_trees/two_trees-small.jpg",
+  section: "about",
+  type: "about",
 };
 
-/* ── Internal flat slide ── */
+const HERO_META = {
+  about: {
+    label: SITE_NAV_LABELS.aboutMe,
+    shortLabel: "About",
+    color: APP_PALETTE.textBody,
+    bg: `rgba(${APP_PALETTE.textBodyRgb}, 0.07)`,
+    activeBg: APP_PALETTE.textBody,
+    text: `rgba(${APP_PALETTE.textBodyRgb}, 0.6)`,
+    glow: `0 0 12px rgba(${APP_PALETTE.textBodyRgb}, 0.3)`,
+  },
+  graphics: {
+    ...CATEGORY_META.graphics,
+    bg: `rgba(${APP_PALETTE.categoryGraphicsRgb}, 0.07)`,
+    activeBg: APP_PALETTE.categoryGraphics,
+    text: `rgba(${APP_PALETTE.categoryGraphicsRgb}, 0.7)`,
+    glow: `0 0 12px rgba(${APP_PALETTE.categoryGraphicsRgb}, 0.35)`,
+  },
+  cv: {
+    ...CATEGORY_META.cv,
+    bg: `rgba(${APP_PALETTE.categoryCvRgb}, 0.07)`,
+    activeBg: APP_PALETTE.categoryCv,
+    text: `rgba(${APP_PALETTE.categoryCvRgb}, 0.7)`,
+    glow: `0 0 12px rgba(${APP_PALETTE.categoryCvRgb}, 0.35)`,
+  },
+} as const;
 
-interface FlatSlide {
-  group: SlideGroup;
-  image: string;
-  smallImage: string;
-  title: string;
-  subtitle: string;
-  href?: string;
-  interval?: number;
+/** Sync carousel highlight + hero frame with the URL (sidebar / browse always match the strip). */
+function carouselActiveSectionFromPath(pathname: string): "about" | string {
+  if (pathname === PORTFOLIO_HOME_PATH) return "about";
+  if (!pathname.startsWith("/blog/")) return "about";
+  const parts = pathname.slice("/blog/".length).split("/").filter(Boolean);
+  if (parts.length === 0) return "about";
+  const first = parts[0]!;
+  if (first === "end") return "about";
+  const project = getProjectBySlug(first);
+  return project ? project.slug : "about";
 }
-
-/* ── Image overlay ── */
-
-const IMAGE_OVERLAY: React.CSSProperties = {
-  backgroundImage: [
-    "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.02) 30%, rgba(0,0,0,0.40) 100%)",
-    "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)",
-    "linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-  ].join(", "),
-  backgroundSize:
-    "100% 100%, 31.41592653589793px 31.41592653589793px, 31.41592653589793px 31.41592653589793px",
-};
-
-/* ── Stack depth shadow layers ── */
-
-const STACK_LAYERS = [
-  { rotate: "2.5deg", tx: -3, ty: 4, bg: "#f5f2ed", shadow: "0 2px 12px rgba(0,0,0,0.10)" },
-  { rotate: "-2deg", tx: 5, ty: 9, bg: "#f0ede8", shadow: "0 2px 8px rgba(0,0,0,0.06)" },
-];
-
-/* ── Polaroid card ── */
-
-function PolaroidCard({ slide }: { slide: FlatSlide }) {
-  const isHero = slide.group === "hero";
-  const section = SECTIONS[slide.group];
-
-  return (
-    <div className="h-full w-full flex flex-col bg-[#faf8f4] rounded-[3px]">
-      {/* Image area with even border on top/left/right */}
-      <div className="relative flex-1 mx-[10px] mt-[10px] md:mx-3.5 md:mt-3.5 overflow-hidden bg-[#0a0a0a]">
-        <BlurImage src={slide.image} smallSrc={slide.smallImage} alt={slide.title} />
-        <div className="absolute inset-0 portal-depth-inset" style={IMAGE_OVERLAY} />
-        {!isHero && section && (
-          <div className="absolute top-2 left-2 md:top-3 md:left-3 z-10">
-            <span className="font-mono text-[8px] md:text-[10px] tracking-[0.2em] uppercase font-bold text-white/60 bg-black/30 backdrop-blur-sm rounded-full px-2 py-0.5 md:px-2.5 md:py-1">
-              {section.title}
-            </span>
-          </div>
-        )}
-      </div>
-      {/* Caption area — thick bottom border like a polaroid */}
-      <div className="shrink-0 px-[10px] pt-2 pb-[10px] md:px-3.5 md:pt-2.5 md:pb-3.5">
-        <h3 className="font-mono text-sm md:text-lg font-bold text-[#1a1a1a] truncate">
-          <ProjectedText color="#1a1a1a" intensity={0.4}>
-            {isHero ? "Hi Friends," : slide.title}
-          </ProjectedText>
-        </h3>
-        <p className="font-mono text-[10px] md:text-xs text-[#888] mt-0.5 line-clamp-1">
-          {isHero ? "Welcome to my Blog \u2014 I'm Ethan" : slide.subtitle}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ── Main component ── */
 
 interface HeroProjectsCarouselProps {
-  cvSlides: CarouselSlide[];
-  graphicsSlides: CarouselSlide[];
+  contentWidth: number;
+  projects: Project[];
+  onSelect: (section: "about" | string) => void;
+  onStartReading: (path: string) => void;
+  blogSidebarOpen: boolean;
+  onToggleBlogSidebar: () => void;
 }
 
 export function HeroProjectsCarousel({
-  cvSlides,
-  graphicsSlides,
+  contentWidth,
+  projects,
+  onSelect,
+  onStartReading,
+  blogSidebarOpen,
+  onToggleBlogSidebar,
 }: HeroProjectsCarouselProps) {
-  const allSlides = useMemo<FlatSlide[]>(
-    () => [
-      {
-        group: "hero",
-        image: "/images/main/two_trees/two_trees.jpg",
-        smallImage: "/images/main/two_trees/two_trees-small.jpg",
-        title: "Hi Friends,",
-        subtitle: "Welcome to my Blog",
-        interval: 12000,
-      },
-      ...cvSlides.map(
-        (s): FlatSlide => ({
-          group: "cv",
-          image: s.image,
-          smallImage: s.smallImage,
-          title: s.title,
-          subtitle: s.description,
-          href: s.ctaHref,
-          interval: s.interval,
-        }),
-      ),
-      ...graphicsSlides.map(
-        (s): FlatSlide => ({
-          group: "graphics",
-          image: s.image,
-          smallImage: s.smallImage,
-          title: s.title,
-          subtitle: s.description,
-          href: s.ctaHref,
-          interval: s.interval,
-        }),
-      ),
-    ],
-    [cvSlides, graphicsSlides],
+  const location = useLocation();
+  const activeSection = useMemo(
+    () => carouselActiveSectionFromPath(location.pathname),
+    [location.pathname],
   );
-
-  /* ── Group metadata for section tabs ── */
-
-  const groups = useMemo(() => {
-    const result: { key: SlideGroup; label: string; shortLabel: string; startIndex: number; count: number }[] = [];
-    let lastGroup: SlideGroup | null = null;
-    for (let i = 0; i < allSlides.length; i++) {
-      if (allSlides[i].group !== lastGroup) {
-        const sec = SECTIONS[allSlides[i].group];
-        result.push({
-          key: allSlides[i].group,
-          label: allSlides[i].group === "hero" ? "Welcome" : sec!.title,
-          shortLabel: allSlides[i].group === "hero" ? "Intro" : allSlides[i].group === "cv" ? "Vision" : "Graphics",
-          startIndex: i,
-          count: 0,
-        });
-        lastGroup = allSlides[i].group;
-      }
-      result[result.length - 1].count++;
-    }
-    return result;
-  }, [allSlides]);
-
-  /* ── Deck animation state ── */
+  const slides = useMemo<Slide[]>(
+    () => [
+      HERO_SLIDE,
+      ...projects.map((project) => ({
+        title: project.shortTitle,
+        description: project.description,
+        image: project.image,
+        smallImage: project.smallImage,
+        section: project.slug,
+        type: "project" as const,
+        category: project.category,
+      })),
+    ],
+    [projects],
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDealing, setIsDealing] = useState(false);
-  const [dealDir, setDealDir] = useState<1 | -1>(1);
-  const [targetIndex, setTargetIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [userInteracted, setUserInteracted] = useState(false);
+  /*
+   * TODO(hero-letterbox): Main hero image letterbox bars should ease in like the thumbnail strip
+   * (especially when opening About Me from the sidebar). Attempted fixes still misbehave (instant snap
+   * or no visible tween): Framer Motion height 0→8%, CSS height transition with double rAF, and
+   * scaleY(0)→(1) with rAF. Revisit with clip-path, measured px heights, Motion values with layout,
+   * or another approach that interpolates reliably across browsers.
+   */
+  const [heroBarsExpanded, setHeroBarsExpanded] = useState(false);
+  const currentSlide = slides[currentIndex];
 
-  const activeGroupIdx = useMemo(
-    () => groups.findIndex(g => currentIndex >= g.startIndex && currentIndex < g.startIndex + g.count),
-    [groups, currentIndex],
-  );
-  const activeGroup = groups[activeGroupIdx];
-  const indexInGroup = currentIndex - activeGroup.startIndex;
+  useLayoutEffect(() => {
+    setHeroBarsExpanded(false);
+    let cancelled = false;
+    let innerRaf: number | undefined;
+    const outerRaf = requestAnimationFrame(() => {
+      if (cancelled) return;
+      innerRaf = requestAnimationFrame(() => {
+        if (!cancelled) setHeroBarsExpanded(true);
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(outerRaf);
+      if (innerRaf !== undefined) cancelAnimationFrame(innerRaf);
+    };
+  }, [location.pathname, currentIndex]);
 
-  const paginate = useCallback(
-    (dir: number) => {
-      if (isDealing) return;
-      const target = (currentIndex + dir + allSlides.length) % allSlides.length;
-      setTargetIndex(target);
-      setDealDir(dir > 0 ? 1 : -1);
-      setIsDealing(true);
-    },
-    [isDealing, currentIndex, allSlides.length],
-  );
+  useEffect(() => {
+    const targetIndex = slides.findIndex((slide) => slide.section === activeSection);
+    if (targetIndex === -1 || targetIndex === currentIndex) return;
+    setDirection(targetIndex > currentIndex ? 1 : -1);
+    setCurrentIndex(targetIndex);
+  }, [activeSection, currentIndex, slides]);
 
   const goTo = useCallback(
     (target: number) => {
-      if (isDealing || target === currentIndex) return;
-      setTargetIndex(target);
-      setDealDir(target > currentIndex ? 1 : -1);
-      setIsDealing(true);
+      if (target < 0 || target >= slides.length || target === currentIndex) return;
+      setUserInteracted(true);
+      onSelect(slides[target].section);
     },
-    [isDealing, currentIndex],
+    [currentIndex, onSelect, slides],
   );
 
-  const onDealComplete = useCallback(() => {
-    setCurrentIndex(targetIndex);
-    setIsDealing(false);
-  }, [targetIndex]);
-
-  /* Auto-advance once from the hero slide */
-  const [hasAutoAdvanced, setHasAutoAdvanced] = useState(false);
-  const [pulseRight, setPulseRight] = useState(false);
-
-  useEffect(() => {
-    if (hasAutoAdvanced || isDealing || currentIndex !== 0) return;
-    const id = setTimeout(() => {
-      setPulseRight(true);
-      setTimeout(() => {
-        paginate(1);
-        setHasAutoAdvanced(true);
-        setTimeout(() => setPulseRight(false), 800);
-      }, 600);
-    }, 3000);
-    return () => clearTimeout(id);
-  }, [hasAutoAdvanced, isDealing, currentIndex, paginate]);
-
-  /* ── Swipe support (horizontal only for deck) ── */
+  const paginate = useCallback(
+    (dir: number) => {
+      setUserInteracted(true);
+      const target = (currentIndex + dir + slides.length) % slides.length;
+      onSelect(slides[target].section);
+    },
+    [currentIndex, onSelect, slides],
+  );
 
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const didSwipe = useRef(false);
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    const t = e.touches[0];
-    touchStart.current = { x: t.clientX, y: t.clientY };
+  const onTouchStart = useCallback((e: TouchEvent) => {
+    setUserInteracted(true);
+    touchStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
     didSwipe.current = false;
   }, []);
 
-  const onTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (!touchStart.current) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - touchStart.current.x;
-    const dy = t.clientY - touchStart.current.y;
-    touchStart.current = null;
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-      didSwipe.current = true;
-      paginate(dx < 0 ? 1 : -1);
-    }
-  }, [paginate]);
-
-  /* ── Derived slide data ── */
-
-  const currentSlide = allSlides[currentIndex];
-  const targetSlide = allSlides[targetIndex];
-  const fwd = dealDir > 0;
-
-  /*
-   * Deck metaphor:
-   *   Forward  (right) → target slides in on top, current stays below
-   *   Backward (left)  → current slides off, target revealed below
-   */
-  const staticSlide = fwd ? currentSlide : targetSlide;
-  const dealingSlide = fwd ? targetSlide : currentSlide;
-
-  const stackDepth = Math.min(currentIndex, 2);
-
-  /* ── Compute card size to preserve aspect ratio ── */
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [cardSize, setCardSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const CHROME = 160;
-    const MAX_WIDTH = 820;
-
-    const update = () => {
-      const cw = Math.min(el.clientWidth - 32, MAX_WIDTH);
-      const ch = window.innerHeight - CHROME;
-      const ratio = 3 / 2;
-      let w = cw;
-      let h = w / ratio;
-      if (h > ch) {
-        h = ch;
-        w = h * ratio;
+  const onTouchEnd = useCallback(
+    (e: TouchEvent) => {
+      if (!touchStart.current) return;
+      const dx = e.changedTouches[0].clientX - touchStart.current.x;
+      const dy = e.changedTouches[0].clientY - touchStart.current.y;
+      touchStart.current = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        didSwipe.current = true;
+        paginate(dx < 0 ? 1 : -1);
       }
-      setCardSize({ width: Math.floor(w), height: Math.floor(h) });
-    };
+    },
+    [paginate],
+  );
 
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    window.addEventListener("resize", update);
-    return () => { observer.disconnect(); window.removeEventListener("resize", update); };
+  const activeMeta =
+    currentSlide.type === "about"
+      ? HERO_META.about
+      : HERO_META[currentSlide.category ?? "graphics"];
+  const edgeMode = contentWidth > 0 && contentWidth <= 768;
+  const compactMode = contentWidth > 0 && contentWidth <= 640;
+  const tinyMode = contentWidth > 0 && contentWidth <= 350;
+
+  const visibleSlideIndices = useMemo(() => {
+    if (slides.length <= 3) {
+      return slides.map((_, index) => index);
+    }
+    if (currentIndex <= 1) return [0, 1, 2];
+    if (currentIndex >= slides.length - 2) {
+      return [slides.length - 3, slides.length - 2, slides.length - 1];
+    }
+    return [currentIndex - 1, currentIndex, currentIndex + 1];
+  }, [currentIndex, slides]);
+
+  const getSlideButtonLabel = useCallback((slide: Slide) => {
+    if (slide.type === "about") return HERO_META.about.label;
+    return HERO_META[slide.category ?? "graphics"].carouselLabel;
   }, []);
 
-  const CARD_SHADOW = "0 4px 20px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.1)";
-  const DEALING_SHADOW = "0 8px 30px rgba(0,0,0,0.2), 0 3px 10px rgba(0,0,0,0.12)";
+  const imageCard = (
+    <div
+      className={`relative aspect-[3/2] overflow-hidden bg-app-media ${
+        edgeMode ? "border-y" : "border"
+      } border-app-black shadow-lg shadow-black/10`}
+    >
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.div
+          key={currentIndex}
+          className="absolute inset-0"
+          initial={{ opacity: 0, x: direction > 0 ? 50 : -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction > 0 ? -50 : 50 }}
+          transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+        >
+          <div className="w-full h-full transition-transform duration-300 ease-out group-hover:scale-[1.04]">
+            <BlurImage
+              src={currentSlide.image}
+              smallSrc={currentSlide.smallImage}
+              alt={currentSlide.title}
+            />
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <div className="absolute inset-0 portal-depth-inset pointer-events-none" />
+      {/* TODO(hero-letterbox): see block comment above — animation still unreliable */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[8%] origin-top bg-black z-[5] pointer-events-none will-change-transform"
+        style={{
+          transform: heroBarsExpanded ? "scaleY(1)" : "scaleY(0)",
+          transition: "transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)",
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[8%] origin-bottom bg-black z-[5] pointer-events-none will-change-transform"
+        style={{
+          transform: heroBarsExpanded ? "scaleY(1)" : "scaleY(0)",
+          transition: "transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)",
+        }}
+      />
+      <div className="absolute bottom-[10%] right-3 md:right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-y-1 group-hover:translate-y-0">
+        <span
+          className={`app-cta ${edgeMode ? "px-3 py-1.5" : "px-4 py-2"} text-white`}
+          style={{ backgroundColor: activeMeta.activeBg }}
+        >
+          {currentSlide.type === "about" ? "Contact me ↗" : "Start Reading ↗"}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col items-center overflow-hidden"
-    >
-      {/* ── Section tabs (above polaroid) ── */}
-      <div className="flex items-center justify-center gap-1.5 md:gap-2 pb-3 md:pb-4 w-full px-3">
-        {groups.map((g, gi) => {
-          const active = gi === activeGroupIdx;
-          return (
-            <button
-              key={g.key}
-              onClick={() => goTo(g.startIndex)}
-              className={`font-mono text-[11px] md:text-xs tracking-wider uppercase font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 ${
-                active
-                  ? "bg-[#5a4028] text-[#f5f0eb] shadow-md"
-                  : "text-[#5A4A30] hover:bg-[#5A4A30]/10"
-              }`}
-            >
-              <ProjectedText
-                color={active ? "#f5f0eb" : "#5A4A30"}
-                dark={active}
-                intensity={0.4}
-              >
-                <span className="hidden min-[450px]:inline">{g.label}</span>
-                <span className="min-[450px]:hidden">{g.shortLabel}</span>
-              </ProjectedText>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* ── Polaroid deck ── */}
-      <a
-        href={currentSlide.href ?? "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(e) => {
-          if (!currentSlide.href || didSwipe.current) e.preventDefault();
-          didSwipe.current = false;
-        }}
+    <div className="w-full flex justify-center">
+      <div
+        className={`w-full max-w-3xl ${edgeMode ? "" : "pt-[110px]"}`}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="group relative block mx-auto cursor-pointer"
-        style={{
-          width: cardSize.width || "auto",
-          height: cardSize.height || "auto",
-        }}
       >
-        {STACK_LAYERS.map((layer, i) =>
-          stackDepth > i ? (
-            <div
-              key={`stack-${i}`}
-              className="absolute inset-0 rounded-[3px]"
-              style={{
-                zIndex: -i - 1,
-                transform: `rotate(${layer.rotate}) translate(${layer.tx}px, ${layer.ty}px)`,
-                backgroundColor: layer.bg,
-                boxShadow: layer.shadow,
-              }}
-            />
-          ) : null,
-        )}
+        <div
+          className={`${
+            edgeMode
+              ? "pt-[83px] pb-1.5 border-y"
+              : "pt-2 pb-2 border"
+          } ${tinyMode ? "px-0" : edgeMode ? "px-2" : "px-2.5"}`}
+          style={{
+            backgroundColor: `rgba(${APP_PALETTE.woodLineRgb}, 0.15)`,
+            borderColor: `rgba(${APP_PALETTE.woodLineRgb}, 0.22)`,
+          }}
+        >
+          <div className={`grid grid-cols-3 ${tinyMode ? "gap-0" : compactMode ? "gap-1" : "gap-2"}`}>
+            {visibleSlideIndices.map((index) => {
+              const slide = slides[index];
+              const meta =
+                slide.type === "about"
+                  ? HERO_META.about
+                  : HERO_META[slide.category ?? "graphics"];
+              const isActive = currentIndex === index;
 
-        {isDealing && (
-          <div
-            className="absolute inset-0 rounded-[3px] overflow-hidden"
-            style={{ zIndex: 5, boxShadow: CARD_SHADOW }}
-          >
-            <PolaroidCard slide={staticSlide} />
+              return (
+                <button
+                  key={slide.section}
+                  onClick={() => goTo(index)}
+                  className={`relative w-full overflow-hidden ${
+                    tinyMode ? "rounded-none" : "rounded-[3px]"
+                  } aspect-[1.618/1] ${compactMode ? "border-[0.5px]" : "border"} transition-all duration-200`}
+                  style={{
+                    borderColor: isActive
+                      ? APP_PALETTE.black
+                      : APP_PALETTE.carouselThumbBorderInactive,
+                    boxShadow: isActive ? meta.glow : "0 8px 20px rgba(0, 0, 0, 0.08)",
+                  }}
+                >
+                  <div
+                    className={`absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-out ${
+                      isActive ? "scale-[1.04]" : "scale-100"
+                    }`}
+                    style={{ backgroundImage: `url(${slide.image})` }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: isActive
+                        ? `linear-gradient(180deg, rgba(0,0,0,0.18) 0%, ${meta.activeBg}CC 100%)`
+                        : "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.52) 100%)",
+                    }}
+                  />
+                  <div
+                    className={`absolute top-0 left-0 right-0 bg-black z-[5] pointer-events-none transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
+                      isActive ? "h-[8%]" : "h-0"
+                    }`}
+                  />
+                  <div
+                    className={`absolute bottom-0 left-0 right-0 bg-black z-[5] pointer-events-none transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
+                      isActive ? "h-[8%]" : "h-0"
+                    }`}
+                  />
+                  <span
+                    className={`app-eyebrow relative z-10 block px-2 py-3 text-white text-center text-balance ${
+                      tinyMode ? "text-[0.75rem]" : ""
+                    }`}
+                  >
+                    {getSlideButtonLabel(slide)}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        )}
 
-        {isDealing ? (
-          <motion.div
-            key={`deal-${targetIndex}-${dealDir}`}
-            className="absolute inset-0 rounded-[3px] overflow-hidden"
-            style={{ zIndex: 10, boxShadow: DEALING_SHADOW }}
-            initial={fwd
-              ? { x: "110%", rotate: 6, scale: 0.96, opacity: 0 }
-              : { x: 0, rotate: 0, scale: 1, opacity: 1 }
-            }
-            animate={fwd
-              ? { x: 0, rotate: 0, scale: 1, opacity: 1 }
-              : { x: "110%", rotate: 6, scale: 0.96, opacity: 0 }
-            }
-            transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-            onAnimationComplete={onDealComplete}
+          <div className={`flex justify-end ${edgeMode ? "pt-1.5" : "pt-2"} px-2`}>
+            <button
+              type="button"
+              onClick={onToggleBlogSidebar}
+              aria-expanded={blogSidebarOpen}
+              className={`app-cta px-4 py-3 min-h-[44px] border border-app-accent/25 bg-app-cardWarm/75 text-app-body transition-colors hover:bg-app-cardWarm active:bg-app-surface ${
+                tinyMode ? "text-[0.75rem]" : ""
+              }`}
+            >
+              {blogSidebarOpen
+                ? SITE_NAV_LABELS.closeBlogPosts
+                : SITE_NAV_LABELS.browseBlogPosts}
+            </button>
+          </div>
+        </div>
+
+        <div className="px-3 sm:px-4 pt-6 pb-6 md:pb-8">
+          <span
+            className="app-eyebrow block mb-1"
+            style={{ color: activeMeta.color }}
           >
-            <PolaroidCard slide={dealingSlide} />
-          </motion.div>
+            <ProjectedText color={activeMeta.color} intensity={0.3}>
+              {currentSlide.type === "about"
+                ? activeMeta.label
+                : activeMeta.label}
+            </ProjectedText>
+          </span>
+
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.22 }}
+            >
+              <h2 className="app-title-1 app-text-strong pt-3">
+                <ProjectedText color={APP_COLORS.textStrong} intensity={0.3}>
+                  {currentSlide.title}
+                </ProjectedText>
+              </h2>
+              <p className="app-body-lg pt-4 max-w-xl text-app-body/80">
+                {currentSlide.description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {currentSlide.type === "about" ? (
+          <button
+            type="button"
+            className="block group w-full text-left bg-transparent border-0 p-0"
+            onClick={() => {
+              setUserInteracted(true);
+              if (didSwipe.current) {
+                didSwipe.current = false;
+                return;
+              }
+              window.open(
+                "https://www.linkedin.com/in/ethangnibus",
+                "_blank",
+                "noopener,noreferrer",
+              );
+            }}
+          >
+            {imageCard}
+          </button>
         ) : (
-          <div
-            className="absolute inset-0 rounded-[3px] overflow-hidden transition-all duration-300 ease-out group-hover:scale-[1.01] group-hover:-translate-y-0.5"
-            style={{ zIndex: 10, boxShadow: CARD_SHADOW }}
+          <button
+            type="button"
+            className="block group w-full text-left bg-transparent border-0 p-0"
+            onClick={() => {
+              setUserInteracted(true);
+              if (didSwipe.current) {
+                didSwipe.current = false;
+                return;
+              }
+              const project = projects.find(
+                (candidate) => candidate.slug === currentSlide.section,
+              );
+              const firstChapter = project?.chapters[0];
+              if (!firstChapter) return;
+              onStartReading(`/blog/${project.slug}/${firstChapter.slug}`);
+            }}
           >
-            <PolaroidCard slide={currentSlide} />
-          </div>
+            {imageCard}
+          </button>
         )}
 
-        {!isDealing && currentSlide.href && (
-          <div className="absolute -bottom-3 right-4 md:right-6 z-30 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="font-mono text-[9px] md:text-[11px] tracking-[0.15em] uppercase font-bold text-white bg-[#7A2252] px-3 py-1 md:px-4 md:py-1.5 rounded-full shadow-md">
-              View Project ↗
-            </span>
-          </div>
-        )}
-      </a>
-
-      {/* ── Slide arrows + counter (below polaroid) ── */}
-      <div className="flex items-center justify-center pt-3 md:pt-4">
-        <button
-          onClick={() => paginate(-1)}
-          className="shrink-0 p-2.5 md:p-3 text-[#5A4A30] hover:bg-[#5A4A30]/10 rounded-full transition-all duration-200 active:scale-90"
-          aria-label="Previous page"
-        >
-          <ProjectedText color="#5A4A30" intensity={0.5}>
-            <ChevronLeft className="w-6 h-6 md:w-7 md:h-7" />
-          </ProjectedText>
-        </button>
-
-        <span className="font-mono text-sm md:text-base font-bold tracking-wider tabular-nums min-w-[3rem] text-center leading-none flex items-center justify-center">
-          <ProjectedText color="#5A4A30" intensity={0.5}>
-            {indexInGroup + 1}/{activeGroup.count}
-          </ProjectedText>
-        </span>
-
-        <button
-          onClick={() => paginate(1)}
-          className={`shrink-0 p-2.5 md:p-3 rounded-full transition-all duration-300 active:scale-90 ${
-            pulseRight
-              ? "text-portal-cosmo scale-125 bg-portal-cosmo/10"
-              : "text-[#5A4A30] hover:bg-[#5A4A30]/10"
-          }`}
-          aria-label="Next page"
-        >
-          <ProjectedText color={pulseRight ? "#A0522D" : "#5A4A30"} intensity={0.5}>
-            <ChevronRight className="w-6 h-6 md:w-7 md:h-7" />
-          </ProjectedText>
-        </button>
       </div>
     </div>
   );

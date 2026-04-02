@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BlurImage } from "./BlurImage";
 import { ProjectedText } from "./ProjectedText";
+import { APP_PALETTE } from "@/theme";
 
 export interface CarouselSlide {
   title: string;
@@ -82,7 +83,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
       </button>
 
       {/* Square image area */}
-      <div className="flex-1 relative aspect-square bg-[#0a0a0a] overflow-hidden min-w-0">
+      <div className="flex-1 relative aspect-square bg-app-media overflow-hidden min-w-0">
         <AnimatePresence
           initial={false}
           custom={direction}
@@ -133,7 +134,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
                 >
-                  <ProjectedText color="#C8785A" dark intensity={0.5}>
+                  <ProjectedText color={APP_PALETTE.portalCosmoLight} dark intensity={0.5}>
                     {String(index + 1).padStart(2, "0")} /{" "}
                     {String(slides.length).padStart(2, "0")}
                   </ProjectedText>
@@ -145,7 +146,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.15 }}
                 >
-                  <ProjectedText color="#ffffff" dark>
+                  <ProjectedText color={APP_PALETTE.white} dark>
                     {slides[index].title}
                   </ProjectedText>
                 </motion.h1>
@@ -157,7 +158,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.25 }}
                 >
-                  <ProjectedText color="#ffffff" dark intensity={0.5}>
+                  <ProjectedText color={APP_PALETTE.white} dark intensity={0.5}>
                     {slides[index].description}
                   </ProjectedText>
                 </motion.p>
