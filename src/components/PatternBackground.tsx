@@ -28,8 +28,8 @@ export interface MaterialPreset {
 }
 
 export const WOOD_MATERIAL: MaterialPreset = {
-  bgColor: APP_PALETTE.surfaceBase,
-  lineRgb: APP_PALETTE.woodLinePatternRgb,
+  bgColor: "var(--surface-base)",
+  lineRgb: "var(--app-wood-line-rgb)",
   lineOpacity: 0.15,
 };
 
@@ -115,18 +115,6 @@ function buildPatternStyle(
 }
 
 /* ── Public style helpers ────────────────────────────────────── */
-
-export function patternStyle(
-  variant: PatternVariant,
-  opts?: PatternStyleOptions,
-): React.CSSProperties {
-  return buildPatternStyle(
-    variant,
-    opts?.bgColor ?? WOOD_MATERIAL.bgColor,
-    opts?.lineRgb ?? WOOD_MATERIAL.lineRgb,
-    opts?.lineOpacity ?? WOOD_MATERIAL.lineOpacity,
-  );
-}
 
 export function woodPatternStyle(
   variant: PatternVariant,

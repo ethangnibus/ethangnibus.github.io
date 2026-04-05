@@ -5,7 +5,7 @@ import { BlurImage } from "@/components/BlurImage";
 import { ProjectedText } from "@/components/ProjectedText";
 import { BlogArticleLead } from "@/components/blog/BlogArticleLead";
 import { BlogChapterProvider } from "@/components/blog";
-import { BlogPageNavigation } from "@/components/blog/BlogPageNavigation";
+import { ChapterTriptych } from "@/components/blog/ChapterTriptych";
 import { woodPatternStyle } from "@/components/WoodPatternBackground";
 import {
   CATEGORY_META,
@@ -18,7 +18,7 @@ import {
   SITE_NAVBAR_SCROLL_OFFSET,
   SITE_SCROLL_CONTAINER_ID,
 } from "@/data/projects";
-import { APP_COLORS } from "@/theme";
+import { APP_PALETTE } from "@/theme";
 
 function NotFound() {
   return (
@@ -28,7 +28,7 @@ function NotFound() {
     >
       <div className="text-center px-6">
         <h1 className="app-title-1 app-text-strong mb-4">
-          <ProjectedText text="404" color={APP_COLORS.textStrong} />
+          <ProjectedText text="404" color={APP_PALETTE.textStrong} />
         </h1>
         <p className="app-body app-text-body mb-8">Chapter not found</p>
         <Link to="/blog" className="pill-btn pill-btn-default px-6 py-3">
@@ -46,45 +46,14 @@ export function BlogPost() {
     chapterSlug: string;
   }>();
 
-  if (!projectSlug || !chapterSlug) return <NotFound />;
+  // Resolve project + chapter before any early returns so hook order stays stable.
+  const project = projectSlug ? getProjectBySlug(projectSlug) : undefined;
+  const chapter =
+    project && chapterSlug ? getChapterBySlug(project, chapterSlug) : undefined;
 
-  const project = getProjectBySlug(projectSlug);
-  if (!project) {
-    const legacyChapter = findChapterBySlug(chapterSlug);
-    if (legacyChapter) {
-      return (
-        <Navigate
-          to={`/blog/${legacyChapter.project.slug}/${legacyChapter.chapter.slug}`}
-          replace
-        />
-      );
-    }
-
-    return <NotFound />;
-  }
-
-  const chapter = getChapterBySlug(project, chapterSlug);
-  if (!chapter) {
-    const chapterElsewhere = findChapterBySlug(chapterSlug);
-    if (chapterElsewhere) {
-      return (
-        <Navigate
-          to={`/blog/${chapterElsewhere.project.slug}/${chapterElsewhere.chapter.slug}`}
-          replace
-        />
-      );
-    }
-
-    return <NotFound />;
-  }
-
-  const category = CATEGORY_META[project.category];
-  const adjacent = getAdjacentPages(project.slug, chapter.slug);
-  const ContentComponent = chapter.content;
-  const isExternal = chapter.href.startsWith("http");
-  const chapterIndex = project.chapters.findIndex((c) => c.slug === chapter.slug);
-
+  // Scroll to in-page hash anchor on navigation — must be called unconditionally.
   useLayoutEffect(() => {
+    if (!chapter) return;
     const raw = location.hash.startsWith("#")
       ? location.hash.slice(1)
       : location.hash;
@@ -95,16 +64,67 @@ export function BlogPost() {
     const top =
       el.getBoundingClientRect().top + scroller.scrollTop - SITE_NAVBAR_SCROLL_OFFSET;
     scroller.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, chapter]);
+
+  // ── Early returns (after all hooks) ──────────────────────────
+
+  if (!projectSlug || !chapterSlug) return <NotFound />;
+
+  if (!project) {
+    const legacyChapter = findChapterBySlug(chapterSlug);
+    if (legacyChapter) {
+      return (
+        <Navigate
+          to={`/blog/${legacyChapter.project.slug}/${legacyChapter.chapter.slug}`}
+          replace
+        />
+      );
+    }
+    return <NotFound />;
+  }
+
+  if (!chapter) {
+    const chapterElsewhere = findChapterBySlug(chapterSlug);
+    if (chapterElsewhere) {
+      return (
+        <Navigate
+          to={`/blog/${chapterElsewhere.project.slug}/${chapterElsewhere.chapter.slug}`}
+          replace
+        />
+      );
+    }
+    return <NotFound />;
+  }
+
+  const adjacent = getAdjacentPages(project.slug, chapter.slug);
+  const ContentComponent = chapter.content;
+  const isExternal = chapter.href.startsWith("http");
+  const category = CATEGORY_META[project.category];
+  const tocPath = getProjectOverviewPath(project.slug);
+  const chapterIndex = project.chapters.findIndex((c) => c.slug === chapter.slug);
+
+  const currentPage = { kind: "chapter" as const, project, chapter };
 
   return (
     <div className="min-h-[100dvh]" style={woodPatternStyle("far-grid")}>
-      <div className="max-w-3xl mx-auto pt-24 md:pt-28 pb-28 md:pb-32">
+      {/* Spacer for the navbar: 56px edge-to-edge (mobile) / 80px floating pill (desktop: mt-3 + h-14 + mb-3) */}
+      <div className="h-14 md:h-20" />
+
+      <ChapterTriptych
+        project={project}
+        previous={adjacent?.previous ?? null}
+        current={currentPage}
+        next={adjacent?.next ?? null}
+        backToProject={{
+          href: tocPath,
+          label: project.title,
+          accentColor: category.color,
+        }}
+      />
+
+      {/* Main content */}
+      <div className="max-w-3xl mx-auto pt-10 md:pt-12 pb-10 md:pb-12">
         <BlogArticleLead
-          backTo={getProjectOverviewPath(project.slug)}
-          backLabel={`\u2190 Back to ${category.label}`}
-          categoryLabel={category.label}
-          categoryColor={category.color}
           chapterOrdinal={formatChapterOrdinal(chapterIndex)}
           title={chapter.title}
           description={chapter.description}
@@ -120,14 +140,12 @@ export function BlogPost() {
         </div>
 
         <div className="app-prose mb-12 md:mb-16 px-3">
-          <BlogChapterProvider
-            value={{ project, chapter, chapterIndex }}
-          >
+          <BlogChapterProvider value={{ project, chapter, chapterIndex }}>
             <ContentComponent />
           </BlogChapterProvider>
         </div>
 
-        <div className="flex justify-center pt-8 px-3">
+        <div className="flex justify-center pt-8 px-3 pb-4">
           <a
             href={chapter.href}
             target="_blank"
@@ -141,8 +159,11 @@ export function BlogPost() {
         </div>
       </div>
 
-      <BlogPageNavigation
+      {/* Triptych at bottom — same prev | current | next */}
+      <ChapterTriptych
+        project={project}
         previous={adjacent?.previous ?? null}
+        current={currentPage}
         next={adjacent?.next ?? null}
       />
     </div>

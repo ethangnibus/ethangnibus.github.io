@@ -7,7 +7,7 @@ export const APP_PALETTE = {
   // Surfaces
   surfaceHtml: "#BCA68B",
   surfaceBase: "#E6D6C0",
-  cardWarm: "#F1E6D6",
+  cardWarm: "#F7F1E8",
   experienceCardBg: "#faf8f4",
   mediaBg: "#0a0a0a",
 
@@ -26,8 +26,10 @@ export const APP_PALETTE = {
 
   /** Space-separated RGB for `rgba(var(--x), a)` / template rgba strings */
   textBodyRgb: "90, 74, 48",
+  textBodyWarmRgb: "42, 32, 20",
   categoryCvRgb: "139, 26, 43",
   categoryGraphicsRgb: "75, 29, 107",
+  portalCosmoLightRgb: "200, 120, 90",
 
   // Primary accent (redwood)
   accent: "#78371E",
@@ -141,6 +143,17 @@ export const BLOG_CATEGORY_ACCENTS = {
   graphics: APP_PALETTE.categoryGraphics,
 } as const;
 
+/**
+ * Matches `Navbar.tsx` chrome. Uses CSS vars so blog portal palettes (graphics / vision)
+ * pick up the correct gradient automatically.
+ */
+export const NAVBAR_SURFACE = {
+  gradient:
+    "linear-gradient(to bottom, var(--app-navbar-grad-top) 0%, var(--app-navbar-grad-bottom) 100%)",
+  /** Solid edge for 2px borders (top stop of the navbar gradient). */
+  border: "var(--app-navbar-grad-top)",
+} as const;
+
 /** Tailwind `extend.colors` — import in tailwind.config.ts */
 export const TAILWIND_THEME_COLORS = {
   portal: {
@@ -197,6 +210,16 @@ const CSS_VAR_MAP: Record<string, string> = {
   "--app-text-nav": APP_PALETTE.textNav,
   "--app-text-default": APP_PALETTE.textDefault,
   "--app-accent": APP_PALETTE.accent,
+  "--app-accent-rgb": "120, 55, 30",
+  "--app-text-body-rgb": "90, 74, 48",
+  "--app-text-body-warm-rgb": APP_PALETTE.textBodyWarmRgb,
+  "--app-portal-cosmo-light-rgb": APP_PALETTE.portalCosmoLightRgb,
+  "--app-border-subtle": "rgba(0,0,0,0.1)",
+  "--app-row-hairline": "rgba(0,0,0,0.06)",
+  "--app-card-warm": APP_PALETTE.cardWarm,
+  "--app-navbar-grad-top": APP_PALETTE.navbarGradTop,
+  "--app-navbar-grad-bottom": APP_PALETTE.navbarGradBottom,
+  "--app-navbar-border": APP_PALETTE.navbarBorder,
   "--app-wood-line-rgb": APP_PALETTE.woodLineRgb,
   "--app-body-grid-opacity": APP_PALETTE.bodyGridOpacity,
   "--app-pill-wood-bg-top": APP_PALETTE.pillWoodBgTop,
@@ -235,3 +258,106 @@ export function injectAppPaletteCssVars(): void {
 }
 
 injectAppPaletteCssVars();
+
+// ── Per-blog color palettes ───────────────────────────────────────────────────
+
+/** Full CSS-var map for the about-me / default warm-wood palette. */
+const PALETTE_ABOUT_ME: Record<string, string> = { ...CSS_VAR_MAP };
+
+/** Violet-tinted palette for learning-graphics. */
+const PALETTE_GRAPHICS: Record<string, string> = {
+  "--surface-base": "#DDD0EC",
+  "--surface-html": "#A898B8",
+  "--app-text-strong": "#1E1428",
+  "--app-text-body": "#483260",
+  "--app-text-nav": "#1A1218",
+  "--app-text-default": "#180818",
+  "--app-accent": "#5B2D8A",
+  "--app-accent-rgb": "91, 45, 138",
+  "--app-text-body-rgb": "72, 50, 96",
+  "--app-card-warm": "#EEE8F7",
+  "--app-navbar-grad-top": "#E0D8EE",
+  "--app-navbar-grad-bottom": "#CABFDE",
+  "--app-navbar-border": "rgba(75, 29, 107, 0.8)",
+  "--app-wood-line-rgb": "75, 29, 107",
+  "--app-body-grid-opacity": "0.1",
+  "--app-pill-wood-bg-top": "#EAE0F4",
+  "--app-pill-wood-bg-bottom": "#D8C8E8",
+  "--app-pill-wood-bg-hover-top": "#DDD0EC",
+  "--app-pill-wood-bg-hover-bottom": "#C8B4DC",
+  "--app-pill-wood-border": "rgba(75, 29, 107, 0.7)",
+  "--app-pill-wood-border-hover": "rgba(60, 20, 90, 0.9)",
+  "--app-pill-wood-text": "#180818",
+  "--app-pill-bark-bg-top": "#C4BBD0",
+  "--app-pill-bark-bg-bottom": "#ADA0BC",
+  "--app-pill-bark-bg-hover-top": "#B8AEC8",
+  "--app-pill-bark-bg-hover-bottom": "#A098B4",
+  "--app-pill-bark-border": "rgba(100, 80, 120, 0.6)",
+  "--app-pill-bark-border-hover": "rgba(85, 65, 105, 0.8)",
+  "--app-pill-bark-text": "#1E1428",
+  "--app-pill-bark-text-hover": "#180818",
+  "--app-pill-carousel-bg-top": "rgba(255, 255, 255, 0.180)",
+  "--app-pill-carousel-bg-bottom": "rgba(255, 255, 255, 0.060)",
+  "--app-pill-carousel-border": "rgba(91, 45, 138, 0.700)",
+  "--app-pill-carousel-border-hover": "rgba(91, 45, 138, 0.900)",
+  "--app-pill-carousel-text": "#8B5CB0",
+  "--app-pill-carousel-hover-bg-top": "#5B2D8A",
+  "--app-pill-carousel-hover-bg-bottom": "#3A1860",
+  "--app-pill-carousel-shadow": "rgba(91, 45, 138, 0.200)",
+  "--app-pill-carousel-shadow-hover": "rgba(91, 45, 138, 0.500)",
+  "--app-pill-carousel-text-hover": "#ffffff",
+};
+
+/** Crimson-tinted palette for learning-vision. */
+const PALETTE_VISION: Record<string, string> = {
+  "--surface-base": "#EDD0D0",
+  "--surface-html": "#C89090",
+  "--app-text-strong": "#2A0A10",
+  "--app-text-body": "#6A1828",
+  "--app-text-nav": "#1A0808",
+  "--app-text-default": "#1A0808",
+  "--app-accent": "#A01020",
+  "--app-accent-rgb": "160, 16, 32",
+  "--app-text-body-rgb": "106, 24, 40",
+  "--app-card-warm": "#FAE9E9",
+  "--app-navbar-grad-top": "#F0D8D8",
+  "--app-navbar-grad-bottom": "#E0C4C4",
+  "--app-navbar-border": "rgba(160, 16, 32, 0.8)",
+  "--app-wood-line-rgb": "160, 16, 32",
+  "--app-body-grid-opacity": "0.1",
+  "--app-pill-wood-bg-top": "#F5DCDC",
+  "--app-pill-wood-bg-bottom": "#E8C8C8",
+  "--app-pill-wood-bg-hover-top": "#EDD0D0",
+  "--app-pill-wood-bg-hover-bottom": "#DDBCBC",
+  "--app-pill-wood-border": "rgba(160, 16, 32, 0.7)",
+  "--app-pill-wood-border-hover": "rgba(130, 10, 22, 0.9)",
+  "--app-pill-wood-text": "#1A0808",
+  "--app-pill-bark-bg-top": "#D8B8B8",
+  "--app-pill-bark-bg-bottom": "#C8A0A0",
+  "--app-pill-bark-bg-hover-top": "#CCA8A8",
+  "--app-pill-bark-bg-hover-bottom": "#BC9090",
+  "--app-pill-bark-border": "rgba(140, 40, 50, 0.6)",
+  "--app-pill-bark-border-hover": "rgba(120, 25, 35, 0.8)",
+  "--app-pill-bark-text": "#2A0A10",
+  "--app-pill-bark-text-hover": "#1A0808",
+  "--app-pill-carousel-bg-top": "rgba(255, 255, 255, 0.180)",
+  "--app-pill-carousel-bg-bottom": "rgba(255, 255, 255, 0.060)",
+  "--app-pill-carousel-border": "rgba(160, 16, 32, 0.700)",
+  "--app-pill-carousel-border-hover": "rgba(160, 16, 32, 0.900)",
+  "--app-pill-carousel-text": "#CC2040",
+  "--app-pill-carousel-hover-bg-top": "#A01020",
+  "--app-pill-carousel-hover-bg-bottom": "#700010",
+  "--app-pill-carousel-shadow": "rgba(160, 16, 32, 0.200)",
+  "--app-pill-carousel-shadow-hover": "rgba(160, 16, 32, 0.500)",
+  "--app-pill-carousel-text-hover": "#ffffff",
+};
+
+/**
+ * Returns the CSS variable map for the given pathname.
+ * Used by usePaletteTransition to animate between palettes on navigation.
+ */
+export function getCssVarsForPath(pathname: string): Record<string, string> {
+  if (pathname.startsWith("/blog/learning-graphics")) return PALETTE_GRAPHICS;
+  if (pathname.startsWith("/blog/learning-vision")) return PALETTE_VISION;
+  return PALETTE_ABOUT_ME;
+}

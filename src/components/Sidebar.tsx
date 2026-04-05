@@ -1,17 +1,10 @@
-import { useRef, useEffect, useState, type CSSProperties } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { ProjectedText } from "./ProjectedText";
-import { BARK_MATERIAL } from "./BarkPatternBackground";
 import { BlogOutlineExplorer } from "@/components/blog/BlogOutlineExplorer";
-import { APP_COLORS } from "@/theme";
 
-/** Wide enough for `app-body` chapter titles without excessive truncation. */
-const SIDEBAR_WIDTH = 320;
-
-const BG_STYLE: CSSProperties = {
-  backgroundColor: BARK_MATERIAL.bgColor,
-};
+/** Wide enough for chapter titles without excessive truncation; padding matches header. */
+const SIDEBAR_WIDTH = 340;
 
 interface SidebarProps {
   open: boolean;
@@ -40,10 +33,15 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
 
     return (
       <aside
-        className="flex flex-col w-full h-full"
-        style={{ ...BG_STYLE }}
+        id="site-sidebar"
+        className="flex h-full min-h-0 w-full flex-col bg-[var(--app-card-warm)]"
+        aria-labelledby="sidebar-outline-title"
       >
-        <SidebarContent onClose={onClose} animateItems={animateItems} />
+        <SidebarContent
+          onClose={onClose}
+          animateItems={animateItems}
+          isSmall={isSmall}
+        />
       </aside>
     );
   }
@@ -60,16 +58,20 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
           style={{ minWidth: 0 }}
         >
           <aside
-            className="relative h-full flex flex-col"
+            id="site-sidebar"
+            className="relative flex h-full min-h-0 flex-col bg-[var(--app-card-warm)]"
+            aria-labelledby="sidebar-outline-title"
             style={{
               width: SIDEBAR_WIDTH,
-              ...BG_STYLE,
-              borderRight: "3px solid rgba(120,105,88,0.8)",
-              boxShadow:
-                "6px 0 24px rgba(0,0,0,0.18), 2px 0 8px rgba(0,0,0,0.1)",
+              borderRight: "1px solid rgba(0,0,0,0.06)",
+              boxShadow: "1px 0 0 rgba(0,0,0,0.04), 8px 0 32px rgba(0,0,0,0.06)",
             }}
           >
-            <SidebarContent onClose={onClose} animateItems={animateItems} />
+            <SidebarContent
+              onClose={onClose}
+              animateItems={animateItems}
+              isSmall={isSmall}
+            />
           </aside>
         </motion.div>
       )}
@@ -80,9 +82,11 @@ export function Sidebar({ open, onClose, isSmall }: SidebarProps) {
 function SidebarContent({
   onClose,
   animateItems,
+  isSmall,
 }: {
   onClose: () => void;
   animateItems: boolean;
+  isSmall: boolean;
 }) {
   const item = (i: number) =>
     animateItems
@@ -95,27 +99,33 @@ function SidebarContent({
 
   return (
     <>
-      {/* Header */}
-      <motion.div className="flex items-center justify-between px-5 pt-5 pb-2" {...item(0)}>
-        <span className="app-eyebrow app-text-strong">
-          <ProjectedText
-            text="Blog Posts"
-            color={APP_COLORS.textStrong}
-            intensity={0.35}
-          />
-        </span>
+      <motion.header
+        className="shrink-0 border-b border-black/[0.06] px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-5 sm:pb-3.5 sm:pt-5"
+        {...item(0)}
+      >
+        <div className="flex min-h-11 items-center justify-between gap-3">
+          <h2
+            id="sidebar-outline-title"
+            className="min-w-0 truncate font-sans text-[1.3125rem] font-semibold leading-snug tracking-tight text-app-strong"
+          >
+            Explore
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="sidebar-close-btn-bark shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(var(--app-accent-rgb),0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-card-warm)]"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" strokeWidth={2} aria-hidden />
+          </button>
+        </div>
+      </motion.header>
 
-        <button
-          onClick={onClose}
-          className="sidebar-close-btn-bark"
-          aria-label="Close sidebar"
-        >
-          <X className="w-5 h-5" />
-        </button>
-      </motion.div>
-
-      <motion.div className="flex-1 flex flex-col min-h-0 mt-1 px-4 pb-6" {...item(1)}>
-        <BlogOutlineExplorer />
+      <motion.div
+        className="flex min-h-0 flex-1 flex-col px-0 pb-[max(1rem,env(safe-area-inset-bottom))] pt-0"
+        {...item(1)}
+      >
+        <BlogOutlineExplorer onNavigate={isSmall ? onClose : undefined} />
       </motion.div>
     </>
   );

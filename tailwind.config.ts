@@ -11,5 +11,10 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addVariant }: { addVariant: (name: string, definition: string) => void }) => {
+      /** Only apply hover styles on devices that support true pointer hover. */
+      addVariant("can-hover", "@media (hover: hover) and (pointer: fine)");
+    },
+  ],
 } satisfies Config;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { BlurImage } from "./BlurImage";
 import { ProjectedText } from "./ProjectedText";
 import { APP_PALETTE } from "@/theme";
@@ -32,16 +32,15 @@ const SLIDE_TRANSITION = {
 };
 
 const ARROW_STYLE: React.CSSProperties = {
-  background:
-    "linear-gradient(to bottom, rgba(26,18,10,0.45) 0%, rgba(26,18,10,0.7) 100%)",
-  border: "1px solid rgba(200,120,90,0.3)",
-  boxShadow:
-    "0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(200,120,90,0.12)",
+  background: `linear-gradient(to bottom, rgba(var(--app-text-body-warm-rgb), 0.45) 0%, rgba(var(--app-text-body-warm-rgb), 0.7) 100%)`,
+  border: `1px solid rgba(var(--app-portal-cosmo-light-rgb), 0.3)`,
+  boxShadow: `0 4px 16px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(var(--app-portal-cosmo-light-rgb), 0.12)`,
 };
 
 export function ProjectCarousel({ slides }: ProjectCarouselProps) {
   const [[index, direction], setPage] = useState([0, 0]);
   const [locked, setLocked] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const paginate = useCallback(
     (newDir: number) => {
@@ -64,11 +63,19 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
     [locked, index],
   );
 
+  // Safety valve: if onExitComplete never fires (e.g. reduced-motion), unlock after 800 ms.
   useEffect(() => {
+    if (!locked) return;
+    const id = setTimeout(() => setLocked(false), 800);
+    return () => clearTimeout(id);
+  }, [locked]);
+
+  useEffect(() => {
+    if (paused) return;
     const ms = slides[index]?.interval ?? 5000;
     const id = setTimeout(() => paginate(1), ms);
     return () => clearTimeout(id);
-  }, [index, slides, paginate]);
+  }, [index, slides, paginate, paused]);
 
   return (
     <div className="flex flex-row">
@@ -105,7 +112,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
               rel="noopener noreferrer"
               className="group block absolute inset-0 cursor-pointer"
             >
-              <div className="absolute inset-0 transition-transform duration-300 ease-out group-hover:scale-[1.03]">
+              <div className="absolute inset-0 transition-transform duration-300 ease-out can-hover:group-hover:scale-[1.03]">
                 <BlurImage
                   src={slides[index].image}
                   smallSrc={slides[index].smallImage}
@@ -126,7 +133,7 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
                 }}
               />
 
-              <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-8 md:px-20 transition-transform duration-300 ease-out group-hover:scale-[1.03]">
+              <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-8 md:px-20 transition-transform duration-300 ease-out can-hover:group-hover:scale-[1.03]">
                 {/* Slide counter */}
                 <motion.p
                   className="font-mono text-portal-cosmoLight text-sm tracking-[0.4em] uppercase font-bold mb-4"
@@ -174,20 +181,38 @@ export function ProjectCarousel({ slides }: ProjectCarouselProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dots */}
+        {/* Screen-reader live region — announces slide changes */}
+        <div aria-live="polite" aria-atomic="true" className="sr-only">
+          {slides[index].title} — slide {index + 1} of {slides.length}
+        </div>
+
+        {/* Dots + pause */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2.5 items-center">
           {slides.map((_, i) => (
             <button
               key={i}
+              type="button"
               onClick={() => goTo(i)}
               className={`rounded-sm transition-all duration-300 ${
                 i === index
                   ? "w-6 h-2.5 bg-portal-cosmoLight shadow-[0_0_10px_rgba(200,120,90,0.9)]"
-                  : "w-2.5 h-2.5 bg-white/35 hover:bg-portal-cosmoLight/70"
+                  : "w-2.5 h-2.5 bg-white/35 can-hover:hover:bg-portal-cosmoLight/70"
               }`}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={`Go to slide ${i + 1}: ${slides[i].title}`}
+              aria-current={i === index ? "true" : undefined}
             />
           ))}
+          <button
+            type="button"
+            onClick={() => setPaused((p) => !p)}
+            aria-label={paused ? "Resume auto-advance" : "Pause auto-advance"}
+            className="w-6 h-6 flex items-center justify-center text-white/60 can-hover:hover:text-white transition-colors"
+          >
+            {paused
+              ? <Play className="w-3 h-3" aria-hidden />
+              : <Pause className="w-3 h-3" aria-hidden />
+            }
+          </button>
         </div>
       </div>
 

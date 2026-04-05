@@ -14,6 +14,7 @@ import {
 } from "@/pages/BlogIntroduction.tsx";
 import { BlogPost } from "@/pages/BlogPost.tsx";
 import { BlogEnd } from "@/pages/BlogEnd.tsx";
+import { BlogProjectEnd } from "@/pages/BlogProjectEnd.tsx";
 import { PORTFOLIO_HOME_PATH, SITE_SCROLL_CONTAINER_ID } from "@/data/projects.ts";
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <Route element={<SiteShell />}>
         <Route path="/" element={<Navigate to={PORTFOLIO_HOME_PATH} replace />} />
         <Route path="/blog/end" element={<BlogEnd />} />
+        <Route path="/blog/:projectSlug/end" element={<BlogProjectEnd />} />
         <Route
           path="/blog/:projectSlug/introduction"
           element={<BlogIntroduction />}
@@ -44,7 +46,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         />
         <Route path="/blog/:projectSlug/:chapterSlug" element={<BlogPost />} />
         <Route element={<BlogPortfolioHeroLayout />}>
-          <Route path="/blog/about-me" element={<PortfolioHomePage />} />
+          <Route path="/blog/home/about-me" element={<PortfolioHomePage />} />
           <Route path="/blog/:projectSlug" element={<ProjectOverviewPage />} />
         </Route>
         <Route path="/blog" element={<BlogIndex />} />

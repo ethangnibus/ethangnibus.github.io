@@ -5,10 +5,13 @@ import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
 import { woodPatternStyle } from "@/components/WoodPatternBackground";
 import { SITE_SCROLL_CONTAINER_ID } from "@/data/projects";
+import { usePaletteTransition } from "@/hooks/usePaletteTransition";
 
 import type { SiteShellOutletContext } from "./siteShellContext";
 
 export function SiteShell() {
+  usePaletteTransition();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const mainContentRef = useRef<HTMLDivElement | null>(null);
   const [mainContentWidth, setMainContentWidth] = useState(0);
@@ -82,7 +85,7 @@ export function SiteShell() {
           className="relative flex-1 flex flex-col min-w-0 h-full overflow-hidden"
         >
           <div className="absolute top-0 left-0 right-0 z-50 pointer-events-none">
-            <div className="pointer-events-auto w-full bg-[var(--surface-base)]">
+            <div className="pointer-events-auto w-full">
               <Navbar
                 edgeToEdge={isSmall}
                 sidebarOpen={sidebarOpen}

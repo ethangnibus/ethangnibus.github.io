@@ -85,13 +85,18 @@ export interface Project {
 export type BlogPage =
   | { kind: "project"; project: Project }
   | { kind: "chapter"; project: Project; chapter: Chapter }
+  | { kind: "projectEnd"; project: Project }
   | { kind: "end" };
 
 /** Terminal page after the last chapter in reading order */
 export const BLOG_END_PATH = "/blog/end" as const;
 
 /** Portfolio / “About me” home (hero + about, experience, education). */
-export const PORTFOLIO_HOME_PATH = "/blog/about-me" as const;
+export const PORTFOLIO_HOME_PATH = "/blog/home/about-me" as const;
+
+/** Sidebar / nav image for home (full-res; hero uses `-small` only for blur placeholder). */
+export const PORTFOLIO_HOME_IMAGE =
+  "/images/main/two_trees/two_trees.jpg" as const;
 
 /** Main scroll region id used by `SiteShell` (hero + blog pages). */
 export const SITE_SCROLL_CONTAINER_ID = "site-scroll" as const;
@@ -101,7 +106,8 @@ export const SITE_NAVBAR_SCROLL_OFFSET = 96;
 
 /**
  * Labels shared by the hero project switcher and the blog sidebar outline.
- * Category row titles use {@link CATEGORY_META}[category].carouselLabel.
+ * Hero carousel thumbnails use {@link CATEGORY_META}[category].carouselLabel; the sidebar uses
+ * {@link CATEGORY_META}[category].label for full project titles.
  */
 export const SITE_NAV_LABELS = {
   aboutMe: "About Me",
@@ -364,6 +370,10 @@ export function getProjectOverviewPath(projectSlug: string) {
   return `/blog/${projectSlug}`;
 }
 
+export function getProjectEndPath(projectSlug: string) {
+  return `/blog/${projectSlug}/end`;
+}
+
 export function getProjectBySlug(projectSlug: string) {
   return PROJECTS.find((project) => project.slug === projectSlug);
 }
@@ -396,12 +406,14 @@ export function getPageBySlugs(projectSlug: string, chapterSlug?: string) {
 
 export function getPagePath(page: BlogPage) {
   if (page.kind === "end") return BLOG_END_PATH;
+  if (page.kind === "projectEnd") return getProjectEndPath(page.project.slug);
   if (page.kind === "project") return getProjectOverviewPath(page.project.slug);
   return `/blog/${page.project.slug}/${page.chapter.slug}`;
 }
 
 export function getPageTitle(page: BlogPage) {
   if (page.kind === "end") return "Thanks for reading";
+  if (page.kind === "projectEnd") return `${page.project.shortTitle} — Finale`;
   if (page.kind === "project") return page.project.title;
   const chIdx = page.project.chapters.findIndex((c) => c.slug === page.chapter.slug);
   return `${formatChapterOrdinal(Math.max(0, chIdx))} — ${page.chapter.title}`;
@@ -414,9 +426,29 @@ export function getReadingOrder(): BlogPage[] {
       ...project.chapters.map(
         (chapter) => ({ kind: "chapter", project, chapter }) as const,
       ),
+      { kind: "projectEnd", project } as const,
     ]),
     { kind: "end" } as const,
   ];
+}
+
+export function getAdjacentForProjectEnd(projectSlug: string): {
+  previous: BlogPage | null;
+  next: BlogPage | null;
+} | null {
+  const project = getProjectBySlug(projectSlug);
+  if (!project) return null;
+
+  const page: BlogPage = { kind: "projectEnd", project };
+  const readingOrder = getReadingOrder();
+  const currentPath = getPagePath(page);
+  const index = readingOrder.findIndex((p) => getPagePath(p) === currentPath);
+  if (index === -1) return null;
+
+  return {
+    previous: index > 0 ? readingOrder[index - 1]! : null,
+    next: index < readingOrder.length - 1 ? readingOrder[index + 1]! : null,
+  };
 }
 
 export function getAdjacentPages(
@@ -442,6 +474,79 @@ export function getAdjacentPages(
     current,
     previous: index > 0 ? readingOrder[index - 1] : null,
     next: index < readingOrder.length - 1 ? readingOrder[index + 1] : null,
+  };
+}
+
+// ── Shared nav helpers ────────────────────────────────────────────────────────
+
+/**
+ * Accent color for a blog page — used by nav bars and gutter buttons.
+ * Falls back to the body text color for the global end page.
+ */
+export function getPageColor(page: BlogPage | null): string {
+  if (!page) return APP_PALETTE.textBody;
+  if (page.kind === "end") return APP_PALETTE.textBody;
+  return CATEGORY_META[page.project.category].color;
+}
+
+/** Common card metadata for a blog page. Used by ChapterNavCards, ChapterSideCards, ChapterTriptych. */
+export interface PageCardMeta {
+  image: string;
+  smallImage: string;
+  eyebrow: string;
+  title: string;
+  /** Category accent color; undefined only for the global end page. */
+  color: string | undefined;
+  href: string;
+}
+
+export function getPageCardMeta(
+  page: BlogPage,
+  fallbackProject: Project,
+): PageCardMeta {
+  if (page.kind === "chapter") {
+    const idx = page.project.chapters.findIndex((c) => c.slug === page.chapter.slug);
+    return {
+      image: page.chapter.image,
+      smallImage: page.chapter.smallImage,
+      eyebrow: formatChapterOrdinal(idx),
+      title: page.chapter.title,
+      color: CATEGORY_META[page.project.category].color,
+      href: getPagePath(page),
+    };
+  }
+
+  if (page.kind === "project") {
+    return {
+      image: page.project.image,
+      smallImage: page.project.smallImage,
+      eyebrow: "Table of Contents",
+      title: page.project.title,
+      color: CATEGORY_META[page.project.category].color,
+      href: getPagePath(page),
+    };
+  }
+
+  if (page.kind === "projectEnd") {
+    return {
+      image: page.project.image,
+      smallImage: page.project.smallImage,
+      eyebrow: "Finale",
+      title: page.project.shortTitle,
+      color: CATEGORY_META[page.project.category].color,
+      href: getPagePath(page),
+    };
+  }
+
+  // global end — use last project for a representative image
+  const last = PROJECTS[PROJECTS.length - 1] ?? fallbackProject;
+  return {
+    image: last.image,
+    smallImage: last.smallImage,
+    eyebrow: "Finale",
+    title: "Thanks for reading",
+    color: undefined,
+    href: getPagePath(page),
   };
 }
 

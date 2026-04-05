@@ -12,9 +12,17 @@ export function BlogEnd() {
 
   return (
     <div
-      className="min-h-[100dvh] flex flex-col pb-28 md:pb-32"
+      className="min-h-[100dvh] flex flex-col"
       style={woodPatternStyle("far-grid")}
     >
+      {/* Top navigation — offset past the floating navbar */}
+      <div className="pt-14">
+        <BlogPageNavigation
+          previous={adjacent.previous}
+          next={adjacent.next}
+        />
+      </div>
+
       <div className="flex-1 flex items-center justify-center px-6 py-16">
         <StaggerOnView className="max-w-xl w-full text-center">
           <StaggerItem>
@@ -52,6 +60,7 @@ export function BlogEnd() {
         </StaggerOnView>
       </div>
 
+      {/* Bottom navigation */}
       <BlogPageNavigation
         previous={adjacent.previous}
         next={adjacent.next}

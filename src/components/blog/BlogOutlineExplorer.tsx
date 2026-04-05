@@ -1,298 +1,187 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import { ChevronRight } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import type { MouseEvent } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   CATEGORY_META,
   getProjectOverviewPath,
   PORTFOLIO_HOME_PATH,
+  PORTFOLIO_HOME_IMAGE,
   PROJECTS,
   SITE_NAV_LABELS,
-  SITE_SCROLL_CONTAINER_ID,
 } from "@/data/projects";
-import { APP_COLORS } from "@/theme";
+import { NAVBAR_SURFACE } from "@/theme";
 
-const NAVBAR_OFFSET = 80;
-
-function scrollPortfolioToId(id: string) {
-  const container = document.getElementById(SITE_SCROLL_CONTAINER_ID);
-  const el = document.getElementById(id);
-  if (!container || !el) return;
-  container.scrollTo({
-    top: el.offsetTop - NAVBAR_OFFSET,
-    behavior: "smooth",
-  });
+/** Two fixed inset shadows so `box-shadow` can fade (interpolating alpha on the same form). */
+function rowInsetHairlines(
+  active: boolean,
+  showTop: boolean,
+  showBottom: boolean,
+): string {
+  const hairline = "var(--app-row-hairline)";
+  const off = "rgba(0,0,0,0)";
+  const top = !active && showTop ? hairline : off;
+  const bottom = !active && showBottom ? hairline : off;
+  return `inset 0 1px 0 0 ${top}, inset 0 -1px 0 0 ${bottom}`;
 }
 
-function blogPathMatch(pathname: string) {
-  if (!pathname.startsWith("/blog")) return null;
-  if (pathname === PORTFOLIO_HOME_PATH) return null;
-  if (pathname === "/blog") {
-    return { projectSlug: null as string | null, chapterSlug: null as string | null };
-  }
-  if (!pathname.startsWith("/blog/")) return null;
-  const rest = pathname.slice("/blog/".length);
-  if (!rest || rest === "end") {
-    return { projectSlug: null as string | null, chapterSlug: null as string | null };
-  }
-  const parts = rest.split("/").filter(Boolean);
-  if (parts.length === 1) {
-    return { projectSlug: parts[0]!, chapterSlug: null as string | null };
-  }
-  return { projectSlug: parts[0]!, chapterSlug: parts[1]! };
+/** Matches hero carousel thumbnails: theme accent reads as dark brown / purple / red per portal. */
+const rowSelected = "bg-[var(--app-accent)] text-white";
+const rowHover = "hover:bg-black/[0.055]";
+const linkPad =
+  "flex w-full min-w-0 flex-col rounded-none text-left transition-[background-color,color,box-shadow] duration-300 ease-out";
+
+/** Letterbox bars on image hover — same motion as `HeroProjectsCarousel` strip thumbnails. */
+const letterboxBarEase = "duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]";
+const letterboxBarBase = `absolute left-0 right-0 z-[5] h-0 pointer-events-none transition-[height] ${letterboxBarEase} can-hover:group-hover:h-[8%]`;
+
+/** Tight inset; horizontal gutter matches the label row. */
+const gutterX = "px-2.5 sm:px-3.5";
+
+/** Top inset matches horizontal gutter (`gutterX`); no bottom pad so label spacing stays tight. */
+const thumbWrapClass = `w-full shrink-0 ${gutterX} pb-0 pt-2.5 sm:pt-3.5`;
+
+const thumbClass =
+  "aspect-[16/10] w-full object-cover bg-[var(--app-card-warm)]";
+
+const linkLabelClass = `block min-w-0 w-full truncate ${gutterX} pb-2 pt-1.5 text-[0.9375rem] font-sans leading-snug tracking-tight sm:pb-2.5 sm:pt-2`;
+
+function handleSidebarLinkClick(
+  e: MouseEvent<HTMLAnchorElement>,
+  onNavigate?: () => void,
+) {
+  if (!onNavigate) return;
+  if (e.defaultPrevented) return;
+  if (e.button !== 0) return;
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  onNavigate();
 }
 
-/** Collapse all groups except those needed to show the current route. */
-function expansionForPathname(pathname: string) {
-  const expandedProjects = new Set<string>();
-
-  if (
-    pathname === PORTFOLIO_HOME_PATH ||
-    pathname === "/" ||
-    pathname === ""
-  ) {
-    return {
-      aboutMeOpen: true,
-      expandedProjects,
-    };
-  }
-
-  const m = blogPathMatch(pathname);
-  if (!m?.projectSlug) {
-    return {
-      aboutMeOpen: false,
-      expandedProjects,
-    };
-  }
-
-  expandedProjects.add(m.projectSlug);
-
-  return {
-    aboutMeOpen: false,
-    expandedProjects,
-  };
+function SidebarNavLink({
+  to,
+  label,
+  thumbSrc,
+  active,
+  showTopBorder,
+  showBottomBorder,
+  inactiveAccentColor,
+  onNavigate,
+}: {
+  to: string;
+  label: string;
+  thumbSrc: string;
+  active: boolean;
+  showTopBorder: boolean;
+  showBottomBorder: boolean;
+  inactiveAccentColor?: string;
+  onNavigate?: () => void;
+}) {
+  return (
+    <Link
+      to={to}
+      onClick={(e) => handleSidebarLinkClick(e, onNavigate)}
+      className={`${linkPad} ${
+        active
+          ? `font-semibold ${rowSelected}`
+          : `bg-transparent app-text-body ${rowHover} hover:text-[var(--app-text-strong)]`
+      }`}
+      style={{ boxShadow: rowInsetHairlines(active, showTopBorder, showBottomBorder) }}
+    >
+      <div className={thumbWrapClass}>
+        <div
+          className={`group relative w-full overflow-hidden rounded-sm border-2 transition-[border-color] duration-300 ease-out ${
+            active ? "" : "border-transparent"
+          }`}
+          style={active ? { borderColor: NAVBAR_SURFACE.border } : undefined}
+        >
+          <img
+            src={thumbSrc}
+            alt=""
+            className={thumbClass}
+            width={680}
+            height={425}
+            sizes="(max-width: 639px) 100vw, 340px"
+            loading="lazy"
+            decoding="async"
+          />
+          <div
+            className={`top-0 ${letterboxBarBase} ${active ? "" : "bg-black"}`}
+            style={active ? { background: NAVBAR_SURFACE.gradient } : undefined}
+            aria-hidden
+          />
+          <div
+            className={`bottom-0 ${letterboxBarBase} ${active ? "" : "bg-black"}`}
+            style={active ? { background: NAVBAR_SURFACE.gradient } : undefined}
+            aria-hidden
+          />
+        </div>
+      </div>
+      <span
+        className={`${linkLabelClass} ${active ? "font-semibold text-white/[0.96]" : "font-medium"} ${!active && inactiveAccentColor ? "opacity-[0.85]" : ""}`}
+        style={
+          !active && inactiveAccentColor
+            ? { color: inactiveAccentColor }
+            : undefined
+        }
+      >
+        {label}
+      </span>
+    </Link>
+  );
 }
 
-export function BlogOutlineExplorer() {
-  const location = useLocation();
-  const navigate = useNavigate();
+const GRAPHICS_SLUG = "learning-graphics";
+const VISION_SLUG = "learning-vision";
 
-  const pathMatch = useMemo(
-    () => blogPathMatch(location.pathname),
-    [location.pathname],
-  );
+export function BlogOutlineExplorer({
+  onNavigate,
+}: {
+  /** Fullscreen / small sidebar: invoked after a normal in-app navigation click. */
+  onNavigate?: () => void;
+} = {}) {
+  const { pathname } = useLocation();
 
-  const [aboutMeOpen, setAboutMeOpen] = useState(() =>
-    expansionForPathname(
-      typeof window !== "undefined"
-        ? window.location.pathname
-        : PORTFOLIO_HOME_PATH,
-    ).aboutMeOpen,
-  );
+  const graphicsProject = PROJECTS.find((p) => p.slug === GRAPHICS_SLUG);
+  const visionProject = PROJECTS.find((p) => p.slug === VISION_SLUG);
 
-  const [expandedProjects, setExpandedProjects] = useState<Set<string>>(() =>
-    expansionForPathname(
-      typeof window !== "undefined"
-        ? window.location.pathname
-        : PORTFOLIO_HOME_PATH,
-    ).expandedProjects,
-  );
+  if (!graphicsProject || !visionProject) {
+    return null;
+  }
 
-  useLayoutEffect(() => {
-    const next = expansionForPathname(location.pathname);
-    setAboutMeOpen(next.aboutMeOpen);
-    setExpandedProjects(next.expandedProjects);
-  }, [location.pathname]);
-
-  const toggleProject = useCallback((slug: string) => {
-    setExpandedProjects((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
-      return next;
-    });
-  }, []);
-
-  const handleSiteLink = useCallback(
-    (sectionId: string) => {
-      if (location.pathname === PORTFOLIO_HOME_PATH) {
-        scrollPortfolioToId(sectionId);
-      } else {
-        navigate(PORTFOLIO_HOME_PATH, { state: { scrollTo: sectionId } });
-      }
-    },
-    [location.pathname, navigate],
-  );
-
-  const handleAboutMeTitleClick = useCallback(() => {
-    if (location.pathname !== PORTFOLIO_HOME_PATH) {
-      navigate(PORTFOLIO_HOME_PATH);
-      return;
-    }
-    setAboutMeOpen((o) => !o);
-  }, [location.pathname, navigate]);
-
-  const aboutMePageActive = location.pathname === PORTFOLIO_HOME_PATH;
+  const aboutActive = pathname === PORTFOLIO_HOME_PATH;
+  const graphicsActive = pathname.startsWith(`/blog/${GRAPHICS_SLUG}`);
+  const visionActive = pathname.startsWith(`/blog/${VISION_SLUG}`);
 
   return (
-    <nav className="flex flex-col gap-3 overflow-y-auto overflow-x-hidden min-h-0 text-left">
-      {/* About Me — same row layout as project headers (w-9 chevron + label) */}
-      <div className="select-none">
-        <div
-          className={`flex items-stretch rounded-md transition-colors ${
-            aboutMePageActive ? "bg-black/[0.06]" : "hover:bg-black/[0.05]"
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => setAboutMeOpen((o) => !o)}
-            className={`flex items-center justify-center w-9 shrink-0 hover:opacity-100 ${
-              aboutMePageActive ? "opacity-100 app-text-strong" : "opacity-60"
-            }`}
-            style={aboutMePageActive ? undefined : { color: APP_COLORS.textBody }}
-            aria-label={aboutMeOpen ? "Collapse About me sections" : "Expand About me sections"}
-          >
-            <ChevronRight
-              className={`w-4 h-4 shrink-0 transition-transform ${
-                aboutMeOpen ? "rotate-90" : ""
-              }`}
-              strokeWidth={2}
-              aria-hidden
-            />
-          </button>
-          <button
-            type="button"
-            onClick={handleAboutMeTitleClick}
-            className={`flex flex-1 items-center min-w-0 py-2 pr-2 text-left app-body font-semibold rounded-r-md transition-colors ${
-              aboutMePageActive
-                ? `app-text-strong hover:bg-black/[0.03]`
-                : "hover:bg-black/[0.03]"
-            }`}
-            style={aboutMePageActive ? undefined : { color: APP_COLORS.textBody }}
-            aria-label={
-              aboutMePageActive
-                ? aboutMeOpen
-                  ? "Collapse About me sections"
-                  : "Expand About me sections"
-                : `Go to ${SITE_NAV_LABELS.aboutMe}`
-            }
-          >
-            <span className="truncate min-w-0">{SITE_NAV_LABELS.aboutMe}</span>
-          </button>
-        </div>
-
-        {aboutMeOpen && (
-          <div
-            className="mt-1 ml-9 space-y-0.5 border-l-[3px] pl-4"
-            style={{ borderLeftColor: APP_COLORS.textBody }}
-          >
-            {(
-              [
-                { id: "about", label: "Background" },
-                { id: "experience", label: "Experience" },
-                { id: "education", label: "Education" },
-              ] as const
-            ).map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleSiteLink(item.id)}
-                className="flex w-full items-center rounded-md px-4 py-2 text-left app-body app-text-body transition-colors hover:bg-black/[0.05] hover:text-[var(--app-text-strong)]"
-              >
-                <span className="truncate">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {PROJECTS.map((project) => {
-        const pOpen = expandedProjects.has(project.slug);
-        const category = CATEGORY_META[project.category];
-        const overviewActive =
-          pathMatch?.projectSlug === project.slug && !pathMatch?.chapterSlug;
-
-        return (
-          <div key={project.slug} className="select-none">
-            <div
-              className={`flex items-stretch rounded-md transition-colors ${
-                overviewActive
-                  ? "bg-black/[0.06]"
-                  : "hover:bg-black/[0.04]"
-              }`}
-            >
-              <button
-                type="button"
-                onClick={() => toggleProject(project.slug)}
-                className={`flex items-center justify-center w-9 shrink-0 hover:opacity-100 ${
-                  overviewActive
-                    ? "opacity-100 app-text-strong"
-                    : "opacity-60"
-                }`}
-                style={overviewActive ? undefined : { color: category.color }}
-                aria-label={pOpen ? "Collapse project chapters" : "Expand project chapters"}
-              >
-                <ChevronRight
-                  className={`w-4 h-4 transition-transform ${
-                    pOpen ? "rotate-90" : ""
-                  }`}
-                  strokeWidth={2}
-                />
-              </button>
-              <Link
-                to={getProjectOverviewPath(project.slug)}
-                onClick={(e) => {
-                  const inProject = pathMatch?.projectSlug === project.slug;
-                  if (!inProject) return;
-                  e.preventDefault();
-                  toggleProject(project.slug);
-                }}
-                className={`flex flex-1 items-center min-w-0 py-2 pr-2 app-body font-semibold leading-snug rounded-r-md transition-colors ${
-                  overviewActive ? "app-text-strong" : ""
-                } ${pathMatch?.projectSlug === project.slug ? "hover:bg-black/[0.03]" : ""}`}
-                style={overviewActive ? undefined : { color: category.color }}
-                aria-label={
-                  pathMatch?.projectSlug === project.slug
-                    ? pOpen
-                      ? "Collapse chapter list"
-                      : "Expand chapter list"
-                    : undefined
-                }
-              >
-                <span className="truncate min-w-0">
-                  {CATEGORY_META[project.category].carouselLabel}
-                </span>
-              </Link>
-            </div>
-
-            {pOpen && (
-              <div
-                className="mt-1 ml-9 space-y-0.5 border-l-[3px] pl-4"
-                style={{ borderLeftColor: category.color }}
-              >
-                {project.chapters.map((chapter) => {
-                  const chapterActive =
-                    pathMatch?.projectSlug === project.slug &&
-                    pathMatch?.chapterSlug === chapter.slug;
-                  return (
-                    <Link
-                      key={chapter.slug}
-                      to={`/blog/${project.slug}/${chapter.slug}`}
-                      className={`flex w-full items-center rounded-md px-4 py-2 text-left app-body transition-colors hover:bg-black/[0.05] hover:text-[var(--app-text-strong)] ${
-                        chapterActive
-                          ? "bg-black/[0.06] font-semibold app-text-strong"
-                          : "app-text-body"
-                      }`}
-                    >
-                      <span className="truncate min-w-0">{chapter.title}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        );
-      })}
+    <nav className="flex min-h-0 w-full flex-col gap-0 overflow-y-auto overflow-x-hidden text-left">
+      <SidebarNavLink
+        to={PORTFOLIO_HOME_PATH}
+        label={SITE_NAV_LABELS.aboutMe}
+        thumbSrc={PORTFOLIO_HOME_IMAGE}
+        active={aboutActive}
+        showTopBorder={false}
+        showBottomBorder={false}
+        onNavigate={onNavigate}
+      />
+      <SidebarNavLink
+        to={getProjectOverviewPath(graphicsProject.slug)}
+        label={CATEGORY_META.graphics.label}
+        thumbSrc={graphicsProject.image}
+        active={graphicsActive}
+        showTopBorder={!aboutActive}
+        showBottomBorder={!visionActive}
+        inactiveAccentColor={CATEGORY_META.graphics.color}
+        onNavigate={onNavigate}
+      />
+      <SidebarNavLink
+        to={getProjectOverviewPath(visionProject.slug)}
+        label={CATEGORY_META.cv.label}
+        thumbSrc={visionProject.image}
+        active={visionActive}
+        showTopBorder={!graphicsActive}
+        showBottomBorder
+        inactiveAccentColor={CATEGORY_META.cv.color}
+        onNavigate={onNavigate}
+      />
     </nav>
   );
 }

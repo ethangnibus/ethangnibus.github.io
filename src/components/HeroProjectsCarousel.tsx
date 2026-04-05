@@ -7,9 +7,11 @@ import {
   type TouchEvent,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 import { BlurImage } from "./BlurImage";
+import { LetterboxBars } from "./blog/LetterboxBars";
 import { HeroIntroTextColumn } from "./HeroIntroTextColumn";
 import {
   CATEGORY_META,
@@ -18,7 +20,7 @@ import {
   SITE_NAV_LABELS,
   type Project,
 } from "@/data/projects";
-import { APP_PALETTE } from "@/theme";
+import { APP_PALETTE, NAVBAR_SURFACE } from "@/theme";
 
 interface Slide {
   title: string;
@@ -176,6 +178,12 @@ export function HeroProjectsCarousel({
     currentSlide.type === "about"
       ? HERO_META.about
       : HERO_META[currentSlide.category ?? "graphics"];
+
+  const activeProjectForCta =
+    currentSlide.type === "project"
+      ? projects.find((p) => p.slug === currentSlide.section)
+      : null;
+  const firstChapterForCta = activeProjectForCta?.chapters[0];
   const edgeMode = contentWidth > 0 && contentWidth <= 768;
   const compactMode = contentWidth > 0 && contentWidth <= 640;
   const tinyMode = contentWidth > 0 && contentWidth <= 350;
@@ -211,7 +219,7 @@ export function HeroProjectsCarousel({
           exit={{ opacity: 0, x: direction > 0 ? -50 : 50 }}
           transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
         >
-          <div className="w-full h-full transition-transform duration-300 ease-out group-hover:scale-[1.04]">
+          <div className="w-full h-full transition-transform duration-300 ease-out can-hover:group-hover:scale-[1.04]">
             <BlurImage
               src={currentSlide.image}
               smallSrc={currentSlide.smallImage}
@@ -221,15 +229,22 @@ export function HeroProjectsCarousel({
         </motion.div>
       </AnimatePresence>
       <div className="absolute inset-0 portal-depth-inset pointer-events-none" />
-      {/* Letterbox bars: full-opacity black; slide in/out on hover (500ms, same as CTA). */}
-      <div className="absolute top-0 left-0 right-0 h-[8%] bg-black z-[5] pointer-events-none -translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
-      <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-black z-[5] pointer-events-none translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
-      <div className="absolute bottom-[10%] right-3 md:right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-y-1 group-hover:translate-y-0">
+      <LetterboxBars strategy="translate" />
+      <div className="absolute bottom-[10%] right-3 md:right-4 z-10 opacity-0 can-hover:group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-y-1 can-hover:group-hover:translate-y-0">
         <span
-          className={`app-cta ${edgeMode ? "px-3 py-1.5" : "px-4 py-2"} text-white`}
+          className={`app-cta inline-flex items-center gap-2 ${
+            edgeMode ? "px-3 py-1.5" : "px-4 py-2"
+          } text-white`}
           style={{ backgroundColor: activeMeta.activeBg }}
         >
-          {currentSlide.type === "about" ? "Contact me ↗" : "Start Reading ↗"}
+          {currentSlide.type === "about" ? (
+            "Contact me ↗"
+          ) : (
+            <>
+              Dive in
+              <ArrowRight size={16} strokeWidth={2} className="shrink-0" aria-hidden />
+            </>
+          )}
         </span>
       </div>
     </div>
@@ -266,19 +281,23 @@ export function HeroProjectsCarousel({
                 <button
                   key={slide.section}
                   onClick={() => goTo(index)}
-                  className={`relative w-full overflow-hidden ${
+                  className={`group relative w-full overflow-hidden ${
                     tinyMode ? "rounded-none" : "rounded-[3px]"
-                  } aspect-[1.618/1] ${compactMode ? "border-[0.5px]" : "border"} transition-all duration-200`}
+                  } aspect-[1.618/1] transition-all duration-200 ${
+                    isActive
+                      ? compactMode ? "border" : "border-2"
+                      : compactMode ? "border-[0.5px]" : "border"
+                  }`}
                   style={{
                     borderColor: isActive
-                      ? APP_PALETTE.black
+                      ? NAVBAR_SURFACE.border
                       : APP_PALETTE.carouselThumbBorderInactive,
                     boxShadow: isActive ? meta.glow : "0 8px 20px rgba(0, 0, 0, 0.08)",
                   }}
                 >
                   <div
                     className={`absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-out ${
-                      isActive ? "scale-[1.04]" : "scale-100"
+                      isActive ? "scale-[1.04]" : "scale-100 can-hover:group-hover:scale-[1.04]"
                     }`}
                     style={{ backgroundImage: `url(${slide.image})` }}
                   />
@@ -290,15 +309,8 @@ export function HeroProjectsCarousel({
                         : "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.52) 100%)",
                     }}
                   />
-                  <div
-                    className={`absolute top-0 left-0 right-0 bg-black z-[5] pointer-events-none transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
-                      isActive ? "h-[8%]" : "h-0"
-                    }`}
-                  />
-                  <div
-                    className={`absolute bottom-0 left-0 right-0 bg-black z-[5] pointer-events-none transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
-                      isActive ? "h-[8%]" : "h-0"
-                    }`}
+                  <LetterboxBars
+                    barBackground={isActive ? NAVBAR_SURFACE.gradient : "black"}
                   />
                   <span
                     className={`app-eyebrow relative z-10 block px-2 py-3 text-white text-center text-balance ${
@@ -317,9 +329,14 @@ export function HeroProjectsCarousel({
               type="button"
               onClick={onToggleBlogSidebar}
               aria-expanded={blogSidebarOpen}
-              className={`app-cta px-4 py-3 min-h-[44px] border border-app-accent/25 bg-app-cardWarm/75 text-app-body transition-colors hover:bg-app-cardWarm active:bg-app-surface ${
+              className={`app-cta px-4 py-3 min-h-[44px] border transition-colors ${
                 tinyMode ? "text-[0.75rem]" : ""
               }`}
+              style={{
+                borderColor: `rgba(var(--app-wood-line-rgb), 0.16)`,
+                backgroundColor: `var(--app-card-warm)`,
+                color: `var(--app-text-body)`,
+              }}
             >
               {blogSidebarOpen
                 ? SITE_NAV_LABELS.closeBlogPosts
@@ -328,7 +345,13 @@ export function HeroProjectsCarousel({
           </div>
         </div>
 
-        <div className="px-3 sm:px-4 pt-6 pb-6 md:pb-8">
+        <div
+          className={`px-3 sm:px-4 pt-6 ${
+            firstChapterForCta && activeProjectForCta
+              ? "pb-3 md:pb-4"
+              : "pb-6 md:pb-8"
+          }`}
+        >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentIndex}
@@ -346,6 +369,24 @@ export function HeroProjectsCarousel({
                 titleIntensity={0.3}
                 description={currentSlide.description}
               />
+              {firstChapterForCta && activeProjectForCta && (
+                <div className="mt-3 md:mt-4 flex justify-end">
+                  <Link
+                    to={`/blog/${activeProjectForCta.slug}/${firstChapterForCta.slug}`}
+                    className="group inline-flex items-center gap-2 app-eyebrow transition-opacity duration-200 hover:opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-app-black rounded-sm"
+                    style={{ color: activeMeta.color }}
+                    onClick={() => setUserInteracted(true)}
+                  >
+                    Start reading
+                    <ArrowRight
+                      size={16}
+                      strokeWidth={2}
+                      className="shrink-0 transition-transform duration-200 can-hover:group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
+                  </Link>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -353,6 +394,7 @@ export function HeroProjectsCarousel({
         {currentSlide.type === "about" ? (
           <button
             type="button"
+            aria-label="Visit Ethan Gnibus on LinkedIn (opens in new tab)"
             className="block group w-full text-left bg-transparent border-0 p-0"
             onClick={() => {
               setUserInteracted(true);
@@ -372,6 +414,7 @@ export function HeroProjectsCarousel({
         ) : (
           <button
             type="button"
+            aria-label={`Start reading ${currentSlide.title}`}
             className="block group w-full text-left bg-transparent border-0 p-0"
             onClick={() => {
               setUserInteracted(true);
